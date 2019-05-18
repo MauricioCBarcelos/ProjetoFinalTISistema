@@ -124,7 +124,7 @@ public class GerenciadorProduto extends JFrame {
 
 		lblPesquisa = new JLabel("Pesquisa");
 		lblPesquisa.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblPesquisa.setBounds(10, 188, 54, 14);
+		lblPesquisa.setBounds(10, 198, 54, 14);
 		contentPane.add(lblPesquisa);
 
 
