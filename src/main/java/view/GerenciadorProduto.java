@@ -119,7 +119,7 @@ public class GerenciadorProduto extends JFrame {
 		comboBoxDadosCliente = new JComboBox();
 		comboBoxDadosCliente.setModel(new DefaultComboBoxModel(new String[] {"Código", "Cpf", "Nome", "Telefone"}));
 		comboBoxDadosCliente.setSelectedIndex(0);
-		comboBoxDadosCliente.setBounds(360, 213, 241, 29);
+		comboBoxDadosCliente.setBounds(199, 213, 241, 29);
 		contentPane.add(comboBoxDadosCliente);
 
 		lblPesquisa = new JLabel("Pesquisa");

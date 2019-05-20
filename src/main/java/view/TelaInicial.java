@@ -40,7 +40,7 @@ public class TelaInicial extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaInicial() {
-		setTitle("AugustoTi Sistemas Assistencia Tecnica");
+		setTitle("Augusto & MauricioTi Sistemas Assistencia Tecnica");
 
 		JMenuBar jMenuBar = new JMenuBar();
 
