@@ -47,7 +47,7 @@ public class GerenciadordeTecnico extends JFrame {
 	public GerenciadordeTecnico() {
 		setTitle("Gerenciador de Técnico");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 396);
+		setBounds(100, 100, 452, 396);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -98,11 +98,11 @@ public class GerenciadordeTecnico extends JFrame {
 		btnProvisotio.setBounds(322, 35, 91, 23);
 		contentPane.add(btnProvisotio);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Nome", "Id" }));
-		comboBox.setSelectedIndex(0);
-		comboBox.setBounds(170, 147, 91, 22);
-		contentPane.add(comboBox);
+		JComboBox comboBoxPesquisa = new JComboBox();
+		comboBoxPesquisa.setModel(new DefaultComboBoxModel(new String[] { "Nome", "Id" }));
+		comboBoxPesquisa.setSelectedIndex(0);
+		comboBoxPesquisa.setBounds(170, 147, 91, 22);
+		contentPane.add(comboBoxPesquisa);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
