@@ -58,6 +58,8 @@ public class TelaInicial extends JFrame {
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
 		tblChamados = new JTable();
+		tblChamados.setEnabled(false);
+		tblChamados.setFillsViewportHeight(true);
 		tblChamados.setModel( 
 				new DefaultTableModel(new String[][] { { "Chamados", "Clientes", "Serviço", "Produtos", "Tecnico" }, },
 						new String[] { "Chamados", "Clientes", "Serviço", "Produtos", "Tecnico" }));
