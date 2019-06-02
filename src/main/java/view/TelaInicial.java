@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -12,6 +14,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import controller.ChamadoController;
+import model.vo.viewVO.V_telaInicial;
+
 import javax.swing.JTable;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -60,10 +66,36 @@ public class TelaInicial extends JFrame {
 		tblChamados = new JTable();
 		tblChamados.setEnabled(false);
 		tblChamados.setFillsViewportHeight(true);
-		tblChamados.setModel( 
+		tblChamados.setModel(
+				new DefaultTableModel(new String[][] { { "Chamados", "Clientes", "Serviço", "Produtos", "Tecnico" }, },
+						new String[] { "Chamados", "Clientes", "Serviço", "Produtos", "Tecnico" }));
+		
+		getContentPane().add(tblChamados);
+		ChamadoController chamadoController = new ChamadoController();
+		atualizarTabelaChamados(chamadoController.ConsultaChamados());
+		
+		
+	}
+
+	protected void atualizarTabelaChamados(List<V_telaInicial> v_telaInicial) {
+		// atualiza o atributo produtosConsultados
+
+		// Limpa a tabela
+		tblChamados.setModel(
 				new DefaultTableModel(new String[][] { { "Chamados", "Clientes", "Serviço", "Produtos", "Tecnico" }, },
 						new String[] { "Chamados", "Clientes", "Serviço", "Produtos", "Tecnico" }));
 
-		getContentPane().add(tblChamados);
+		DefaultTableModel modelo = (DefaultTableModel) tblChamados.getModel();
+
+		for (V_telaInicial v : v_telaInicial) {
+			// Crio uma nova linha na tabela
+			// Preencher a linha com os atributos do produto
+			// na ORDEM do cabeçalho da tabela
+
+			String[] novaLinha = new String[] { v.getIdChamado() + "", v.getNome_cliente(), v.getNome_servico(),
+					v.getModelo(), v.getNome_Tecnico() };
+			modelo.addRow(novaLinha);
+		}
+
 	}
 }
