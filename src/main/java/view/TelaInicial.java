@@ -69,12 +69,21 @@ public class TelaInicial extends JFrame {
 		tblChamados.setModel(
 				new DefaultTableModel(new String[][] { { "Chamados", "Clientes", "Serviço", "Produtos", "Tecnico" }, },
 						new String[] { "Chamados", "Clientes", "Serviço", "Produtos", "Tecnico" }));
-		
+
 		getContentPane().add(tblChamados);
 		ChamadoController chamadoController = new ChamadoController();
 		atualizarTabelaChamados(chamadoController.ConsultaChamados());
-		
-		
+
+	}
+
+	protected void consultarProdutos() {
+
+		// List<Produto> produtos = controlador.listarProdutos(seletor);
+
+		// atualizarTabelaProdutos(produtos);
+		ChamadoController chamadoController = new ChamadoController();
+		List<V_telaInicial> v_telaInicial = chamadoController.ConsultaChamados();
+		atualizarTabelaChamados(v_telaInicial);
 	}
 
 	protected void atualizarTabelaChamados(List<V_telaInicial> v_telaInicial) {

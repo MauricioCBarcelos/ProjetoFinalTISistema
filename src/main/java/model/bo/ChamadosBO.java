@@ -10,12 +10,10 @@ import model.vo.viewVO.V_telaInicial;
 public class ChamadosBO {
 
 	public List<V_telaInicial> consultachamadoBO() {
-		ChamadoVO chamadovo = new  ChamadoVO();
-		
 		ChamadoDAO chamadodao = new ChamadoDAO();
-		ArrayList<V_telaInicial> produtos = chamadodao.consultarChamados();
+		ArrayList<V_telaInicial> v_telaInicial = chamadodao.consultarChamados();
 		
-		return produtos;
+		return v_telaInicial;
 		
 	}
 

@@ -13,10 +13,10 @@ import model.vo.viewVO.V_telaInicial;
 public class ChamadoDAO {
 
 	public ArrayList<V_telaInicial> consultarChamados() {
-		String sql = " SELECT * FROM telainical;";
+		String sql = "SELECT idChamado,nome_cliente,nome_servico,modelo,nome_Tecnico FROM telainical";
 
 		Connection conexao = Banco.getConnection();
-		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao);
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
 		ArrayList<V_telaInicial> v_telaInicial = new ArrayList<V_telaInicial>();
 
 		try {
@@ -37,7 +37,7 @@ public class ChamadoDAO {
 			e.printStackTrace();
 		}
 
-		return null;
+		return v_telaInicial;
 
 	}
 
