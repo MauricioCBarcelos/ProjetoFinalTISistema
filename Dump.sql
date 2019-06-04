@@ -1,5 +1,5 @@
 
-E:\XAMPP\mysql\bin>mysqldump.exe --protocol=tcp --disable-keys=FALSE --default-character-set=utf8 --host=127.0.0.1 --user=root --dump-date=FALSE --quote-names=FALSE --force=TRUE --port=3307 --skip-triggers "db_assistencia_m"
+-- E:\XAMPP\mysql\bin>mysqldump.exe --protocol=tcp --disable-keys=FALSE --default-character-set=utf8 --host=127.0.0.1 --user=root --dump-date=FALSE --quote-names=FALSE --force=TRUE --port=3307 --skip-triggers "db_assistencia_m"
 -- MySQL dump 10.16  Distrib 10.1.30-MariaDB, for Win32 (AMD64)
 --
 -- Host: 127.0.0.1    Database: db_assistencia_m
@@ -17,34 +17,53 @@ E:\XAMPP\mysql\bin>mysqldump.exe --protocol=tcp --disable-keys=FALSE --default-c
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- create database
+create database if not exists db_assistencia_m;
+
+
 --
 -- Table structure for table `chamado`
 --
+
+use db_assistencia_m;
+
+
 
 DROP TABLE IF EXISTS chamado;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE chamado (
-  idChamado int(11) NOT NULL AUTO_INCREMENT,
-  dt_orcamento datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  observacao varchar(200) DEFAULT NULL,
-  problema_relatado varchar(200) DEFAULT NULL,
-  problema_constatado varchar(200) DEFAULT NULL,
-  idCliente int(11) NOT NULL,
-  idtecnico int(11) NOT NULL,
-  `status` int(11) NOT NULL COMMENT '1 => Aberto\\n2 => Fechado\\n3 => Cancelado\\n4 => Aguardando cliente',
-  idequipamento_manutencao int(11) NOT NULL,
-  servico_idservico int(11) NOT NULL,
-  PRIMARY KEY (idChamado),
-  KEY fk_orcamento_Cliente1_idx (idCliente),
-  KEY fk_orcamento_tecnico1_idx (idtecnico),
-  KEY fk_chamado_equipamento_manutencao1_idx (idequipamento_manutencao),
-  KEY fk_chamado_servico1_idx (servico_idservico),
-  CONSTRAINT fk_chamado_equipamento_manutencao1 FOREIGN KEY (idequipamento_manutencao) REFERENCES equipamento_manutencao (idequipamento_manutencao) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT fk_chamado_servico1 FOREIGN KEY (servico_idservico) REFERENCES servico (idservico) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT fk_orcamento_Cliente1 FOREIGN KEY (idCliente) REFERENCES `cliente` (idcliente) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT fk_orcamento_tecnico1 FOREIGN KEY (idtecnico) REFERENCES tecnico (idtecnico) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+    idChamado INT(11) NOT NULL AUTO_INCREMENT,
+    dt_orcamento DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    observacao VARCHAR(200) DEFAULT NULL,
+    problema_relatado VARCHAR(200) DEFAULT NULL,
+    problema_constatado VARCHAR(200) DEFAULT NULL,
+    idCliente INT(11) NOT NULL,
+    idtecnico INT(11) NOT NULL,
+    `status` INT(11) NOT NULL COMMENT '1 => Aberto
+            2 => Fechado
+            3 => Cancelado
+            4 => Aguardando cliente',
+    idequipamento_manutencao INT(11) NOT NULL,
+    servico_idservico INT(11) NOT NULL,
+    PRIMARY KEY (idChamado),
+    KEY fk_orcamento_Cliente1_idx (idCliente),
+    KEY fk_orcamento_tecnico1_idx (idtecnico),
+    KEY fk_chamado_equipamento_manutencao1_idx (idequipamento_manutencao),
+    KEY fk_chamado_servico1_idx (servico_idservico),
+    CONSTRAINT fk_chamado_equipamento_manutencao1 FOREIGN KEY (idequipamento_manutencao)
+        REFERENCES equipamento_manutencao (idequipamento_manutencao)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT fk_chamado_servico1 FOREIGN KEY (servico_idservico)
+        REFERENCES servico (idservico)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT fk_orcamento_Cliente1 FOREIGN KEY (idCliente)
+        REFERENCES `cliente` (idcliente)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT fk_orcamento_tecnico1 FOREIGN KEY (idtecnico)
+        REFERENCES tecnico (idtecnico)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+)  ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=UTF8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,17 +82,21 @@ DROP TABLE IF EXISTS chamado_produtos;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE chamado_produtos (
-  idchamado_produto int(11) NOT NULL AUTO_INCREMENT,
-  idchamado int(11) NOT NULL,
-  idprodutos int(11) NOT NULL,
-  valor_produto float NOT NULL DEFAULT '0',
-  quantidade_produto int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (idchamado_produto),
-  KEY fk_chamado_has_produtos_produtos1_idx (idprodutos),
-  KEY fk_chamado_has_produtos_chamado1_idx (idchamado),
-  CONSTRAINT fk_chamado_has_produtos_chamado1 FOREIGN KEY (idchamado) REFERENCES chamado (idChamado) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT fk_chamado_has_produtos_produtos1 FOREIGN KEY (idprodutos) REFERENCES produtos (idprodutos) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+    idchamado_produto INT(11) NOT NULL AUTO_INCREMENT,
+    idchamado INT(11) NOT NULL,
+    idprodutos INT(11) NOT NULL,
+    valor_produto FLOAT NOT NULL DEFAULT '0',
+    quantidade_produto INT(11) NOT NULL DEFAULT '1',
+    PRIMARY KEY (idchamado_produto),
+    KEY fk_chamado_has_produtos_produtos1_idx (idprodutos),
+    KEY fk_chamado_has_produtos_chamado1_idx (idchamado),
+    CONSTRAINT fk_chamado_has_produtos_chamado1 FOREIGN KEY (idchamado)
+        REFERENCES chamado (idChamado)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT fk_chamado_has_produtos_produtos1 FOREIGN KEY (idprodutos)
+        REFERENCES produtos (idprodutos)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+)  ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=UTF8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,13 +115,13 @@ DROP TABLE IF EXISTS cliente;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE cliente (
-  idcliente int(11) NOT NULL AUTO_INCREMENT,
-  nome varchar(45) NOT NULL,
-  cpf varchar(45) DEFAULT NULL,
-  telefone varchar(14) DEFAULT NULL,
-  telefone2 varchar(45) DEFAULT NULL,
-  PRIMARY KEY (idcliente)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+    idcliente INT(11) NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(45) NOT NULL,
+    cpf VARCHAR(45) DEFAULT NULL,
+    telefone VARCHAR(14) DEFAULT NULL,
+    telefone2 VARCHAR(45) DEFAULT NULL,
+    PRIMARY KEY (idcliente)
+)  ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=UTF8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,12 +140,12 @@ DROP TABLE IF EXISTS equipamento_manutencao;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE equipamento_manutencao (
-  idequipamento_manutencao int(11) NOT NULL AUTO_INCREMENT,
-  marca varchar(45) NOT NULL,
-  modelo varchar(45) DEFAULT NULL,
-  observacao varchar(45) DEFAULT NULL,
-  PRIMARY KEY (idequipamento_manutencao)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+    idequipamento_manutencao INT(11) NOT NULL AUTO_INCREMENT,
+    marca VARCHAR(45) NOT NULL,
+    modelo VARCHAR(45) DEFAULT NULL,
+    observacao VARCHAR(45) DEFAULT NULL,
+    PRIMARY KEY (idequipamento_manutencao)
+)  ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=UTF8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,15 +164,15 @@ DROP TABLE IF EXISTS produtos;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE produtos (
-  idprodutos int(11) NOT NULL AUTO_INCREMENT,
-  marca varchar(45) NOT NULL,
-  modelo varchar(45) NOT NULL,
-  quantidade int(11) NOT NULL DEFAULT '0',
-  descricao varchar(200) DEFAULT NULL,
-  valor_custo float NOT NULL DEFAULT '0',
-  valor_venda float NOT NULL DEFAULT '0',
-  PRIMARY KEY (idprodutos)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+    idprodutos INT(11) NOT NULL AUTO_INCREMENT,
+    marca VARCHAR(45) NOT NULL,
+    modelo VARCHAR(45) NOT NULL,
+    quantidade INT(11) NOT NULL DEFAULT '0',
+    descricao VARCHAR(200) DEFAULT NULL,
+    valor_custo FLOAT NOT NULL DEFAULT '0',
+    valor_venda FLOAT NOT NULL DEFAULT '0',
+    PRIMARY KEY (idprodutos)
+)  ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=UTF8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,11 +191,11 @@ DROP TABLE IF EXISTS servico;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE servico (
-  idservico int(11) NOT NULL AUTO_INCREMENT,
-  valor_servico float NOT NULL DEFAULT '0',
-  nome_servico varchar(100) DEFAULT NULL,
-  PRIMARY KEY (idservico)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+    idservico INT(11) NOT NULL AUTO_INCREMENT,
+    valor_servico FLOAT NOT NULL DEFAULT '0',
+    nome_servico VARCHAR(100) DEFAULT NULL,
+    PRIMARY KEY (idservico)
+)  ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=UTF8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,11 +214,11 @@ DROP TABLE IF EXISTS tecnico;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE tecnico (
-  idtecnico int(11) NOT NULL AUTO_INCREMENT,
-  nome varchar(45) NOT NULL,
-  telefone varchar(45) DEFAULT NULL,
-  PRIMARY KEY (idtecnico)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+    idtecnico INT(11) NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(45) NOT NULL,
+    telefone VARCHAR(45) DEFAULT NULL,
+    PRIMARY KEY (idtecnico)
+)  ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=UTF8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -252,5 +275,3 @@ SET character_set_client = @saved_cs_client;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed
-
-E:\XAMPP\mysql\bin>
