@@ -16,7 +16,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ChamadoController;
-import model.vo.viewVO.V_telaInicial;
+import model.dto.telaInicialDTO;
 
 import javax.swing.JTable;
 import java.awt.FlowLayout;
@@ -82,11 +82,11 @@ public class TelaInicial extends JFrame {
 
 		// atualizarTabelaProdutos(produtos);
 		ChamadoController chamadoController = new ChamadoController();
-		List<V_telaInicial> v_telaInicial = chamadoController.ConsultaChamados();
+		List<telaInicialDTO> v_telaInicial = chamadoController.ConsultaChamados();
 		atualizarTabelaChamados(v_telaInicial);
 	}
 
-	protected void atualizarTabelaChamados(List<V_telaInicial> v_telaInicial) {
+	protected void atualizarTabelaChamados(List<telaInicialDTO> v_telaInicial) {
 		// atualiza o atributo produtosConsultados
 
 		// Limpa a tabela
@@ -96,7 +96,7 @@ public class TelaInicial extends JFrame {
 
 		DefaultTableModel modelo = (DefaultTableModel) tblChamados.getModel();
 
-		for (V_telaInicial v : v_telaInicial) {
+		for (telaInicialDTO v : v_telaInicial) {
 			// Crio uma nova linha na tabela
 			// Preencher a linha com os atributos do produto
 			// na ORDEM do cabeçalho da tabela
