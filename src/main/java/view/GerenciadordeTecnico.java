@@ -12,8 +12,15 @@ import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+
+import controller.ChamadoController;
+import controller.TecnicoController;
+import model.dto.telaInicialDTO;
+import model.vo.TecnicoVO;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
@@ -89,7 +96,7 @@ public class GerenciadordeTecnico extends JFrame {
 		tableDadosDoTecnico.setBounds(10, 173, 403, 174);
 		contentPane.add(tableDadosDoTecnico);
 
-		JButton btnProvisotio = new JButton("Provisorio");
+		JButton btnProvisotio = new JButton("Criar");
 		btnProvisotio.setFont(new Font("Arial", Font.PLAIN, 13));
 		btnProvisotio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -113,5 +120,38 @@ public class GerenciadordeTecnico extends JFrame {
 		lblPesquisa.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblPesquisa.setBounds(10, 123, 60, 14);
 		contentPane.add(lblPesquisa);
+	}
+	
+	
+	protected void consultarProdutos() {
+
+		// List<Produto> produtos = controlador.listarProdutos(seletor);
+
+		// atualizarTabelaProdutos(produtos);
+		TecnicoController tecnicoController = new TecnicoController();
+		List<TecnicoVO> tecnicoVO = tecnicoController.ConsultaTecnicos();
+		atualizarTabelaTecnico(tecnicoVO);
+	}
+
+	protected void atualizarTabelaTecnico(List<TecnicoVO> tecnicoVO) {
+		// atualiza o atributo produtosConsultados
+
+		// Limpa a tabela
+		tableDadosDoTecnico.setModel(
+				new DefaultTableModel(new String[][] { { "Codigo", "Nome", "Telefone" }, },
+						new String[] { "Codigo", "Nome", "Telefone" }));
+
+		DefaultTableModel modelo = (DefaultTableModel) tableDadosDoTecnico.getModel();
+
+		for (telaInicialDTO v : v_telaInicial) {
+			// Crio uma nova linha na tabela
+			// Preencher a linha com os atributos do produto
+			// na ORDEM do cabeçalho da tabela
+
+			String[] novaLinha = new String[] { v.getIdChamado() + "", v.getNome_cliente(), v.getNome_servico(),
+					v.getModelo(), v.getNome_Tecnico() };
+			modelo.addRow(novaLinha);
+		}
+
 	}
 }
