@@ -119,9 +119,9 @@ public class GerenciadordeTecnico extends JFrame {
 		textFieldPesquisa.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent tecla) {
-				
+
 				String comboBoxSelecionado = comboBoxPesquisa.getSelectedItem().toString();
-				pesquisaTecnicos(textFieldPesquisa.getText(),comboBoxSelecionado);
+				pesquisaTecnicos(textFieldPesquisa.getText(), comboBoxSelecionado);
 
 			}
 		});
@@ -135,13 +135,23 @@ public class GerenciadordeTecnico extends JFrame {
 		contentPane.add(lblPesquisa);
 	}
 
+	/*
+	 * Metodo de pesquisa utiliza o like para procurar dados no banco
+	 * 
+	 * @param consulta é o que o usuario quer buscar no banco
+	 * 
+	 * @param comboBoxPesquisa é o qual a coluna que o mesmo irá pesquisas(nome ou
+	 * id)
+	 * 
+	 * 
+	 */
 	protected void pesquisaTecnicos(String consulta, String comboBoxPesquisa) {
 
 		// List<Produto> produtos = controlador.listarProdutos(seletor);
 
 		// atualizarTabelaProdutos(produtos);
 		TecnicoController tecnicoController = new TecnicoController();
-		List<TecnicoVO> tecnicoVO = tecnicoController.consultaTecnicosController(consulta,comboBoxPesquisa);
+		List<TecnicoVO> tecnicoVO = tecnicoController.consultaTecnicosController(consulta, comboBoxPesquisa);
 		atualizarTabelaTecnico(tecnicoVO);
 	}
 
