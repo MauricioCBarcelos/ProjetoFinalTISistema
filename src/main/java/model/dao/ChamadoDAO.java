@@ -13,7 +13,24 @@ import model.vo.ChamadoVO;
 public class ChamadoDAO {
 
 	public ArrayList<telaInicialDTO> consultarChamados() {
-		String sql = "SELECT idChamado,nome_cliente,nome_servico,modelo,nome_Tecnico FROM telainical";
+		String sql = "SELECT \n" + 
+				"        t_chamado.idChamado,\n" + 
+				"        t_cliente.nome as nome_cliente,\n" + 
+				"        t_servico.nome_servico,\n" + 
+				"        t_produtos.modelo,\n" + 
+				"        t_tecnico.nome as nome_Tecnico\n" + 
+				"    FROM\n" + 
+				"        chamado t_chamado\n" + 
+				"            INNER JOIN\n" + 
+				"        cliente t_cliente ON t_cliente.`idcliente` = t_chamado.`idCliente`\n" + 
+				"            INNER JOIN\n" + 
+				"        servico t_servico ON t_servico.`idservico` = t_chamado.`servico_idservico`\n" + 
+				"            INNER JOIN\n" + 
+				"        chamado_produtos t_chamado_produtos ON t_chamado_produtos.idchamado_produto = t_chamado.idChamado\n" + 
+				"            INNER JOIN\n" + 
+				"        produtos t_produtos ON t_produtos.idprodutos = t_chamado_produtos.idprodutos\n" + 
+				"            INNER JOIN\n" + 
+				"        tecnico t_tecnico ON t_tecnico.idtecnico = t_chamado.idtecnico;";
 
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);

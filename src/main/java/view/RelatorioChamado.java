@@ -6,6 +6,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTextPane;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
+import javax.swing.UIManager;
 
 public class RelatorioChamado extends JPanel {
 
@@ -14,6 +18,7 @@ public class RelatorioChamado extends JPanel {
 	 */
 	final private String chamadoN = "Chamado N°";
 	private JTable table;
+	private JTable table_1;
 
 	public RelatorioChamado() {
 		setLayout(null);
@@ -47,7 +52,7 @@ public class RelatorioChamado extends JPanel {
 		
 		JTextPane txtpnRgfgsgsggs = new JTextPane();
 		txtpnRgfgsgsggs.setEditable(false);
-		txtpnRgfgsgsggs.setBounds(0, 137, 332, 29);
+		txtpnRgfgsgsggs.setBounds(0, 137, 450, 29);
 		add(txtpnRgfgsgsggs);
 		
 		JLabel lblProblemaCostatado = new JLabel("Problema Costatado:");
@@ -56,7 +61,7 @@ public class RelatorioChamado extends JPanel {
 		
 		JTextPane textPane = new JTextPane();
 		textPane.setEditable(false);
-		textPane.setBounds(0, 194, 332, 29);
+		textPane.setBounds(0, 194, 450, 29);
 		add(textPane);
 		
 		JLabel lblObservao = new JLabel("Observação:");
@@ -65,8 +70,28 @@ public class RelatorioChamado extends JPanel {
 		
 		JTextPane textPane_1 = new JTextPane();
 		textPane_1.setEditable(false);
-		textPane_1.setBounds(0, 248, 332, 29);
+		textPane_1.setBounds(0, 248, 450, 29);
 		add(textPane_1);
+		
+		table_1 = new JTable();
+		table_1.setBorder(null);
+		table_1.setModel(new DefaultTableModel(
+			new String[][] {
+				{"Categoria", "Equipamento", "Marca", "Modelo", "Obs"}
+			},
+			new String[] {
+				"Categoria", "Equipamento", "Marca", "Modelo", "Obs"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table_1.setBounds(0, 302, 450, 58);
+		add(table_1);
 
 	}
 }
