@@ -59,7 +59,7 @@ public class Banco {
 
 	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	private static final String BANCO = "db_assistencia_m";
-	private static final String CONEXAO = "jdbc:mysql://localhost:3307/" + BANCO
+	private static final String CONEXAO = "jdbc:mysql://localhost:3306/" + BANCO
 			+ "?useTimezone=true&serverTimezone=UTC";
 	private static final String USUARIO = "root";
 	private static final String SENHA = "";

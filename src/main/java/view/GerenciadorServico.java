@@ -16,6 +16,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GerenciadorServico extends JFrame {
 	private JTextField textFieldNome;
@@ -102,7 +104,11 @@ public class GerenciadorServico extends JFrame {
 		//tableDadosDoTecnico.setBounds(10, 207, 366, 120);
 		getContentPane().add(tableDadosDoTecnico);
 		
-		JButton btnNewButton = new JButton("Botao");
+		JButton btnNewButton = new JButton("Inserir");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnNewButton.setBounds(337, 46, 89, 23);
 		getContentPane().add(btnNewButton);
 		

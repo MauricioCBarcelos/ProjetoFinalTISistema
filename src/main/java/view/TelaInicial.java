@@ -71,8 +71,11 @@ public class TelaInicial extends JFrame {
 						new String[] { "Chamados", "Clientes", "Serviço", "Produtos", "Tecnico" }));
 
 		getContentPane().add(tblChamados);
-		ChamadoController chamadoController = new ChamadoController();
-		atualizarTabelaChamados(chamadoController.ConsultaChamados());
+
+			ChamadoController chamadoController = new ChamadoController();
+			atualizarTabelaChamados(chamadoController.ConsultaChamados());
+
+	
 
 	}
 

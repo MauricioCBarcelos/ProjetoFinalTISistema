@@ -23,6 +23,8 @@ import model.vo.TecnicoVO;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GerenciadordeTecnico extends JFrame {
 
@@ -30,7 +32,7 @@ public class GerenciadordeTecnico extends JFrame {
 	private JTextField textFieldNomeTecnico;
 	private JTextField textFieldTelefone;
 	private JTable tableDadosDoTecnico;
-	private JTextField textField;
+	private JTextField textFieldPesquisa;
 
 	/**
 	 * Launch the application.
@@ -96,6 +98,8 @@ public class GerenciadordeTecnico extends JFrame {
 		tableDadosDoTecnico.setBounds(10, 173, 403, 174);
 		contentPane.add(tableDadosDoTecnico);
 
+		TecnicoController tecnicoController = new TecnicoController();
+		atualizarTabelaTecnico(tecnicoController.consultaTecnicosController());
 		JButton btnProvisotio = new JButton("Criar");
 		btnProvisotio.setFont(new Font("Arial", Font.PLAIN, 13));
 		btnProvisotio.addActionListener(new ActionListener() {
@@ -105,31 +109,39 @@ public class GerenciadordeTecnico extends JFrame {
 		btnProvisotio.setBounds(276, 34, 91, 23);
 		contentPane.add(btnProvisotio);
 
-		JComboBox comboBoxPesquisa = new JComboBox();
+		final JComboBox comboBoxPesquisa = new JComboBox();
 		comboBoxPesquisa.setModel(new DefaultComboBoxModel(new String[] { "Nome", "Id" }));
 		comboBoxPesquisa.setSelectedIndex(0);
 		comboBoxPesquisa.setBounds(170, 147, 91, 22);
 		contentPane.add(comboBoxPesquisa);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(10, 148, 150, 20);
-		contentPane.add(textField);
-		
+
+		textFieldPesquisa = new JTextField();
+		textFieldPesquisa.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent tecla) {
+				
+				String comboBoxSelecionado = comboBoxPesquisa.getSelectedItem().toString();
+				pesquisaTecnicos(textFieldPesquisa.getText(),comboBoxSelecionado);
+
+			}
+		});
+		textFieldPesquisa.setColumns(10);
+		textFieldPesquisa.setBounds(10, 148, 150, 20);
+		contentPane.add(textFieldPesquisa);
+
 		JLabel lblPesquisa = new JLabel("Pesquisa:");
 		lblPesquisa.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblPesquisa.setBounds(10, 123, 60, 14);
 		contentPane.add(lblPesquisa);
 	}
-	
-	
-	protected void consultarProdutos() {
+
+	protected void pesquisaTecnicos(String consulta, String comboBoxPesquisa) {
 
 		// List<Produto> produtos = controlador.listarProdutos(seletor);
 
 		// atualizarTabelaProdutos(produtos);
 		TecnicoController tecnicoController = new TecnicoController();
-		List<TecnicoVO> tecnicoVO = tecnicoController.ConsultaTecnicos();
+		List<TecnicoVO> tecnicoVO = tecnicoController.consultaTecnicosController(consulta,comboBoxPesquisa);
 		atualizarTabelaTecnico(tecnicoVO);
 	}
 
@@ -137,19 +149,17 @@ public class GerenciadordeTecnico extends JFrame {
 		// atualiza o atributo produtosConsultados
 
 		// Limpa a tabela
-		tableDadosDoTecnico.setModel(
-				new DefaultTableModel(new String[][] { { "Codigo", "Nome", "Telefone" }, },
-						new String[] { "Codigo", "Nome", "Telefone" }));
+		tableDadosDoTecnico.setModel(new DefaultTableModel(new String[][] { { "Codigo", "Nome", "Telefone" }, },
+				new String[] { "Codigo", "Nome", "Telefone" }));
 
 		DefaultTableModel modelo = (DefaultTableModel) tableDadosDoTecnico.getModel();
 
-		for (telaInicialDTO v : v_telaInicial) {
+		for (TecnicoVO tecnico : tecnicoVO) {
 			// Crio uma nova linha na tabela
 			// Preencher a linha com os atributos do produto
 			// na ORDEM do cabeçalho da tabela
 
-			String[] novaLinha = new String[] { v.getIdChamado() + "", v.getNome_cliente(), v.getNome_servico(),
-					v.getModelo(), v.getNome_Tecnico() };
+			String[] novaLinha = new String[] { tecnico.getIdtecnico() + "", tecnico.getNome(), tecnico.getTelefone() };
 			modelo.addRow(novaLinha);
 		}
 
