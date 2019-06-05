@@ -72,7 +72,7 @@ public class ProdutoDAO {
 	public boolean inserirProdutoDAO(String marcaTrim, int quantidade, float valorCusto, float valorVenda,
 			String modeloTrim, String observacaoTrim) {
 		int retorno = 0;
-		String sql = "INSERT INTO produtos (idprodutos, marca, modelo, quantidade, valor_custo, valor_venda, descricao) values('"
+		String sql = "INSERT INTO produtos (marca, quantidade, valor_custo, valor_venda, modelo, descricao) values('"
 				+ marcaTrim + "' , " + quantidade + "," + valorCusto + "," + valorVenda + ", '" + modeloTrim + "','"
 				+ observacaoTrim + "')";
 		Connection conexao = Banco.getConnection();

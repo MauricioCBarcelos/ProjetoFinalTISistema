@@ -22,7 +22,6 @@ public class GerenciadorClienteOld extends JFrame {
 	private JTextField texttelefone2;
 	private JTextField texttelefone1;
 	private JTextField textpesquisar;
-	private JButton btnNewButton;
 	private JComboBox comboBox;
 	private JTable table;
 
@@ -98,10 +97,6 @@ public class GerenciadorClienteOld extends JFrame {
 		textpesquisar.setBounds(10, 143, 217, 20);
 		contentPane.add(textpesquisar);
 		textpesquisar.setColumns(10);
-		
-		btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(220, 61, 89, 47);
-		contentPane.add(btnNewButton);
 		
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"codigo", "cpf", "nome", "telefone"}));

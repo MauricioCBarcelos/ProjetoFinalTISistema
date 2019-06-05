@@ -140,7 +140,7 @@ public class GerenciadorProduto extends JFrame {
 		contentPane.add(textFieldPesquisa);
 
 		comboBoxDadosCliente = new JComboBox();
-		comboBoxDadosCliente.setModel(new DefaultComboBoxModel(new String[] { "Código", "Modelo", "Marca" }));
+		comboBoxDadosCliente.setModel(new DefaultComboBoxModel(new String[] {"Codigo", "Modelo", "Marca"}));
 		comboBoxDadosCliente.setSelectedIndex(0);
 		comboBoxDadosCliente.setBounds(205, 213, 241, 29);
 		contentPane.add(comboBoxDadosCliente);
