@@ -24,8 +24,12 @@ import model.vo.TecnicoVO;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.ListSelectionModel;
+import java.awt.Color;
 
 public class GerenciadordeTecnico extends JFrame {
 
@@ -34,6 +38,7 @@ public class GerenciadordeTecnico extends JFrame {
 	private JTextField textFieldTelefone;
 	private JTable tableDadosDoTecnico;
 	private JTextField textFieldPesquisa;
+	// private JButton btnExcluir = new JButton("Excluir");
 
 	/**
 	 * Launch the application.
@@ -57,7 +62,7 @@ public class GerenciadordeTecnico extends JFrame {
 	public GerenciadordeTecnico() {
 		setTitle("Gerenciador de Técnico");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 428, 396);
+		setBounds(100, 100, 655, 396);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,8 +89,25 @@ public class GerenciadordeTecnico extends JFrame {
 		contentPane.add(textFieldTelefone);
 
 		tableDadosDoTecnico = new JTable();
-		tableDadosDoTecnico.setModel(new DefaultTableModel(new Object[][] { { "Codigo", "Nome", "Telefone" }, },
-				new String[] { "Codigo", "Nome", "Telefone" }));
+		tableDadosDoTecnico.setFillsViewportHeight(true);
+		tableDadosDoTecnico.setCellSelectionEnabled(true);
+		tableDadosDoTecnico.setColumnSelectionAllowed(true);
+		tableDadosDoTecnico.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+		tableDadosDoTecnico.setModel(new DefaultTableModel(new String[][] { { "Codigo", "Nome", "Telefone" }, },
+				new String[] { "Codigo", "Nome", "Telefone", "Excluir" }) {
+			Class[] columnTypes = new Class[] { Object.class, String.class, String.class, Object.class };
+
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+
+			boolean[] columnEditables = new boolean[] { false, true, true, false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		tableDadosDoTecnico.getColumnModel().getColumn(0).setResizable(false);
 		tableDadosDoTecnico.getColumnModel().getColumn(0).setPreferredWidth(48);
 		tableDadosDoTecnico.getColumnModel().getColumn(0).setMinWidth(14);
@@ -96,9 +118,9 @@ public class GerenciadordeTecnico extends JFrame {
 		tableDadosDoTecnico.getColumnModel().getColumn(2).setResizable(false);
 		tableDadosDoTecnico.getColumnModel().getColumn(2).setPreferredWidth(96);
 		tableDadosDoTecnico.getColumnModel().getColumn(2).setMaxWidth(96);
-		tableDadosDoTecnico.setBounds(10, 173, 403, 174);
+		tableDadosDoTecnico.getColumnModel().getColumn(3).setResizable(false);
+		tableDadosDoTecnico.setBounds(10, 180, 403, 174);
 		contentPane.add(tableDadosDoTecnico);
-
 		TecnicoController tecnicoController = new TecnicoController();
 		atualizarTabelaTecnico(tecnicoController.consultaTecnicosController());
 		JButton btnProvisotio = new JButton("Criar");
@@ -107,7 +129,8 @@ public class GerenciadordeTecnico extends JFrame {
 			public void actionPerformed(ActionEvent btnInserir) {
 				String retornoInserirTecnico = inserirTecnico(textFieldNomeTecnico.getText(),
 						textFieldTelefone.getText());
-
+				TecnicoController tecnicoController = new TecnicoController();
+				atualizarTabelaTecnico(tecnicoController.consultaTecnicosController());
 				JOptionPane.showMessageDialog(null, retornoInserirTecnico);
 
 			}
@@ -122,13 +145,17 @@ public class GerenciadordeTecnico extends JFrame {
 		contentPane.add(comboBoxPesquisa);
 
 		textFieldPesquisa = new JTextField();
+		textFieldPesquisa.setText("");
 		textFieldPesquisa.addKeyListener(new KeyAdapter() {
+
 			@Override
-			public void keyPressed(KeyEvent tecla) {
+			public void keyReleased(KeyEvent e) {
+				String consultaValor = textFieldPesquisa.getText().trim();
 
-				String comboBoxSelecionado = comboBoxPesquisa.getSelectedItem().toString();
-				pesquisaTecnicos(textFieldPesquisa.getText(), comboBoxSelecionado);
+				System.out.println(consultaValor);
+				String comboBoxSelecionado = comboBoxPesquisa.getSelectedItem().toString().trim();
 
+				pesquisaTecnicos(consultaValor, comboBoxSelecionado);
 			}
 		});
 		textFieldPesquisa.setColumns(10);
@@ -139,6 +166,26 @@ public class GerenciadordeTecnico extends JFrame {
 		lblPesquisa.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblPesquisa.setBounds(10, 123, 60, 14);
 		contentPane.add(lblPesquisa);
+
+		JButton btnExcluir = new JButton();
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent excluir) {
+
+				TecnicoController tecnicoController = new TecnicoController();
+				String retorno = tecnicoController.excluirController(
+						tableDadosDoTecnico.getValueAt(tableDadosDoTecnico.getSelectedRow(), 0).toString());
+				atualizarTabelaTecnico(tecnicoController.consultaTecnicosController());
+				JOptionPane.showMessageDialog(null, retorno);
+			}
+		});
+		btnExcluir.setToolTipText("Excluir linha selecionada");
+		btnExcluir.setBackground(Color.WHITE);
+		btnExcluir.setIcon(new ImageIcon(
+				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-fechar-janela-48.png"));
+		btnExcluir.setSelectedIcon(new ImageIcon(
+				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-fechar-janela-48.png"));
+		btnExcluir.setBounds(303, 131, 31, 38);
+		contentPane.add(btnExcluir);
 	}
 
 	/*
@@ -173,28 +220,52 @@ public class GerenciadordeTecnico extends JFrame {
 
 		// atualizarTabelaProdutos(produtos);
 		TecnicoController tecnicoController = new TecnicoController();
-		List<TecnicoVO> tecnicoVO = tecnicoController.consultaTecnicosController(consulta, comboBoxPesquisa);
-		atualizarTabelaTecnico(tecnicoVO);
+
+		if (consulta.equals("")) {
+			List<TecnicoVO> tecnicoVO = tecnicoController.consultaTecnicosController();
+			atualizarTabelaTecnico(tecnicoVO);
+		} else {
+
+			List<TecnicoVO> tecnicoVO = tecnicoController.consultaTecnicosController(consulta, comboBoxPesquisa);
+			atualizarTabelaTecnico(tecnicoVO);
+		}
+
 	}
 
 	protected void atualizarTabelaTecnico(List<TecnicoVO> tecnicoVO) {
 		// atualiza o atributo produtosConsultados
 
 		// Limpa a tabela
+
 		tableDadosDoTecnico.setModel(new DefaultTableModel(new String[][] { { "Codigo", "Nome", "Telefone" }, },
-				new String[] { "Codigo", "Nome", "Telefone" }));
+				new String[] { "Codigo", "Nome", "Telefone" }) {
+			Class[] columnTypes = new Class[] { Object.class, String.class, String.class, Object.class };
+
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+
+			boolean[] columnEditables = new boolean[] { false, true, true, false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 
 		DefaultTableModel modelo = (DefaultTableModel) tableDadosDoTecnico.getModel();
-
+		// btnExcluir.setIcon(new
+		// ImageIcon("C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\iconesicons8-ms-excel-48.png"));
 		for (TecnicoVO tecnico : tecnicoVO) {
 			// Crio uma nova linha na tabela
 			// Preencher a linha com os atributos do produto
 			// na ORDEM do cabeçalho da tabela
 
+			// Object[] novaLinha = new Object[] { tecnico.getIdtecnico() + "",
+			// tecnico.getNome(), tecnico.getTelefone(),btnExcluir.getIcon()};
 			String[] novaLinha = new String[] { tecnico.getIdtecnico() + "", tecnico.getNome(), tecnico.getTelefone() };
 			modelo.addRow(novaLinha);
+
 		}
 
 	}
-
 }

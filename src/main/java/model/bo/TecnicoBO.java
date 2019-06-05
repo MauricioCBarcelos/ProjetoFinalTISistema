@@ -19,7 +19,17 @@ public class TecnicoBO {
 
 	public List<TecnicoVO> consultarTecnicosBO(String consulta, String comboBoxPesquisa) {
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
-		ArrayList<TecnicoVO> retorno = tecnicoDAO.consultarTecnicosDAO(consulta, comboBoxPesquisa);
+
+		ArrayList<TecnicoVO> retorno;
+		if (comboBoxPesquisa.equalsIgnoreCase("id")) {
+
+			comboBoxPesquisa = "idtecnico";
+			retorno = tecnicoDAO.consultarTecnicosDAO(consulta, comboBoxPesquisa);
+
+		} else {
+
+			retorno = tecnicoDAO.consultarTecnicosDAO(consulta, comboBoxPesquisa);
+		}
 
 		return retorno;
 	}
@@ -42,7 +52,22 @@ public class TecnicoBO {
 			return "Tecnico inserido com sucesso";
 		} else
 
-			return "Tecnico nao inserido com sucesso";
+			return "Tecnico nao inserido";
+	}
+
+	public String excluirTecnicoBO(int idInteiro) {
+
+		TecnicoDAO tecnicoDAO = new TecnicoDAO();
+
+		if (tecnicoDAO.excluirDAO(idInteiro)) {
+
+			return "Valor inserido com sucesso";
+
+		}
+		;
+
+		return "Valor não inserido";
+
 	}
 
 }
