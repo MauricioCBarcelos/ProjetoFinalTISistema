@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -104,7 +105,10 @@ public class GerenciadordeTecnico extends JFrame {
 		btnProvisotio.setFont(new Font("Arial", Font.PLAIN, 13));
 		btnProvisotio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent btnInserir) {
-				inserirTecnico(textFieldNomeTecnico.getText(), textFieldTelefone.getText());
+				String retornoInserirTecnico = inserirTecnico(textFieldNomeTecnico.getText(),
+						textFieldTelefone.getText());
+
+				JOptionPane.showMessageDialog(null, retornoInserirTecnico);
 
 			}
 		});
@@ -149,8 +153,8 @@ public class GerenciadordeTecnico extends JFrame {
 	protected String inserirTecnico(String nome, String telefone) {
 
 		TecnicoController tecnicoController = new TecnicoController();
-	
-	return tecnicoController.inserirTecnicoController(nome,telefone);
+
+		return tecnicoController.inserirTecnicoController(nome, telefone);
 	}
 
 	/*
