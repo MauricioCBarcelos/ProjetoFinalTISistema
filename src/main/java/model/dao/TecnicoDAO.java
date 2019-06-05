@@ -36,7 +36,7 @@ public class TecnicoDAO {
 	}
 
 	public ArrayList<TecnicoVO> consultarTecnicosDAO(String consulta, String comboBoxPesquisa) {
-		String sql = "select idtecnico,nome,telefone from where "+comboBoxPesquisa+" like '%"+consulta+"%'";
+		String sql = "select idtecnico,nome,telefone from where " + comboBoxPesquisa + " like '%" + consulta + "%'";
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
 		ArrayList<TecnicoVO> tecnicosVO = new ArrayList<TecnicoVO>();
@@ -57,6 +57,29 @@ public class TecnicoDAO {
 			e.printStackTrace();
 		}
 		return tecnicosVO;
+	}
+
+	public boolean inserirTecnicoDAO(String nomeComTrim, String telefoneComTrim) {
+		int retorno = -1;
+		String sql = "INSERT INTO tecnico (nome,telefone) values('" + nomeComTrim + "','" + telefoneComTrim + "')";
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		try {
+
+			prepStmt.execute();
+
+			ResultSet generatedKeys = prepStmt.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao inserir Tecnico. Causa: \n: " + e.getMessage());
+		} finally {
+			Banco.closePreparedStatement(prepStmt);
+			Banco.closeConnection(conexao);
+		}
+
+		return false;
 	}
 
 }

@@ -13,15 +13,36 @@ public class TecnicoBO {
 	public List<TecnicoVO> consultarTecnicosBO() {
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
 		ArrayList<TecnicoVO> retorno = tecnicoDAO.consultarTecnicosDAO();
-		
+
 		return retorno;
 	}
-	
+
 	public List<TecnicoVO> consultarTecnicosBO(String consulta, String comboBoxPesquisa) {
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
-		ArrayList<TecnicoVO> retorno = tecnicoDAO.consultarTecnicosDAO(consulta,comboBoxPesquisa);
-		
+		ArrayList<TecnicoVO> retorno = tecnicoDAO.consultarTecnicosDAO(consulta, comboBoxPesquisa);
+
 		return retorno;
+	}
+
+	public String inserirTecnicoBO(String nome, String telefone) {
+
+		String nomeComTrim = nome.trim();
+		String telefoneComTrim = telefone.trim();
+		TecnicoDAO tecnicoDAO = new TecnicoDAO();
+
+		if (nomeComTrim.length() >= 25) {
+
+			return "Nome é maior que 25 caracteres";
+
+		} else if (telefoneComTrim.length() >= 11) {
+
+			return "Telefone é maior que 11 caracteres";
+		} else if (tecnicoDAO.inserirTecnicoDAO(nomeComTrim, telefoneComTrim)) {
+
+			return "Tecnico inserido com sucesso";
+		} else
+
+			return "Tecnico nao inserido com sucesso";
 	}
 
 }

@@ -103,7 +103,9 @@ public class GerenciadordeTecnico extends JFrame {
 		JButton btnProvisotio = new JButton("Criar");
 		btnProvisotio.setFont(new Font("Arial", Font.PLAIN, 13));
 		btnProvisotio.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent btnInserir) {
+				inserirTecnico(textFieldNomeTecnico.getText(), textFieldTelefone.getText());
+
 			}
 		});
 		btnProvisotio.setBounds(276, 34, 91, 23);
@@ -133,6 +135,22 @@ public class GerenciadordeTecnico extends JFrame {
 		lblPesquisa.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblPesquisa.setBounds(10, 123, 60, 14);
 		contentPane.add(lblPesquisa);
+	}
+
+	/*
+	 * Metodo de Inserir Tecnico na tabela tecnico
+	 * 
+	 * @param inserir dado na coluna nome
+	 * 
+	 * @param inserir dado na coluna telefone
+	 * 
+	 * 
+	 */
+	protected String inserirTecnico(String nome, String telefone) {
+
+		TecnicoController tecnicoController = new TecnicoController();
+	
+	return tecnicoController.inserirTecnicoController(nome,telefone);
 	}
 
 	/*
@@ -174,4 +192,5 @@ public class GerenciadordeTecnico extends JFrame {
 		}
 
 	}
+
 }
