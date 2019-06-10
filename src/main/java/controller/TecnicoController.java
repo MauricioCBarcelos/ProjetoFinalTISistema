@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.bo.ChamadosBO;
 import model.bo.TecnicoBO;
-import model.dto.telaInicialDTO;
+import model.dto.TelaInicialDTO;
 import model.vo.TecnicoVO;
 
 public class TecnicoController {

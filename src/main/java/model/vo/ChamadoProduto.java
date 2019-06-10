@@ -1,6 +1,6 @@
 package model.vo;
 
-public class chamadoProduto {
+public class ChamadoProduto {
 	
 	private ProdutoVO idproduto; 
 	private ChamadoVO idchamado;

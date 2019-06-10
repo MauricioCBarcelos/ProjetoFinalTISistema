@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.dto.telaInicialDTO;
+import model.dto.TelaInicialDTO;
 import model.vo.TecnicoVO;
 
 public class TecnicoDAO {

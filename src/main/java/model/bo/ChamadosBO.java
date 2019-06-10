@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.dao.ChamadoDAO;
-import model.dto.telaInicialDTO;
+import model.dto.TelaInicialDTO;
 import model.vo.ChamadoVO;
 
 public class ChamadosBO {
 
-	public List<telaInicialDTO> consultachamadoBO() {
+	public List<TelaInicialDTO> consultachamadoBO() {
 		ChamadoDAO chamadodao = new ChamadoDAO();
-		ArrayList<telaInicialDTO> v_telaInicial = chamadodao.consultarChamados();
+		ArrayList<TelaInicialDTO> v_telaInicial = chamadodao.consultarChamados();
 		
 		return v_telaInicial;
 		

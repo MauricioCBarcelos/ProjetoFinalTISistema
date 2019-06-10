@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.ChamadoController;
 import controller.TecnicoController;
-import model.dto.telaInicialDTO;
+import model.dto.TelaInicialDTO;
 import model.vo.TecnicoVO;
 
 import javax.swing.JComboBox;

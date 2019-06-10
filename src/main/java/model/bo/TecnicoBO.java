@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.dao.ChamadoDAO;
 import model.dao.TecnicoDAO;
-import model.dto.telaInicialDTO;
+import model.dto.TelaInicialDTO;
 import model.vo.TecnicoVO;
 
 public class TecnicoBO {

@@ -16,7 +16,7 @@ public class ProdutoController {
 		return retorno;
 	}
 
-	public static List<ProdutoVO> consultaProdutoController(String consulta, String comboBoxPesquisa) {
+	public static  List<ProdutoVO> consultaProdutoController(String consulta, String comboBoxPesquisa) {
 		ProdutoBO produtoBO = new ProdutoBO();
 
 		List<ProdutoVO> retorno = produtoBO.consultarprodutoBO(consulta, comboBoxPesquisa);

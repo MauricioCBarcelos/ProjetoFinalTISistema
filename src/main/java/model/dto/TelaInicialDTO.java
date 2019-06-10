@@ -1,6 +1,6 @@
 package model.dto;
 
-public class telaInicialDTO {
+public class TelaInicialDTO {
 
 	private int idChamado;
 	private String nome_cliente;
