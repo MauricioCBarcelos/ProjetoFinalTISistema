@@ -21,15 +21,10 @@ public class TecnicoBO {
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
 
 		ArrayList<TecnicoVO> retorno;
-		if (comboBoxPesquisa.equalsIgnoreCase("id")) {
 
-			comboBoxPesquisa = "idtecnico";
-			retorno = tecnicoDAO.consultarTecnicosDAO(consulta, comboBoxPesquisa);
-
-		} else {
 
 			retorno = tecnicoDAO.consultarTecnicosDAO(consulta, comboBoxPesquisa);
-		}
+		
 
 		return retorno;
 	}

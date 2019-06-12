@@ -37,11 +37,13 @@ public class TecnicoDAO {
 
 	public ArrayList<TecnicoVO> consultarTecnicosDAO(String consulta, String comboBoxPesquisa) {
 		String sql = "select idtecnico,nome,telefone from tecnico where ";
-		if (comboBoxPesquisa.equals("Nome")) {
-
-			sql += comboBoxPesquisa + " like '" + consulta.trim() + "%'";
+		if (comboBoxPesquisa.equals("id")) {
+			
+			sql += " idtecnico = " + consulta + "";
+		
 		} else {
-			sql += comboBoxPesquisa + " = " + consulta + "";
+			
+			sql += comboBoxPesquisa + " like '" + consulta.trim() + "%'";
 		}
 
 		Connection conexao = Banco.getConnection();
