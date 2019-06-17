@@ -14,7 +14,7 @@ import javax.swing.JTable;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
-public class GerenciadorClienteOld extends JFrame {
+public class GerenciadorCliente extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textnome;
@@ -32,7 +32,7 @@ public class GerenciadorClienteOld extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GerenciadorClienteOld frame = new GerenciadorClienteOld();
+					GerenciadorCliente frame = new GerenciadorCliente();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,9 +44,9 @@ public class GerenciadorClienteOld extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GerenciadorClienteOld() {
+	public GerenciadorCliente() {
 		setTitle("Gerenciador De Cliente");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 435, 448);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
