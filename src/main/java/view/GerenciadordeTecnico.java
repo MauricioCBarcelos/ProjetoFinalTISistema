@@ -15,11 +15,9 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 import controller.TecnicoController;
-<<<<<<< HEAD
+
 import model.seletor.Seletor;
-=======
-import model.dto.TelaInicialDTO;
->>>>>>> 2c59e7f6850601f32135fc81382bdc05250db515
+
 import model.vo.TecnicoVO;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JComboBox;

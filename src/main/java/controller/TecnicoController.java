@@ -5,10 +5,8 @@ import java.util.List;
 import model.bo.ChamadosBO;
 import model.bo.TecnicoBO;
 import model.dto.TelaInicialDTO;
-<<<<<<< HEAD
+
 import model.seletor.Seletor;
-=======
->>>>>>> 2c59e7f6850601f32135fc81382bdc05250db515
 import model.vo.TecnicoVO;
 
 public class TecnicoController {
@@ -56,9 +54,9 @@ public class TecnicoController {
 	}
 
 	public String updateController(TecnicoVO tecnicoVO) {
-		
+
 		String retorno = "";
-		
+
 		if (tecnicoVO.getNome().contentEquals("") || tecnicoVO.getNome() == null) {
 
 			return "Campo nome Nulo ou vazio";
@@ -66,9 +64,9 @@ public class TecnicoController {
 		} else if (tecnicoVO.getTelefone().contentEquals("") || tecnicoVO.getTelefone() == null) {
 			return "Campo telefone Nulo ou vazio";
 		}
-		
+
 		TecnicoBO tecnicoBO = new TecnicoBO();
-		
+
 		return tecnicoBO.updateBO(tecnicoVO);
 	}
 

@@ -7,11 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.dto.TelaInicialDTO;
-<<<<<<< HEAD
+
 import model.seletor.Seletor;
-=======
->>>>>>> 2c59e7f6850601f32135fc81382bdc05250db515
+
+
 import model.vo.TecnicoVO;
 
 public class TecnicoDAO {
