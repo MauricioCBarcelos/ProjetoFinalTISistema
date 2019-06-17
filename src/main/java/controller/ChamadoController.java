@@ -3,15 +3,15 @@ package controller;
 import java.util.List;
 
 import model.bo.ChamadosBO;
-import model.dto.telaInicialDTO;
+import model.dto.TelaInicialDTO;
 import model.vo.ChamadoVO;
 
 public class ChamadoController {
 
-	public List<telaInicialDTO> ConsultaChamados() {
+	public List<TelaInicialDTO> ConsultaChamados() {
 
 		ChamadosBO chamadobo = new ChamadosBO();
-		List<telaInicialDTO> retorno = chamadobo.consultachamadoBO();
+		List<TelaInicialDTO> retorno = chamadobo.consultachamadoBO();
 		return retorno;
 	}
 

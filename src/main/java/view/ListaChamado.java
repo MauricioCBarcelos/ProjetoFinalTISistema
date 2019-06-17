@@ -2,6 +2,7 @@ package view;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -13,11 +14,13 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import model.dto.ListaChamadoDTO;
+
 public class ListaChamado extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTable table;
+	private JTable tableListaChamado;
 
 	/**
 	 * Launch the application.
@@ -41,7 +44,7 @@ public class ListaChamado extends JFrame {
 	public ListaChamado() {
 		setTitle("Lista De Chamado");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 620, 401);
+		setBounds(100, 100, 705, 457);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -62,13 +65,41 @@ public class ListaChamado extends JFrame {
 		comboBox.setBounds(183, 26, 141, 20);
 		contentPane.add(comboBox);
 
-		table = new JTable();
-		table.setBounds(0, 57, 594, 280);
-		table.setModel(new DefaultTableModel(
+		tableListaChamado = new JTable();
+		tableListaChamado.setBounds(0, 57, 679, 350);
+		tableListaChamado.setModel(new DefaultTableModel(
+				new String[][] { { "Código", "Cliente", "Telefone", "Status", "modelo", "Valor Total", }, },
+				new String[] { "Código", "Cliente", "Telefone", "Status", "odelo", "Valor Total", }));
+		contentPane.add(tableListaChamado);
+
+	}
+
+	protected void atualizarTabelaProduto(List<ListaChamadoDTO> listaChamadosDTO) {
+		// atualiza o atributo produtosConsultados
+
+		// Limpa a tabela
+
+		tableListaChamado.setModel(new DefaultTableModel(
 				new String[][] {
 						{ "Código", "Cliente", "Telefone", "Status", "Categoria Equipamento", "Valor Total", }, },
 				new String[] { "Código", "Cliente", "Telefone", "Status", "Categoria Equipamento", "Valor Total", }));
-		contentPane.add(table);
+
+		DefaultTableModel modelo = (DefaultTableModel) tableListaChamado.getModel();
+		// btnExcluir.setIcon(new
+		// ImageIcon("C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\iconesicons8-ms-excel-48.png"));
+		for (ListaChamadoDTO listachamado : listaChamadosDTO) {
+			// Crio uma nova linha na tabela
+			// Preencher a linha com os atributos do listachamado
+			// na ORDEM do cabeçalho da tabela
+
+			// Object[] novaLinha = new Object[] { tecnico.getIdlistachamado() + "",
+			// tecnico.getNome(), tecnico.getTelefone(),btnExcluir.getIcon()};
+			String[] novaLinha = new String[] {
+					listachamado.getIdchamado() + "" + listachamado.getNome() + "" + listachamado.getTelefone() };
+			modelo.addRow(novaLinha);
+
+		}
 
 	}
+
 }

@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.dto.telaInicialDTO;
+import model.dto.TelaInicialDTO;
 import model.vo.ChamadoVO;
 
 public class ChamadoDAO {
 
-	public ArrayList<telaInicialDTO> consultarChamados() {
+	public ArrayList<TelaInicialDTO> consultarChamados() {
 		String sql = "SELECT \n" + 
 				"        t_chamado.idChamado,\n" + 
 				"        t_cliente.nome as nome_cliente,\n" + 
@@ -34,13 +34,13 @@ public class ChamadoDAO {
 
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
-		ArrayList<telaInicialDTO> v_telaInicial = new ArrayList<telaInicialDTO>();
+		ArrayList<TelaInicialDTO> v_telaInicial = new ArrayList<TelaInicialDTO>();
 
 		try {
 			ResultSet result = prepStmt.executeQuery();
 
 			while (result.next()) {
-				telaInicialDTO v_telaInicialLinhas = new telaInicialDTO();
+				TelaInicialDTO v_telaInicialLinhas = new TelaInicialDTO();
 				v_telaInicialLinhas.setIdChamado(result.getInt("idChamado"));
 				v_telaInicialLinhas.setNome_cliente(result.getString("nome_cliente"));
 				v_telaInicialLinhas.setNome_servico(result.getString("nome_servico"));

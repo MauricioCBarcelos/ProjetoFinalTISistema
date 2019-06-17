@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.dao.ProdutoDAO;
-import model.dao.TecnicoDAO;
 import model.vo.ProdutoVO;
-import model.vo.TecnicoVO;
 
 public class ProdutoBO {
 
