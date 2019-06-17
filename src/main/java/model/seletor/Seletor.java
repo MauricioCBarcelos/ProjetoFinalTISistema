@@ -17,6 +17,7 @@ public class Seletor{
 	// Atributos para possível paginação dos resultados (intervalo)
 	private int limite;
 	private int pagina;
+	private int totalPaginas;
 
 	public Seletor() {
 		// Default: traz os resultados sem limite e sem página
@@ -66,7 +67,17 @@ public class Seletor{
 	 * @return offset
 	 */
 	public int getOffset() {
-		return (this.limite * (this.pagina - 1));
+		return (this.limite * (this.pagina - 1) + 0);
+	}
+	
+
+	public int getTotalPaginas() {
+		return totalPaginas %  limite;
+	}
+
+	public void setTotalPaginas(int totalLinhas) {
+		this.totalPaginas = totalLinhas;
+		
 	}
 
 	// Getters e setters

@@ -2,25 +2,22 @@ package controller;
 
 import java.util.List;
 
-import model.bo.ChamadosBO;
 import model.bo.TecnicoBO;
-import model.dto.TelaInicialDTO;
-
 import model.seletor.Seletor;
 import model.vo.TecnicoVO;
 
 public class TecnicoController {
 
-	public List<TecnicoVO> consultaTecnicosController() {
+	public List<TecnicoVO> consultaTecnicosController(Seletor seletor) {
 		TecnicoBO tecnicoBO = new TecnicoBO();
-		List<TecnicoVO> retorno = tecnicoBO.consultarTecnicosBO();
+		List<TecnicoVO> retorno = tecnicoBO.consultarTecnicosBO(seletor);
 		return retorno;
 	}
 
-	public List<TecnicoVO> consultaTecnicosController(String consulta, String comboBoxPesquisa) {
+	public List<TecnicoVO> consultaTecnicosController(String consulta, String comboBoxPesquisa,Seletor seletor) {
 		TecnicoBO tecnicoBO = new TecnicoBO();
 
-		List<TecnicoVO> retorno = tecnicoBO.consultarTecnicosBO(consulta, comboBoxPesquisa);
+		List<TecnicoVO> retorno = tecnicoBO.consultarTecnicosBO(consulta, comboBoxPesquisa,seletor);
 
 		return retorno;
 	}
@@ -40,7 +37,6 @@ public class TecnicoController {
 
 	public String excluirController(Object id) {
 		TecnicoBO tecnicoBO = new TecnicoBO();
-		String retorno = "";
 
 		int idInteiro = Integer.parseInt(id.toString());
 
@@ -55,8 +51,6 @@ public class TecnicoController {
 
 	public String updateController(TecnicoVO tecnicoVO) {
 
-		String retorno = "";
-
 		if (tecnicoVO.getNome().contentEquals("") || tecnicoVO.getNome() == null) {
 
 			return "Campo nome Nulo ou vazio";
@@ -68,12 +62,6 @@ public class TecnicoController {
 		TecnicoBO tecnicoBO = new TecnicoBO();
 
 		return tecnicoBO.updateBO(tecnicoVO);
-	}
-
-	public List<TecnicoVO> consultaTecnicosController(Seletor seletor) {
-		TecnicoBO tecnicoBO = new TecnicoBO();
-		List<TecnicoVO> retorno = tecnicoBO.consultarTecnicosBO(seletor);
-		return retorno;
 	}
 
 }

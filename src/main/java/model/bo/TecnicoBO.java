@@ -11,21 +11,19 @@ import model.vo.TecnicoVO;
 
 public class TecnicoBO {
 
-	public List<TecnicoVO> consultarTecnicosBO() {
+	public List<TecnicoVO> consultarTecnicosBO(Seletor seletor) {
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
-		ArrayList<TecnicoVO> retorno = tecnicoDAO.consultarTecnicosDAO();
+		ArrayList<TecnicoVO> retorno = tecnicoDAO.consultarTecnicosDAO(seletor);
 
 		return retorno;
 	}
 
-	public List<TecnicoVO> consultarTecnicosBO(String consulta, String comboBoxPesquisa) {
+	public List<TecnicoVO> consultarTecnicosBO(String consulta, String comboBoxPesquisa, Seletor seletor) {
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
 
 		ArrayList<TecnicoVO> retorno;
 
-
-			retorno = tecnicoDAO.consultarTecnicosDAO(consulta, comboBoxPesquisa);
-		
+		retorno = tecnicoDAO.consultarTecnicosDAO(consulta, comboBoxPesquisa,seletor);
 
 		return retorno;
 	}
@@ -60,7 +58,6 @@ public class TecnicoBO {
 			return "Valor inserido com sucesso";
 
 		}
-		;
 
 		return "Valor não inserido";
 
@@ -85,12 +82,6 @@ public class TecnicoBO {
 
 			return "Tecnico nao atualizado devido a outros problemas";
 
-	}
-
-	public List<TecnicoVO> consultarTecnicosBO(Seletor seletor) {
-		TecnicoDAO tecnicoDAO = new TecnicoDAO();
-
-		return tecnicoDAO.listarComSeletor(seletor);
 	}
 
 }

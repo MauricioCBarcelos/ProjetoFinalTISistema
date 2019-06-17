@@ -22,6 +22,8 @@ import javax.swing.JTable;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JMenu;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaInicial extends JFrame {
 	private JTable tblChamados;
@@ -56,8 +58,52 @@ public class TelaInicial extends JFrame {
 		JMenu mnNewMenu = new JMenu("Novo");
 		jMenuBar.add(mnNewMenu);
 
-		JMenuItem mntmNewMenuItem = new JMenuItem("Criar novo chamado");
-		mnNewMenu.add(mntmNewMenuItem);
+		JMenuItem mntmNovoChamado = new JMenuItem("Criar novo chamado");
+		mntmNovoChamado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				GerenciadorCliente gerenciadorClienteFrame = new GerenciadorCliente();
+				gerenciadorClienteFrame.setVisible(true);
+			}
+		});
+		JMenuItem mntmNovoTecnico = new JMenuItem("Criar novo Tecnico");
+		mntmNovoTecnico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				GerenciadordeTecnico gerenciadordeTecnicoFrame = new GerenciadordeTecnico();
+				gerenciadordeTecnicoFrame.setVisible(true);
+			}
+		});
+		JMenuItem mntmNovoServico = new JMenuItem("Criar novo Servico");
+		mntmNovoServico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GerenciadorServico GerenciadorServicoFrame = new GerenciadorServico();
+				GerenciadorServicoFrame.setVisible(true);
+			}
+		});
+
+		JMenuItem mntmNovoProduto = new JMenuItem("Criar novo Produto");
+		mntmNovoProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GerenciadorProduto gerenciadorProdutoFrame = new GerenciadorProduto();
+				gerenciadorProdutoFrame.setVisible(true);
+			}
+		});
+		
+		JMenuItem mntmNovoCliente = new JMenuItem("Gerenciamento de clientes");
+		mntmNovoCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				GerenciadorCliente gerenciadorClienteFrame = new GerenciadorCliente();
+				gerenciadorClienteFrame.setVisible(true);
+			}
+		});
+
+		mnNewMenu.add(mntmNovoChamado);
+		mnNewMenu.add(mntmNovoTecnico);
+		mnNewMenu.add(mntmNovoServico);
+		mnNewMenu.add(mntmNovoProduto);
+		mnNewMenu.add(mntmNovoCliente);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 542, 310);
@@ -72,10 +118,8 @@ public class TelaInicial extends JFrame {
 
 		getContentPane().add(tblChamados);
 
-			ChamadoController chamadoController = new ChamadoController();
-			atualizarTabelaChamados(chamadoController.ConsultaChamados());
-
-	
+		ChamadoController chamadoController = new ChamadoController();
+		atualizarTabelaChamados(chamadoController.ConsultaChamados());
 
 	}
 
