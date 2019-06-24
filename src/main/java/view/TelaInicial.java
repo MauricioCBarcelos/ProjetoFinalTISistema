@@ -1,4 +1,3 @@
-
 package view;
 
 import java.awt.BorderLayout;
@@ -75,8 +74,10 @@ public class TelaInicial extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				GerenciadordeTecnico gerenciadordeTecnicoFrame = new GerenciadordeTecnico();
+
 				JScrollPane scroll = new JScrollPane(gerenciadordeTecnicoFrame.getContentPane());
 				gerenciadordeTecnicoFrame.setContentPane(scroll);
+
 				gerenciadordeTecnicoFrame.setVisible(true);
 			}
 		});
@@ -84,8 +85,10 @@ public class TelaInicial extends JFrame {
 		mntmNovoServico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GerenciadorServico GerenciadorServicoFrame = new GerenciadorServico();
+
 				JScrollPane scroll = new JScrollPane(GerenciadorServicoFrame.getContentPane());
 				GerenciadorServicoFrame.setContentPane(scroll);
+
 				GerenciadorServicoFrame.setVisible(true);
 			}
 		});
@@ -94,6 +97,7 @@ public class TelaInicial extends JFrame {
 		mntmNovoProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GerenciadorProduto gerenciadorProdutoFrame = new GerenciadorProduto();
+
 				JScrollPane scroll = new JScrollPane(gerenciadorProdutoFrame.getContentPane());
 				gerenciadorProdutoFrame.setContentPane(scroll);
 				gerenciadorProdutoFrame.setVisible(true);
@@ -102,11 +106,14 @@ public class TelaInicial extends JFrame {
 
 		JMenuItem mntmNovoCliente = new JMenuItem("Gerenciamento de clientes");
 		mntmNovoCliente.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 
 				GerenciadorCliente gerenciadorClienteFrame = new GerenciadorCliente();
+
 				JScrollPane scroll = new JScrollPane(gerenciadorClienteFrame.getContentPane());
 				gerenciadorClienteFrame.setContentPane(scroll);
+
 				gerenciadorClienteFrame.setVisible(true);
 			}
 		});
@@ -131,6 +138,7 @@ public class TelaInicial extends JFrame {
 		getContentPane().add(tblChamados);
 
 		ChamadoController chamadoController = new ChamadoController();
+
 		atualizarTabelaChamados(chamadoController.ConsultaChamados());
 
 	}
