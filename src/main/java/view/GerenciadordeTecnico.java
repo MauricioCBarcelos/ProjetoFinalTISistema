@@ -71,7 +71,7 @@ public class GerenciadordeTecnico extends JFrame {
 
 	public GerenciadordeTecnico() {
 
-		setTitle("Gerenciador de Técnico");
+		setTitle("Gerenciador de TÃ©cnico");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 589, 494);
 		contentPane = new JPanel();
@@ -126,6 +126,8 @@ public class GerenciadordeTecnico extends JFrame {
 		contentPane.add(btnProvisotio, "cell 3 3,alignx left,aligny top");
 
 		JButton buttonAtualizar = new JButton("");
+		buttonAtualizar.setIcon(new ImageIcon(
+				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\modify.png"));
 		buttonAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -153,8 +155,7 @@ public class GerenciadordeTecnico extends JFrame {
 		btnExcluir.setSelectedIcon(new ImageIcon(
 				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-fechar-janela-48.png"));
 		contentPane.add(btnExcluir, "flowx,cell 5 4,alignx left,growy");
-		buttonAtualizar.setIcon(new ImageIcon(
-				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\modify.png"));
+
 		contentPane.add(buttonAtualizar, "cell 5 4");
 
 		JLabel lblPesquisa = new JLabel("Pesquisa:");
@@ -306,9 +307,9 @@ public class GerenciadordeTecnico extends JFrame {
 	/*
 	 * Metodo de pesquisa utiliza o like para procurar dados no banco
 	 * 
-	 * @param consulta é o que o usuario quer buscar no banco
+	 * @param consulta Ã© o que o usuario quer buscar no banco
 	 * 
-	 * @param comboBoxPesquisa é o qual a coluna que o mesmo irá pesquisas(nome ou
+	 * @param comboBoxPesquisa Ã© o qual a coluna que o mesmo irÃ¡ pesquisas(nome ou
 	 * id)
 	 * 
 	 * 
@@ -361,7 +362,7 @@ public class GerenciadordeTecnico extends JFrame {
 		for (TecnicoVO tecnico : tecnicoVO) {
 			// Crio uma nova linha na tabela
 			// Preencher a linha com os atributos do produto
-			// na ORDEM do cabeçalho da tabela
+			// na ORDEM do cabeÃ§alho da tabela
 
 			// Object[] novaLinha = new Object[] { tecnico.getIdtecnico() + "",
 			// tecnico.getNome(), tecnico.getTelefone(),btnExcluir.getIcon()};

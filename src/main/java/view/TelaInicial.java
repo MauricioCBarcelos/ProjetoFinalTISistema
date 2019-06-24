@@ -1,3 +1,4 @@
+
 package view;
 
 import java.awt.BorderLayout;
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,6 +38,8 @@ public class TelaInicial extends JFrame {
 			public void run() {
 				try {
 					TelaInicial frame = new TelaInicial();
+					JScrollPane scroll = new JScrollPane(frame.getContentPane());
+					frame.setContentPane(scroll);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,6 +75,8 @@ public class TelaInicial extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				GerenciadordeTecnico gerenciadordeTecnicoFrame = new GerenciadordeTecnico();
+				JScrollPane scroll = new JScrollPane(gerenciadordeTecnicoFrame.getContentPane());
+				gerenciadordeTecnicoFrame.setContentPane(scroll);
 				gerenciadordeTecnicoFrame.setVisible(true);
 			}
 		});
@@ -78,6 +84,8 @@ public class TelaInicial extends JFrame {
 		mntmNovoServico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GerenciadorServico GerenciadorServicoFrame = new GerenciadorServico();
+				JScrollPane scroll = new JScrollPane(GerenciadorServicoFrame.getContentPane());
+				GerenciadorServicoFrame.setContentPane(scroll);
 				GerenciadorServicoFrame.setVisible(true);
 			}
 		});
@@ -86,15 +94,19 @@ public class TelaInicial extends JFrame {
 		mntmNovoProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GerenciadorProduto gerenciadorProdutoFrame = new GerenciadorProduto();
+				JScrollPane scroll = new JScrollPane(gerenciadorProdutoFrame.getContentPane());
+				gerenciadorProdutoFrame.setContentPane(scroll);
 				gerenciadorProdutoFrame.setVisible(true);
 			}
 		});
-		
+
 		JMenuItem mntmNovoCliente = new JMenuItem("Gerenciamento de clientes");
 		mntmNovoCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				GerenciadorCliente gerenciadorClienteFrame = new GerenciadorCliente();
+				JScrollPane scroll = new JScrollPane(gerenciadorClienteFrame.getContentPane());
+				gerenciadorClienteFrame.setContentPane(scroll);
 				gerenciadorClienteFrame.setVisible(true);
 			}
 		});

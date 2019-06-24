@@ -18,6 +18,15 @@ public class Seletor{
 	private int limite;
 	private int pagina;
 	private int totalPaginas;
+	private int totalLinhas;
+
+	public int getTotalLinhas() {
+		return totalLinhas;
+	}
+
+	public void setTotalLinhas(int totalLinhas) {
+		this.totalLinhas = totalLinhas;
+	}
 
 	public Seletor() {
 		// Default: traz os resultados sem limite e sem página
