@@ -24,10 +24,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ProdutoController;
-import controller.TecnicoController;
 import model.seletor.Seletor;
 import model.vo.ProdutoVO;
-import model.vo.TecnicoVO;
 import net.miginfocom.swing.MigLayout;
 
 public class GerenciadorProduto extends JFrame {
@@ -77,7 +75,7 @@ public class GerenciadorProduto extends JFrame {
 	 */
 	public GerenciadorProduto() {
 		setTitle("Gerenciador Produto");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 612, 583);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

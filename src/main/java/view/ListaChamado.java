@@ -2,6 +2,8 @@ package view;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -15,11 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ListaChamadoController;
-import controller.TecnicoController;
 import model.dto.ListaChamadoDTO;
-import model.vo.TecnicoVO;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class ListaChamado extends JFrame {
 
@@ -48,7 +46,7 @@ public class ListaChamado extends JFrame {
 	 */
 	public ListaChamado() {
 		setTitle("Lista De Chamado");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 705, 457);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -1,34 +1,33 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JTable;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.List;
 import java.awt.event.ActionEvent;
-import javax.swing.table.DefaultTableModel;
-import controller.TecnicoController;
-
-import model.seletor.Seletor;
-
-import model.vo.TecnicoVO;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.ListSelectionModel;
-import java.awt.Color;
+import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import controller.TecnicoController;
+import model.seletor.Seletor;
+import model.vo.TecnicoVO;
+import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class GerenciadordeTecnico extends JFrame {
@@ -72,7 +71,7 @@ public class GerenciadordeTecnico extends JFrame {
 	public GerenciadordeTecnico() {
 
 		setTitle("Gerenciador de TÃ©cnico");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 589, 494);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
