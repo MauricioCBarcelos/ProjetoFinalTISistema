@@ -70,7 +70,7 @@ public class GerenciadordeTecnico extends JFrame {
 
 	public GerenciadordeTecnico() {
 
-		setTitle("Gerenciador de TÃ©cnico");
+		setTitle("Gerenciador de Tecncio\r\n");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 589, 494);
 		contentPane = new JPanel();

@@ -1,5 +1,7 @@
 package model.vo;
 
+
+
 public class ClienteVO {
 
 	private int idcliente;
@@ -28,8 +30,8 @@ public class ClienteVO {
 		return cpf;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setCpf(String string) {
+		this.cpf = string;
 	}
 
 	public String getTelefone() {
@@ -48,4 +50,8 @@ public class ClienteVO {
 		this.email = email;
 	}
 
-}
+public boolean cadastrar(ClienteVO	cliente) {
+		
+		return false;
+	}
+};

@@ -123,6 +123,21 @@ public class TelaInicial extends JFrame {
 		mnNewMenu.add(mntmNovoServico);
 		mnNewMenu.add(mntmNovoProduto);
 		mnNewMenu.add(mntmNovoCliente);
+		
+		JMenuItem mntmListachamado = new JMenuItem("ListaChamado");
+		mntmListachamado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				ListaChamado listachamadoFrame = new ListaChamado();
+
+				JScrollPane scroll = new JScrollPane(listachamadoFrame.getContentPane());
+				listachamadoFrame.setContentPane(scroll);
+
+				listachamadoFrame.setVisible(true);
+				
+			}
+		});
+		mnNewMenu.add(mntmListachamado);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 542, 310);

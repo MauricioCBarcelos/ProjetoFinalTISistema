@@ -69,6 +69,8 @@ public class ListaChamado extends JFrame {
 		comboBox.setBounds(183, 26, 141, 20);
 		contentPane.add(comboBox);
 		tableListaChamado = new JTable();
+		tableListaChamado.setColumnSelectionAllowed(true);
+		tableListaChamado.setCellSelectionEnabled(true);
 		tableListaChamado.setFillsViewportHeight(true);
 		tableListaChamado.setBounds(0, 57, 679, 350);
 		tableListaChamado.setModel(new DefaultTableModel(

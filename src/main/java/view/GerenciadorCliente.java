@@ -1,29 +1,41 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import controller.ControladoraCadastroCliente;
+import model.vo.ClienteVO;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GerenciadorCliente extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textnome;
-	private JTextField textcpf;
-	private JTextField texttelefone2;
-	private JTextField texttelefone1;
+	private JTextField txttnome;
+	private JTextField txtcpf;
+	private JTextField txtTelefone;
+
 	private JTextField textpesquisar;
 	private JComboBox comboBox;
+
 	private JTable table;
+	private ArrayList<ClienteVO> listClientes;
+	protected ClienteVO cliente;
 
 	/**
 	 * Launch the application.
@@ -51,67 +63,99 @@ public class GerenciadorCliente extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
+
 		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(10, 11, 46, 14);
-		contentPane.add(lblNome);
-		
-		textnome = new JTextField();
-		textnome.setBounds(10, 30, 172, 20);
-		contentPane.add(textnome);
-		textnome.setColumns(10);
-		
+
+		txttnome = new JTextField();
+		txttnome.setColumns(10);
+
 		JLabel lblCpf = new JLabel("CPF");
-		lblCpf.setBounds(209, 11, 46, 14);
-		contentPane.add(lblCpf);
-		
-		textcpf = new JTextField();
-		textcpf.setBounds(209, 30, 154, 20);
-		contentPane.add(textcpf);
-		textcpf.setColumns(10);
-		
+
+		txtcpf = new JTextField();
+		txtcpf.setColumns(10);
+
 		JLabel lblTelefone = new JLabel("Telefone 1");
-		lblTelefone.setBounds(10, 61, 77, 14);
-		contentPane.add(lblTelefone);
-		
-		JLabel lblTelefone2 = new JLabel("Telefone 2");
-		lblTelefone2.setBounds(115, 61, 56, 14);
-		contentPane.add(lblTelefone2);
-		
-		texttelefone2 = new JTextField();
-		texttelefone2.setBounds(115, 86, 95, 20);
-		contentPane.add(texttelefone2);
-		texttelefone2.setColumns(10);
-		
-		texttelefone1 = new JTextField();
-		texttelefone1.setColumns(10);
-		texttelefone1.setBounds(10, 86, 95, 20);
-		contentPane.add(texttelefone1);
-		
+
+		txtTelefone = new JTextField();
+		txtTelefone.setColumns(10);
+
 		JLabel lblPesquisar = new JLabel("Pesquisar:");
-		lblPesquisar.setBounds(10, 118, 95, 14);
-		contentPane.add(lblPesquisar);
-		
+
 		textpesquisar = new JTextField();
-		textpesquisar.setBounds(10, 143, 217, 20);
-		contentPane.add(textpesquisar);
 		textpesquisar.setColumns(10);
-		
+
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"codigo", "cpf", "nome", "telefone"}));
-		comboBox.setBounds(237, 143, 142, 20);
-		contentPane.add(comboBox);
-		
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "codigo", "cpf", "nome", "telefone" }));
+
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"nome"
+		table.setModel(new DefaultTableModel(new String[][] { { "Nome", "Telefone", "CPF" }, },
+				new String[] { "Nome", "Telefone", "CPF" }) {
+
+		});
+
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 			}
-		));
-		table.setBounds(10, 185, 373, 213);
-		contentPane.add(table);
+		});
+
+		// Listener (ouvinte) de ação de mouse sobre o botão "Salvar"
+		btnSalvar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				ControladoraCadastroCliente controller = new ControladoraCadastroCliente();
+				String mensagemRetorno = controller.salvar(txttnome.getText(), txtcpf.getText(), txtTelefone.getText());
+
+				JOptionPane.showMessageDialog(null, mensagemRetorno);
+
+			}
+		});
+
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup()
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(5).addGroup(gl_contentPane.createParallelGroup()
+						.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+								.addGap(153)
+								.addComponent(lblCpf, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(txttnome, GroupLayout.PREFERRED_SIZE, 172, GroupLayout.PREFERRED_SIZE)
+								.addGap(27)
+								.addComponent(txtcpf, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblTelefone, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(txtTelefone, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+								.addGap(21)
+								.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblPesquisar, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(textpesquisar, GroupLayout.PREFERRED_SIZE, 217,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE))
+						.addComponent(table, GroupLayout.PREFERRED_SIZE, 373, GroupLayout.PREFERRED_SIZE))));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup()
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(6)
+						.addGroup(gl_contentPane.createParallelGroup().addComponent(lblNome).addComponent(lblCpf))
+						.addGap(5)
+						.addGroup(gl_contentPane.createParallelGroup()
+								.addComponent(txttnome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtcpf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(11).addComponent(lblTelefone).addGap(10)
+						.addGroup(gl_contentPane.createParallelGroup()
+								.addGroup(gl_contentPane.createSequentialGroup().addGap(1).addComponent(txtTelefone,
+										GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+								.addComponent(btnSalvar))
+						.addGap(10).addComponent(lblPesquisar).addGap(11)
+						.addGroup(gl_contentPane.createParallelGroup()
+								.addComponent(textpesquisar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(22).addComponent(table, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)));
+		contentPane.setLayout(gl_contentPane);
 	}
 }
