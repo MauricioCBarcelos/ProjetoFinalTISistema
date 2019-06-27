@@ -10,11 +10,11 @@ public class ControladoraCadastroCliente {
 
 	public List<ClienteVO> consultaClientesController(Seletor seletor) {
 		ClienteBO clienteBO = new ClienteBO();
-		List<ClienteBO> retorno = clienteBO.consultarClientesBO(seletor);
+		List<ClienteVO> retorno = clienteBO.consultarClientesBO(seletor);
 		return retorno;
 	}
 
-	public List<ClienteVO> consultaTecnicosController(String consulta, String comboBoxPesquisa, Seletor seletor) {
+	public List<ClienteVO> consultaClientesController(String consulta, String comboBoxPesquisa, Seletor seletor) {
 		ClienteBO clienteBO = new ClienteBO();
 
 		List<ClienteVO> retorno = clienteBO.consultarClientesBO(consulta, comboBoxPesquisa, seletor);
@@ -22,31 +22,18 @@ public class ControladoraCadastroCliente {
 		return retorno;
 	}
 
-	public String inserirClienteController(String nome, String telefone, String cpf) {
-		ClienteBO clienteBO = new ClienteBO();
-		if (nome.contentEquals("") || nome == null) {
 
-			return "Campo nome Nulo ou vazio";
-
-		} else if (telefone.contentEquals("") || telefone == null) {
-			return "Campo telefone Nulo ou vazio";
-		}
-
-		return clienteBO.inserirClienteBO(nome, telefone);
-	}
-
-	public String excluirController(Object id) {
+	public String excluirController(String cpf) {
 		ClienteBO clienteBO = new ClienteBO();
 
-		int idInteiro = Integer.parseInt(id.toString());
 
-		if (idInteiro <= 0) {
+		if (cpf.equals("")) {
 
-			return "Valor não selecionado";
+			return "Nome não selecionado";
 
 		}
 
-		return clienteBO.excluirClienteBO(idInteiro);
+		return clienteBO.excluirClienteBO(cpf);
 	}
 
 	public String updateController(ClienteVO clienteVO) {
@@ -68,7 +55,7 @@ public class ControladoraCadastroCliente {
 		String mensagem = "";
 
 		mensagem = validarCampos(nome, telefone, cpf);
-
+		
 		if (mensagem == "") {
 			ClienteVO novoCliente = new ClienteVO();
 			novoCliente.setNome(nome);
@@ -92,5 +79,26 @@ public class ControladoraCadastroCliente {
 			mensagem += "- Informe o cpf valido sem ponto e virgula (,)!";
 		}
 		return mensagem;
+	}
+
+	public String salvar(ClienteVO clienteVO) {
+		String mensagem = "";
+		if (clienteVO.getNome() == null ||  clienteVO.getNome().equals("") ) {
+			mensagem = "campo nome nulo ou vazio"; 
+			return mensagem;
+			
+		} else if (clienteVO.getCpf() == null ||  clienteVO.getCpf().equals("") ) {
+			mensagem = "campo cpf nulo ou vazio"; 
+			return mensagem;
+
+		}
+		else {
+			ClienteBO bo = new ClienteBO();
+			mensagem =  bo.inserirClienteBO(clienteVO);
+			return mensagem;
+		}
+		
+		
+		
 	}
 }

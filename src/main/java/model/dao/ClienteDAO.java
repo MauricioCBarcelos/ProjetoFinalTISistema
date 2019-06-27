@@ -63,10 +63,9 @@ public class ClienteDAO {
 		return listClientes;
 	}
 
-	public ArrayList<ClienteVO> consultarTecnicosDAO(String consulta, Seletor seletor) {
-		String sql = "selectnome,telefone,cpf from cliente where ";
-			sql += " nome = " + consulta + "";
-			sql +=" like '" + consulta.trim() + "%'";	
+	public ArrayList<ClienteVO> consultarChamadosDAO(String consulta, String comboBoxPesquisa, Seletor seletor) {
+		String sql = "select nome,telefone,cpf from cliente where ";
+			sql += comboBoxPesquisa+"  like '" + consulta + "%'";
 			sql += " limit " + seletor.getLimite() + " offset " + seletor.getOffset();
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
@@ -90,10 +89,10 @@ public class ClienteDAO {
 		return clientesVO;
 	}
 
-	public boolean inserirClienteDAO(String nomeComTrim, String telefoneComTrim, String cpfComTrim) {
+	public boolean inserirClienteDAO(ClienteVO clienteVO) {
 		int retorno = 0;
-		String sql = "INSERT INTO cliente (nome,telefone,cpf) values('" + nomeComTrim + "','" 
-		+ telefoneComTrim + "','" + cpfComTrim + ")'";
+		String sql = "INSERT INTO cliente (nome,telefone,cpf) values('" + clienteVO.getNome().trim()+ "','" 
+		+ clienteVO.getTelefone().trim() + "','" + clienteVO.getCpf().trim() + "')";
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
 		try {
@@ -156,5 +155,56 @@ public class ClienteDAO {
 		}
 		return resultado;
 	}
+
+	public boolean updateDAO(String nomeComTrim, String telefoneComTrim, String cpfComTrim) {
+		int retorno = 0;
+		String sql = "UPDATE cliente set nome='" + nomeComTrim + "', telefone='" + telefoneComTrim + "','" +  cpfComTrim + "')";
+				
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+
+		try {
+
+			retorno = prepStmt.executeUpdate();
+			if (retorno == 1) {
+
+				return true;
+
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Erro ao excluir cliente. Causa: \n: " + e.getMessage());
+		} finally {
+			Banco.closePreparedStatement(prepStmt);
+			Banco.closeConnection(conexao);
+		}
+
+		return false;
+	}
+
+	public boolean excluirDAO(String cpf) {
+		int retorno = 0;
+		String sql = "DELETE FROM cliente WHERE cpf =" + cpf;
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		try {
+
+			retorno = prepStmt.executeUpdate();
+			if (retorno == 1) {
+
+				return true;
+
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Erro ao excluir cliente. Causa: \n: " + e.getMessage());
+		} finally {
+			Banco.closePreparedStatement(prepStmt);
+			Banco.closeConnection(conexao);
+		}
+
+		return false;
+	}
+	
 
 }

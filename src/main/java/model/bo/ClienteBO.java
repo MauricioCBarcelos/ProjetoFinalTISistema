@@ -7,10 +7,9 @@ import model.dao.ClienteDAO;
 import model.dao.TecnicoDAO;
 import model.seletor.Seletor;
 import model.vo.ClienteVO;
-import model.vo.TecnicoVO;
 
 public class ClienteBO {
-	
+
 	public List<ClienteVO> consultarClienteBO(Seletor seletor) {
 		ClienteDAO clienteDAO = new ClienteDAO();
 		ArrayList<ClienteVO> retorno = clienteDAO.consultarClienteDAO(seletor);
@@ -18,31 +17,32 @@ public class ClienteBO {
 		return retorno;
 	}
 
-	public List<ClienteVO> consultarClientesBO(String consulta, Seletor seletor) {
+	public List<ClienteVO> consultarClientesBO(String consulta, String comboBoxPesquisa, Seletor seletor) {
 		ClienteDAO ClienteDAO = new ClienteDAO();
 
 		ArrayList<ClienteVO> retorno;
 
-		retorno = ClienteDAO.consultarClienteDAO(seletor);
+		retorno = ClienteDAO.consultarChamadosDAO(consulta, comboBoxPesquisa, seletor);
 
 		return retorno;
 	}
 
-	public String inserirCliente(String nome, String telefone,String cpf) {
+	public String inserirClienteBO(ClienteVO clienteVO) {
 
-		String nomeComTrim = nome.trim();
-		String telefoneComTrim = telefone.trim();
-		String cpfcomTrim = cpf.trim();
 		ClienteDAO clienteDAO = new ClienteDAO();
 
-		if (nomeComTrim.length() >= 25) {
+		if (clienteVO.getNome().length() >= 25) {
 
 			return "Nome é maior que 25 caracteres";
 
-		} else if (telefoneComTrim.length() >= 11) {
+		} else if (clienteVO.getTelefone().length() >= 11) {
 
 			return "Telefone é maior que 11 caracteres";
-		} else if (clienteDAO.inserirClienteDAO(nomeComTrim, telefoneComTrim)) {
+		} else if (clienteVO.getCpf().length() == 10) {
+			return "CPF com menor de 11 digitos";
+		}
+
+		else if (clienteDAO.inserirClienteDAO(clienteVO)) {
 
 			return "Cleinte inserido com sucesso";
 		} else
@@ -50,23 +50,24 @@ public class ClienteBO {
 			return "Cliente nao inserido";
 	}
 
-	public String excluirClienteBO(int idInteiro) {
+	public String excluirClienteBO(String cpf) {
 
-		TecnicoDAO tecnicoDAO = new TecnicoDAO();
+		ClienteDAO clienteDAO = new ClienteDAO();
 
-		if (tecnicoDAO.excluirDAO(idInteiro)) {
+		if (clienteDAO.excluirDAO(cpf)) {
 
-			return "Valor inserido com sucesso";
+			return "cliente excluido com sucesso";
 
 		}
 
-		return "Valor não inserido";
+		return "cliente não inserido";
 
 	}
 
 	public String updateBO(ClienteVO clienteVO) {
 		String nomeComTrim = clienteVO.getNome().trim();
 		String telefoneComTrim = clienteVO.getTelefone().trim();
+		String cpfComTrim = clienteVO.getCpf().trim();
 		ClienteDAO clienteDAO = new ClienteDAO();
 
 		if (nomeComTrim.length() >= 25) {
@@ -76,7 +77,7 @@ public class ClienteBO {
 		} else if (telefoneComTrim.length() >= 11) {
 
 			return "Telefone é maior que 11 caracteres";
-		} else if (clienteDAO.updateDAO(nomeComTrim, telefoneComTrim, clienteVO.getIdcliente())) {
+		} else if (clienteDAO.updateDAO(nomeComTrim, telefoneComTrim, cpfComTrim)) {
 
 			return "Tecnico atualizado com Sucesso";
 		} else
@@ -93,44 +94,22 @@ public class ClienteBO {
 	}
 
 	public String cadastrar(ClienteVO novoCliente) {
-		
+
 		String mensagem = "";
 		ClienteDAO cDAO = new ClienteDAO();
-		if(cDAO.existeRegistroPorNome(novoCliente.getNome())){
+		if (cDAO.existeRegistroPorNome(novoCliente.getNome())) {
 			mensagem = "Já existe cliente com esse nome: " + novoCliente.getNome();
-		}else {
+		} else {
 			int statusPersistencia = cDAO.cadastrarClienteDAO(novoCliente);
-			
-			if(statusPersistencia == 1) {
+
+			if (statusPersistencia == 1) {
 				mensagem = "Cliente salva com sucesso";
-			}else if(statusPersistencia == 0) {
+			} else if (statusPersistencia == 0) {
 				mensagem = "Erro ao salvar Cliente";
 			}
 		}
-		
+
 		return mensagem;
 	}
 
-	public String inserirClienteBO(String nome, String telefone,String cpf) {
-
-		String nomeComTrim = nome.trim();
-		String telefoneComTrim = telefone.trim();
-		ClienteDAO clienteoDAO = new ClienteDAO();
-
-		if (nomeComTrim.length() >= 25) {
-
-			return "Nome é maior que 25 caracteres";
-
-		} else if (telefoneComTrim.length() >= 11) {
-
-			return "Telefone é maior que 11 caracteres";
-		} else if (clienteoDAO.inserirClienteDAO(nomeComTrim, telefoneComTrim)) {
-
-			return "cliente inserido com sucesso";
-		} else
-
-			return "Cliente nao inserido";
-	}
 }
-
-

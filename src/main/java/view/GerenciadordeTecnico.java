@@ -44,7 +44,7 @@ public class GerenciadordeTecnico extends JFrame {
 	private JComboBox comboBoxPesquisa = new JComboBox();
 	private JComboBox comboBoxLimitePagina = new JComboBox();
 	private JLabel labelTotalPaginas = new JLabel("\\");
-	Seletor seletor = new Seletor();
+	private Seletor seletor = new Seletor();
 
 	/**
 	 * Launch the application.
@@ -332,6 +332,12 @@ public class GerenciadordeTecnico extends JFrame {
 
 	}
 
+	
+	/*
+	 * 
+	 * 
+	 * Metado para montar as infomacao na tela
+	 */
 	protected void atualizarTabelaTecnico(List<TecnicoVO> tecnicoVO) {
 
 		tableDadosDoTecnico.setModel(new DefaultTableModel(new String[][] { { "Codigo", "Nome", "Telefone" }, },

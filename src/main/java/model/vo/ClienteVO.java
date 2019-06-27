@@ -50,8 +50,5 @@ public class ClienteVO {
 		this.email = email;
 	}
 
-public boolean cadastrar(ClienteVO	cliente) {
-		
-		return false;
-	}
+
 };
