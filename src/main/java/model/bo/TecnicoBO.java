@@ -10,6 +10,7 @@ import model.seletor.Seletor;
 import model.vo.TecnicoVO;
 
 public class TecnicoBO {
+	Validador validaCPF = new Validador();
 
 	public List<TecnicoVO> consultarTecnicosBO(Seletor seletor) {
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
@@ -23,65 +24,77 @@ public class TecnicoBO {
 
 		ArrayList<TecnicoVO> retorno;
 
-		retorno = tecnicoDAO.consultarTecnicosDAO(consulta, comboBoxPesquisa,seletor);
+		retorno = tecnicoDAO.consultarTecnicosDAO(consulta, comboBoxPesquisa, seletor);
 
 		return retorno;
 	}
 
-	public String inserirTecnicoBO(String nome, String telefone) {
+	public String inserirTecnicoBO(TecnicoVO tecnicoVO) {
 
-		String nomeComTrim = nome.trim();
-		String telefoneComTrim = telefone.trim();
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
-
-		if (nomeComTrim.length() >= 25) {
+		
+		if (tecnicoVO.getNome().trim().length() >= 30 || tecnicoVO.getNome().trim().length() <= 3) {
 
 			return "Nome é maior que 25 caracteres";
 
-		} else if (telefoneComTrim.length() >= 11) {
+		} else if (tecnicoVO.getTelefone().trim().length() >= 12 || tecnicoVO.getTelefone().trim().length() <= 8) {
 
-			return "Telefone é maior que 11 caracteres";
-		} else if (tecnicoDAO.inserirTecnicoDAO(nomeComTrim, telefoneComTrim)) {
+			return "Telefone é invalido";
+		} else if (validaCPF.isCPF(tecnicoVO.getCpf().trim()) == false) {
+			
+			return "CPF invalido";
+		} else  if (tecnicoDAO.inserirTecnicoDAO(tecnicoVO)) {
 
 			return "Tecnico inserido com sucesso";
-		} else
+		} else {
 
-			return "Tecnico nao inserido";
+			return "Tecnico nao inserido pois ele já existe";
+		}
 	}
 
-	public String excluirTecnicoBO(int idInteiro) {
+	public String excluirTecnicoBO(TecnicoVO tecnicoVO) {
 
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
 
-		if (tecnicoDAO.excluirDAO(idInteiro)) {
+		if (tecnicoDAO.excluirDAO(tecnicoVO)) {
 
-			return "Valor inserido com sucesso";
+			return "Valor excluido com sucesso";
 
 		}
 
-		return "Valor não inserido";
+		return "Valor não excluido";
 
 	}
 
 	public String updateBO(TecnicoVO tecnicoVO) {
-		String nomeComTrim = tecnicoVO.getNome().trim();
-		String telefoneComTrim = tecnicoVO.getTelefone().trim();
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
 
-		if (nomeComTrim.length() >= 25) {
+		if (tecnicoVO.getNome().trim().length() >= 30 || tecnicoVO.getNome().trim().length() <= 3) {
 
 			return "Nome é maior que 25 caracteres";
 
-		} else if (telefoneComTrim.length() >= 11) {
+		} else if (tecnicoVO.getTelefone().trim().length() >= 12 || tecnicoVO.getTelefone().trim().length() <= 8) {
 
-			return "Telefone é maior que 11 caracteres";
-		} else if (tecnicoDAO.updateDAO(nomeComTrim, telefoneComTrim, tecnicoVO.getIdtecnico())) {
+			return "Telefone é invalido";
+		} else if (validaCPF.isCPF(tecnicoVO.getCpf().trim()) == false) {
+			
+			return "CPF invalido";
+		}  else if (tecnicoDAO.updateDAO(tecnicoVO)) {
 
 			return "Tecnico atualizado com Sucesso";
 		} else
 
-			return "Tecnico nao atualizado devido a outros problemas";
+			return "Tecnico nao atualizado pois já existe um mesmo CPF cadastrado";
 
+	}
+
+	public int countLinhasTotalBO() {
+
+		TecnicoDAO tecnicoDAO = new TecnicoDAO();
+
+		int totalLinhas = tecnicoDAO.countLinhasTotalDAO();
+
+		return totalLinhas;
 	}
 
 }

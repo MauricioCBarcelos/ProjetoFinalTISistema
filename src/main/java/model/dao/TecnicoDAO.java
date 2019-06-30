@@ -15,7 +15,7 @@ import model.vo.TecnicoVO;
 public class TecnicoDAO {
 
 	public ArrayList<TecnicoVO> consultarTecnicosDAO(Seletor seletor) {
-		String sql = "select idtecnico,nome,telefone from tecnico";
+		String sql = "select idtecnico,nome,telefone,CPF from tecnico";
 		sql += " limit " + seletor.getLimite() + " offset " + seletor.getOffset();
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
@@ -29,6 +29,7 @@ public class TecnicoDAO {
 				tecnicoVO.setIdtecnico(result.getInt("idtecnico"));
 				tecnicoVO.setNome(result.getString("nome"));
 				tecnicoVO.setTelefone(result.getString("telefone"));
+				tecnicoVO.setCpf(result.getString("CPF"));
 				tecnicosVO.add(tecnicoVO);
 			}
 
@@ -43,7 +44,7 @@ public class TecnicoDAO {
 	}
 
 	public ArrayList<TecnicoVO> consultarTecnicosDAO(String consulta, String comboBoxPesquisa, Seletor seletor) {
-		String sql = "select idtecnico,nome,telefone from tecnico where ";
+		String sql = "select idtecnico,nome,telefone,CPF from tecnico where ";
 		if (comboBoxPesquisa.equals("Id")) {
 
 			sql += " idtecnico = " + consulta + "";
@@ -65,6 +66,7 @@ public class TecnicoDAO {
 				tecnicoVO.setIdtecnico(result.getInt("idtecnico"));
 				tecnicoVO.setNome(result.getString("nome"));
 				tecnicoVO.setTelefone(result.getString("telefone"));
+				tecnicoVO.setCpf(result.getString("CPF"));
 				tecnicosVO.add(tecnicoVO);
 			}
 
@@ -75,9 +77,10 @@ public class TecnicoDAO {
 		return tecnicosVO;
 	}
 
-	public boolean inserirTecnicoDAO(String nomeComTrim, String telefoneComTrim) {
+	public boolean inserirTecnicoDAO(TecnicoVO tecnicoVO) {
 		int retorno = 0;
-		String sql = "INSERT INTO tecnico (nome,telefone) values('" + nomeComTrim + "','" + telefoneComTrim + "')";
+		String sql = "INSERT INTO tecnico (nome,telefone,CPF) values('" + tecnicoVO.getNome().trim() + "','"
+				+ tecnicoVO.getTelefone().trim() + "','"+tecnicoVO.getCpf().trim()+"')";
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
 		try {
@@ -99,9 +102,9 @@ public class TecnicoDAO {
 		return false;
 	}
 
-	public boolean excluirDAO(int idInteiro) {
+	public boolean excluirDAO(TecnicoVO tecnicoVO) {
 		int retorno = 0;
-		String sql = "DELETE FROM tecnico WHERE idtecnico =" + idInteiro;
+		String sql = "DELETE FROM tecnico WHERE idtecnico =" + tecnicoVO.getIdtecnico();
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
 		try {
@@ -123,10 +126,10 @@ public class TecnicoDAO {
 		return false;
 	}
 
-	public boolean updateDAO(String nomeComTrim, String telefoneComTrim, int id) {
+	public boolean updateDAO(TecnicoVO tecnicoVO) {
 		int retorno = 0;
-		String sql = "UPDATE tecnico set nome='" + nomeComTrim + "', telefone='" + telefoneComTrim + "'"
-				+ " where idtecnico = " + id;
+		String sql = "UPDATE tecnico set nome='" + tecnicoVO.getNome().trim() + "', telefone='" + tecnicoVO.getTelefone().trim() + "'"
+				+ " where idtecnico = " + tecnicoVO.getIdtecnico();
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
 
@@ -140,13 +143,38 @@ public class TecnicoDAO {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Erro ao excluir Tecnico. Causa: \n: " + e.getMessage());
+			 e.getMessage();
 		} finally {
 			Banco.closePreparedStatement(prepStmt);
 			Banco.closeConnection(conexao);
 		}
 
 		return false;
+	}
+
+	public int countLinhasTotalDAO() {
+		String sql = "SELECT COUNT(*) as totalLinhas FROM tecnico";
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		int resultado = 0;
+
+		try {
+			ResultSet result = prepStmt.executeQuery();
+
+			if (result.next()) {
+				resultado = result.getInt("totalLinhas");
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		return resultado;
 	}
 
 }

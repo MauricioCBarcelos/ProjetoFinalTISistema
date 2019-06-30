@@ -71,12 +71,11 @@ public class ProdutoDAO {
 		return produtosVO;
 	}
 
-	public boolean inserirProdutoDAO(String marcaTrim, int quantidade, float valorCusto, float valorVenda,
-			String modeloTrim, String observacaoTrim) {
+	public boolean inserirProdutoDAO(ProdutoVO produtoVO) {
 		int retorno = 0;
 		String sql = "INSERT INTO produtos (marca, quantidade, valor_custo, valor_venda, modelo, descricao) values('"
-				+ marcaTrim + "' , " + quantidade + "," + valorCusto + "," + valorVenda + ", '" + modeloTrim + "','"
-				+ observacaoTrim + "')";
+				+ produtoVO.getMarca() + "' , " + produtoVO.getQuantidade() + "," + produtoVO.getValor_custo() + ","
+				+ produtoVO.getValor_venda() + ", '" + produtoVO.getModelo() + "','" + produtoVO.getObservacao() + "')";
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
 		try {
@@ -90,6 +89,8 @@ public class ProdutoDAO {
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir Tecnico. Causa: \n: " + e.getMessage());
+		} catch (Exception e) {
+			e.getMessage();
 		} finally {
 			Banco.closePreparedStatement(prepStmt);
 			Banco.closeConnection(conexao);
@@ -98,9 +99,9 @@ public class ProdutoDAO {
 		return false;
 	}
 
-	public boolean excluirDAO(int idInteiro) {
+	public boolean excluirDAO(ProdutoVO produtoVO) {
 		int retorno = 0;
-		String sql = "DELETE FROM produtos WHERE idprodutos =" + idInteiro;
+		String sql = "DELETE FROM produtos WHERE idprodutos =" + produtoVO.getIdproduto();
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
 		try {
@@ -113,7 +114,9 @@ public class ProdutoDAO {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Erro ao excluir Produto. Causa: \n: " + e.getMessage());
+			e.getMessage();
+		} catch (Exception e) {
+			e.getMessage();
 		} finally {
 			Banco.closePreparedStatement(prepStmt);
 			Banco.closeConnection(conexao);
@@ -126,9 +129,8 @@ public class ProdutoDAO {
 		int retorno = 0;
 		String sql = "UPDATE produtos set marca='" + produtoVO.getMarca().trim() + "', modelo='"
 				+ produtoVO.getModelo().trim() + "'" + ", descricao= '" + produtoVO.getObservacao() + "', quantidade="
-				+ produtoVO.getQuantidade() + ", valor_custo=" + produtoVO.getValor_custo() 
-				+", valor_venda="+produtoVO.getValor_venda()  
-				+" where idprodutos = "+ produtoVO.getIdproduto();
+				+ produtoVO.getQuantidade() + ", valor_custo=" + produtoVO.getValor_custo() + ", valor_venda="
+				+ produtoVO.getValor_venda() + " where idprodutos = " + produtoVO.getIdproduto();
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
 
@@ -149,6 +151,31 @@ public class ProdutoDAO {
 		}
 
 		return false;
+	}
+	
+	public int countLinhasTotalDAO() {
+		String sql = "SELECT COUNT(*) as totalLinhas FROM produtos";
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		int resultado = 0;
+
+		try {
+			ResultSet result = prepStmt.executeQuery();
+
+			if (result.next()) {
+				resultado = result.getInt("totalLinhas");
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		return resultado;
 	}
 
 }

@@ -206,5 +206,29 @@ public class ClienteDAO {
 		return false;
 	}
 	
+	public int countLinhasTotalDAO() {
+		String sql = "SELECT COUNT(*) as totalLinhas FROM cliente";
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		int resultado = 0;
+
+		try {
+			ResultSet result = prepStmt.executeQuery();
+
+			if (result.next()) {
+				resultado = result.getInt("totalLinhas");
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		return resultado;
+	}
 
 }

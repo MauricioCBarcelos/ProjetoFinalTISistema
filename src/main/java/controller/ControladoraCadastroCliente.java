@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import model.bo.ClienteBO;
+import model.dao.ClienteDAO;
 import model.seletor.Seletor;
 import model.vo.ClienteVO;
 
@@ -101,4 +102,14 @@ public class ControladoraCadastroCliente {
 		
 		
 	}
+	
+	public int countLinhasTotalController() {
+		ClienteBO clienteBO = new ClienteBO();
+
+		int totalLinhas = clienteBO.countLinhasTotalBO();
+
+		return totalLinhas;
+	}
+	
+	
 }

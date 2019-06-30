@@ -9,7 +9,7 @@ import model.seletor.Seletor;
 import model.vo.ClienteVO;
 
 public class ClienteBO {
-
+	Validador validaCPF = new Validador();
 	public List<ClienteVO> consultarClienteBO(Seletor seletor) {
 		ClienteDAO clienteDAO = new ClienteDAO();
 		ArrayList<ClienteVO> retorno = clienteDAO.consultarClienteDAO(seletor);
@@ -31,23 +31,24 @@ public class ClienteBO {
 
 		ClienteDAO clienteDAO = new ClienteDAO();
 
-		if (clienteVO.getNome().length() >= 25) {
+		if (clienteVO.getNome().length() >= 29 || clienteVO.getNome().length() <= 3) {
 
-			return "Nome é maior que 25 caracteres";
+			return "Nome é maior que 29 caracteres ou menor que 3 caracteres";
 
-		} else if (clienteVO.getTelefone().length() >= 11) {
+		} else if (clienteVO.getTelefone().length() > 11|| clienteVO.getTelefone().length() < 8) {
 
-			return "Telefone é maior que 11 caracteres";
-		} else if (clienteVO.getCpf().length() == 10) {
-			return "CPF com menor de 11 digitos";
+			return "Telefone é maior que 11 caracteres ou menor que 8 caracteres";
+		} else if (validaCPF.isCPF(clienteVO.getCpf().trim()) == false) {
+			
+			return "CPF invalido";
 		}
 
 		else if (clienteDAO.inserirClienteDAO(clienteVO)) {
 
-			return "Cleinte inserido com sucesso";
+			return "Cliente inserido com sucesso";
 		} else
 
-			return "Cliente nao inserido";
+			return "Cliente nao inserido pois já existe um cliente com o mesmo CPF";
 	}
 
 	public String excluirClienteBO(String cpf) {
@@ -60,7 +61,7 @@ public class ClienteBO {
 
 		}
 
-		return "cliente não inserido";
+		return "cliente não excluido pois o mesmo está atrelado a uma chamado";
 
 	}
 
@@ -82,7 +83,7 @@ public class ClienteBO {
 			return "Tecnico atualizado com Sucesso";
 		} else
 
-			return "Cliente nao atualizado devido a outros problemas";
+			return "Cliente não atualizado pois já este CPF já existe";
 
 	}
 
@@ -111,5 +112,15 @@ public class ClienteBO {
 
 		return mensagem;
 	}
+	
+	public int countLinhasTotalBO() {
+
+		ClienteDAO clienteDAO = new ClienteDAO();
+
+		int totalLinhas = clienteDAO.countLinhasTotalDAO();
+
+		return totalLinhas;
+	}
+	
 
 }

@@ -34,28 +34,22 @@ public class ProdutoBO {
 		return retorno;
 	}
 
-	public String inserirprodutoBO(String marca, int quantidade, float valorCusto, float valorVenda, String modelo,
-			String observacao) {
+	public String inserirprodutoBO(ProdutoVO produtoVO) {
 		String retorno = "";
-
-		String marcaTrim = marca.trim();
-		String modeloTrim = modelo.trim();
-		String observacaoTrim = observacao.trim();
 		ProdutoDAO produtoDAO = new ProdutoDAO();
 
-		if (modeloTrim.length() >= 25) {
+		if (produtoVO.getModelo().length() > 25) {
 
 			return "modelo é maior que 25 caracteres";
 
-		} else if (marcaTrim.length() >= 11) {
+		} else if (produtoVO.getMarca().length() > 11) {
 
 			return "marca é maior que 11 caracteres";
 
-		} else if (observacaoTrim.length() >= 200) {
+		} else if (produtoVO.getObservacao().length() > 199) {
 			return "Descricao é maior que 199 caracteres";
 
-		} else if (produtoDAO.inserirProdutoDAO(marcaTrim, quantidade, valorCusto, valorVenda, modeloTrim,
-				observacaoTrim)) {
+		} else if (produtoDAO.inserirProdutoDAO(produtoVO)) {
 
 			return "Produto inserido com sucesso";
 
@@ -65,11 +59,11 @@ public class ProdutoBO {
 
 	}
 
-	public String excluirprodutoBO(int idInteiro) {
+	public String excluirprodutoBO(ProdutoVO produtoVO) {
 		ProdutoDAO produtoDAO = new ProdutoDAO();
-		if (produtoDAO.excluirDAO(idInteiro)) {
+		if (produtoDAO.excluirDAO(produtoVO)) {
 
-			return "Valor inserido com sucesso";
+			return "Valor exluido com sucesso";
 
 		}
 
@@ -94,6 +88,15 @@ public class ProdutoBO {
 
 			return "Produto nao atualizado devido a outros problemas";
 
+	}
+	
+	public int countLinhasTotalBO() {
+
+		ProdutoDAO produtoDAO = new ProdutoDAO();
+
+		int totalLinhas = produtoDAO.countLinhasTotalDAO();
+
+		return totalLinhas;
 	}
 
 }

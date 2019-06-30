@@ -28,6 +28,8 @@ import controller.TecnicoController;
 import model.seletor.Seletor;
 import model.vo.TecnicoVO;
 import net.miginfocom.swing.MigLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class GerenciadordeTecnico extends JFrame {
@@ -36,19 +38,15 @@ public class GerenciadordeTecnico extends JFrame {
 	private JTextField textFieldTelefone;
 	private JTable tableDadosDoTecnico;
 	private JTextField textFieldPesquisa;
-	private int totalpaginas = 0;
 	private int paginaAtual = 1;
-	private int paginaoffset = 0;
 	private JLabel lblPaginaAtual = new JLabel("1");
-	private String[] LimitePagina = { "10", "20", "50", "100", "1000" };
+	private String[] limitePagina = { "10", "20", "50", "100", "1000" };
 	private JComboBox comboBoxPesquisa = new JComboBox();
 	private JComboBox comboBoxLimitePagina = new JComboBox();
 	private JLabel labelTotalPaginas = new JLabel("\\");
 	private Seletor seletor = new Seletor();
+	private JTextField textFieldCpf;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -76,8 +74,7 @@ public class GerenciadordeTecnico extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[150px][][][107.00px][77.00,grow][48.00][26.00px]",
-				"[14px][23px][14px][21.00px][][][][-11.00][][-26.00px][83.00px,top][50.00px,center]"));
+		contentPane.setLayout(new MigLayout("", "[150px,grow][][][107.00px][77.00,grow][48.00][26.00px]", "[14px][23px][14px][32.00px][][][][][][-11.00][][-26.00px][83.00px,top][50.00px,center]"));
 
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -109,20 +106,26 @@ public class GerenciadordeTecnico extends JFrame {
 				pesquisaTecnicos(consultaValor, comboBoxSelecionado, seletor);
 			}
 		});
-		JButton btnProvisotio = new JButton("Criar");
-		btnProvisotio.setFont(new Font("Arial", Font.PLAIN, 13));
-		btnProvisotio.addActionListener(new ActionListener() {
+		JButton btnCriar = new JButton("Criar");
+		btnCriar.setFont(new Font("Arial", Font.PLAIN, 13));
+		btnCriar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent btnInserir) {
-				String retornoInserirTecnico = inserirTecnico(textFieldNomeTecnico.getText(),
-						textFieldTelefone.getText());
 				TecnicoController tecnicoController = new TecnicoController();
+	
+
+				String retornoInserirTecnico = inserirTecnico();
+			
 
 				atualizarTabelaTecnico(tecnicoController.consultaTecnicosController(seletor));
 				JOptionPane.showMessageDialog(null, retornoInserirTecnico);
 
+				int result = (int) Math
+						.ceil((float) tecnicoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+
 			}
 		});
-		contentPane.add(btnProvisotio, "cell 3 3,alignx left,aligny top");
+		contentPane.add(btnCriar, "cell 3 3,alignx left,aligny top");
 
 		JButton buttonAtualizar = new JButton("");
 		buttonAtualizar.setIcon(new ImageIcon(
@@ -132,9 +135,11 @@ public class GerenciadordeTecnico extends JFrame {
 
 				JOptionPane.showMessageDialog(null, updateTecnico());
 				TecnicoController tecnicoController = new TecnicoController();
-				seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
-				seletor.setPagina(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()) * paginaAtual);
 				atualizarTabelaTecnico(tecnicoController.consultaTecnicosController(seletor));
+
+				int result = (int) Math
+						.ceil((float) tecnicoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
 
 			}
 		});
@@ -145,27 +150,39 @@ public class GerenciadordeTecnico extends JFrame {
 			public void actionPerformed(ActionEvent excluir) {
 
 				JOptionPane.showMessageDialog(null, excluirCedula());
+
+				TecnicoController tecnicoController = new TecnicoController();
+				int result = (int) Math
+						.ceil((float) tecnicoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
 			}
 		});
+		
+		JLabel lblCpf = new JLabel("CPF:");
+		contentPane.add(lblCpf, "cell 0 4");
+		
+		textFieldCpf = new JTextField();
+		contentPane.add(textFieldCpf, "cell 0 5,growx");
+		textFieldCpf.setColumns(10);
 		btnExcluir.setToolTipText("Excluir linha selecionada");
 		btnExcluir.setBackground(Color.WHITE);
 		btnExcluir.setIcon(new ImageIcon(
 				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-fechar-janela-48.png"));
 		btnExcluir.setSelectedIcon(new ImageIcon(
 				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-fechar-janela-48.png"));
-		contentPane.add(btnExcluir, "flowx,cell 5 4,alignx left,growy");
+		contentPane.add(btnExcluir, "flowx,cell 5 6,alignx left,growy");
 
-		contentPane.add(buttonAtualizar, "cell 5 4");
+		contentPane.add(buttonAtualizar, "cell 5 6");
 
 		JLabel lblPesquisa = new JLabel("Pesquisa:");
 		lblPesquisa.setFont(new Font("Arial", Font.PLAIN, 13));
-		contentPane.add(lblPesquisa, "cell 0 5,alignx left,aligny center");
+		contentPane.add(lblPesquisa, "cell 0 7,alignx left,aligny center");
 		textFieldPesquisa.setColumns(10);
-		contentPane.add(textFieldPesquisa, "cell 0 6,growx,aligny center");
+		contentPane.add(textFieldPesquisa, "cell 0 8,growx,aligny center");
 
 		comboBoxPesquisa.setModel(new DefaultComboBoxModel(new String[] { "Nome", "Id" }));
 		comboBoxPesquisa.setSelectedIndex(0);
-		contentPane.add(comboBoxPesquisa, "cell 3 6,grow");
+		contentPane.add(comboBoxPesquisa, "cell 3 8,grow");
 
 		tableDadosDoTecnico = new JTable();
 		tableDadosDoTecnico.setCellSelectionEnabled(true);
@@ -173,15 +190,15 @@ public class GerenciadordeTecnico extends JFrame {
 		tableDadosDoTecnico.setColumnSelectionAllowed(true);
 		tableDadosDoTecnico.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-		tableDadosDoTecnico.setModel(new DefaultTableModel(new String[][] { { "Codigo", "Nome", "Telefone" }, },
-				new String[] { "Codigo", "Nome", "Telefone" }) {
-			Class[] columnTypes = new Class[] { Object.class, String.class, String.class, Object.class };
+		tableDadosDoTecnico.setModel(new DefaultTableModel(new String[][] { { "Codigo", "Nome", "Telefone", "CPF" }, },
+				new String[] { "Codigo", "Nome", "Telefone", "CPF" }) {
+			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, };
 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 
-			boolean[] columnEditables = new boolean[] { false, true, true, false };
+			boolean[] columnEditables = new boolean[] { false, true, true, true };
 
 			public boolean isCellEditable(int row, int column) {
 
@@ -194,11 +211,15 @@ public class GerenciadordeTecnico extends JFrame {
 
 			}
 		});
-		contentPane.add(tableDadosDoTecnico, "cell 0 8 6 3,grow");
+		contentPane.add(tableDadosDoTecnico, "cell 0 10 6 3,grow");
 
 		JButton btnAnterior = new JButton("< Anterior");
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				TecnicoController tecnicoController = new TecnicoController();
+				int result = (int) Math
+						.ceil((float) tecnicoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
 				if (paginaAtual > 1) {
 
 					paginaAtual--;
@@ -215,13 +236,17 @@ public class GerenciadordeTecnico extends JFrame {
 
 			}
 		});
-		contentPane.add(btnAnterior, "cell 0 11,alignx center,aligny center");
+		contentPane.add(btnAnterior, "cell 0 13,alignx center,aligny center");
 
 		JButton btnProximo = new JButton("Proximo >");
 		btnProximo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (paginaAtual <= totalpaginas -1) {
+				TecnicoController tecnicoController = new TecnicoController();
+				int result = (int) Math
+						.ceil((float) tecnicoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+				if (paginaAtual < result) {
 					paginaAtual++;
 					String consultaValor = textFieldPesquisa.getText().trim();
 
@@ -236,36 +261,49 @@ public class GerenciadordeTecnico extends JFrame {
 			}
 		});
 
-		contentPane.add(lblPaginaAtual, "cell 1 11");
+		contentPane.add(lblPaginaAtual, "cell 1 13");
 
-		contentPane.add(btnProximo, "cell 3 11,alignx right,aligny center");
+		contentPane.add(btnProximo, "cell 3 13,alignx right,aligny center");
 		comboBoxLimitePagina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				totalpaginas = totalpaginas % seletor.getLimite();
-				labelTotalPaginas.setText("\\" + totalpaginas);
+				TecnicoController tecnicoController = new TecnicoController();
+
+				seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
+				seletor.setPagina(paginaAtual);
+
+
+				int result = (int) Math
+						.ceil((float) tecnicoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+
+				pesquisaTecnicos(comboBoxPesquisa.getSelectedItem().toString(),
+						comboBoxLimitePagina.getSelectedItem().toString(), seletor);
 			}
 		});
 
-		comboBoxLimitePagina.setModel(new DefaultComboBoxModel(LimitePagina));
-		contentPane.add(comboBoxLimitePagina, "cell 4 11,alignx center,aligny center");
+		comboBoxLimitePagina.setModel(new DefaultComboBoxModel(limitePagina));
+		contentPane.add(comboBoxLimitePagina, "cell 4 13,alignx center,aligny center");
 
 		TecnicoController tecnicoController = new TecnicoController();
-		Seletor seletor = new Seletor();
+
 		seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
 		seletor.setPagina(paginaAtual);
 
-		atualizarTabelaTecnico(tecnicoController.consultaTecnicosController(seletor));
-		totalpaginas = totalpaginas % seletor.getLimite();
-		labelTotalPaginas.setText("\\" + totalpaginas);
-		contentPane.add(labelTotalPaginas, "cell 2 11");
+		pesquisaTecnicos(textFieldPesquisa.getText(), comboBoxLimitePagina.getSelectedItem().toString(), seletor);
 
+		int result = (int) Math.ceil((float) tecnicoController.countLinhasTotalController() / seletor.getLimite());
+		labelTotalPaginas.setText("\\" + result);
+		contentPane.add(labelTotalPaginas, "cell 2 13");
 	}
 
 	protected String excluirCedula() {
 		// TODO Auto-generated method stub
+		// y
 		TecnicoController tecnicoController = new TecnicoController();
-		String retorno = tecnicoController
-				.excluirController(tableDadosDoTecnico.getValueAt(tableDadosDoTecnico.getSelectedRow(), 0).toString());
+		TecnicoVO tecnicoVO = new TecnicoVO();
+		tecnicoVO.setIdtecnico(
+				Integer.parseInt(tableDadosDoTecnico.getValueAt(tableDadosDoTecnico.getSelectedRow(), 0).toString()));
+		String retorno = tecnicoController.excluirController(tecnicoVO);
 		seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
 		atualizarTabelaTecnico(tecnicoController.consultaTecnicosController(seletor));
 
@@ -275,14 +313,12 @@ public class GerenciadordeTecnico extends JFrame {
 	protected String updateTecnico() {
 
 		TecnicoController tecnicoController = new TecnicoController();
-		// tableDadosDoTecnico.getSelectedRow(), 0).toString();
-
 		TecnicoVO tecnicoVO = new TecnicoVO();
 		tecnicoVO.setIdtecnico(
 				Integer.parseInt(tableDadosDoTecnico.getValueAt(tableDadosDoTecnico.getSelectedRow(), 0).toString()));
 		tecnicoVO.setNome(tableDadosDoTecnico.getValueAt(tableDadosDoTecnico.getSelectedRow(), 1).toString());
 		tecnicoVO.setTelefone(tableDadosDoTecnico.getValueAt(tableDadosDoTecnico.getSelectedRow(), 2).toString());
-
+		
 		return tecnicoController.updateController(tecnicoVO);
 
 	}
@@ -296,11 +332,15 @@ public class GerenciadordeTecnico extends JFrame {
 	 * 
 	 * 
 	 */
-	protected String inserirTecnico(String nome, String telefone) {
+	protected String inserirTecnico() {
 
 		TecnicoController tecnicoController = new TecnicoController();
+		TecnicoVO tecnicoVO = new TecnicoVO();
+		tecnicoVO.setNome(textFieldNomeTecnico.getText());
+		tecnicoVO.setTelefone(textFieldTelefone.getText());
+		tecnicoVO.setCpf(textFieldCpf.getText());
 
-		return tecnicoController.inserirTecnicoController(nome, telefone);
+		return tecnicoController.inserirTecnicoController(tecnicoVO);
 	}
 
 	/*
@@ -324,6 +364,7 @@ public class GerenciadordeTecnico extends JFrame {
 
 			List<TecnicoVO> tecnicoVO = tecnicoController.consultaTecnicosController(seletor);
 			atualizarTabelaTecnico(tecnicoVO);
+
 		} else {
 			List<TecnicoVO> tecnicoVO = tecnicoController.consultaTecnicosController(consulta, comboBoxPesquisa,
 					selector);
@@ -332,7 +373,6 @@ public class GerenciadordeTecnico extends JFrame {
 
 	}
 
-	
 	/*
 	 * 
 	 * 
@@ -340,15 +380,15 @@ public class GerenciadordeTecnico extends JFrame {
 	 */
 	protected void atualizarTabelaTecnico(List<TecnicoVO> tecnicoVO) {
 
-		tableDadosDoTecnico.setModel(new DefaultTableModel(new String[][] { { "Codigo", "Nome", "Telefone" }, },
-				new String[] { "Codigo", "Nome", "Telefone" }) {
-			Class[] columnTypes = new Class[] { Object.class, String.class, String.class, Object.class };
+		tableDadosDoTecnico.setModel(new DefaultTableModel(new String[][] { { "Codigo", "Nome", "Telefone", "CPF" }, },
+				new String[] { "Codigo", "Nome", "Telefone", "CPF" }) {
+			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, };
 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 
-			boolean[] columnEditables = new boolean[] { false, true, true, false };
+			boolean[] columnEditables = new boolean[] { false, true, true, true };
 
 			public boolean isCellEditable(int row, int column) {
 
@@ -371,11 +411,10 @@ public class GerenciadordeTecnico extends JFrame {
 
 			// Object[] novaLinha = new Object[] { tecnico.getIdtecnico() + "",
 			// tecnico.getNome(), tecnico.getTelefone(),btnExcluir.getIcon()};
-			String[] novaLinha = new String[] { tecnico.getIdtecnico() + "", tecnico.getNome(), tecnico.getTelefone() };
+			String[] novaLinha = new String[] { tecnico.getIdtecnico() + "", tecnico.getNome(), tecnico.getTelefone(),tecnico.toStringCPF()};
 			modelo.addRow(novaLinha);
 
 		}
-		totalpaginas = modelo.getRowCount() + 1;
-		// totalpaginas = (modelo.getRowCount() + 1) % seletor.getLimite();
+
 	}
 }

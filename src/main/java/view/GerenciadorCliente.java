@@ -20,16 +20,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ControladoraCadastroCliente;
-import controller.TecnicoController;
+import controller.ProdutoController;
 import model.seletor.Seletor;
 import model.vo.ClienteVO;
-import model.vo.TecnicoVO;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import net.miginfocom.swing.MigLayout;
 
 public class GerenciadorCliente extends JFrame {
 
@@ -41,12 +39,17 @@ public class GerenciadorCliente extends JFrame {
 	private JTextField textFieldPesquisa;
 	private JComboBox comboBoxPesquisa;
 
-	private JTable table;
+	private JTable tableClientes;
 	private ArrayList<ClienteVO> listClientes;
 	protected ClienteVO cliente;
 
 	private Seletor seletor = new Seletor();
-
+	private JButton btnAnterior;
+	private JButton btnProximo;
+	private JLabel lblPaginaAtual;
+	private JLabel labelTotalPaginas;
+	private JComboBox comboBoxLimitePagina;
+    private int paginaAtual = 1;
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +72,7 @@ public class GerenciadorCliente extends JFrame {
 	public GerenciadorCliente() {
 		setTitle("Gerenciador De Cliente");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 435, 448);
+		setBounds(100, 100, 533, 454);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -79,7 +82,7 @@ public class GerenciadorCliente extends JFrame {
 		txttnome = new JTextField();
 		txttnome.setColumns(10);
 
-		JLabel lblCpf = new JLabel("CPF");
+		JLabel lblCpf = new JLabel("CPF:");
 
 		txtcpf = new JTextField();
 		txtcpf.setColumns(10);
@@ -106,12 +109,9 @@ public class GerenciadorCliente extends JFrame {
 		});
 		textFieldPesquisa.setColumns(10);
 
-		comboBoxPesquisa = new JComboBox();
-		comboBoxPesquisa.setModel(new DefaultComboBoxModel(new String[] { "Nome", "Telefone", "CPF" }));
-
-		table = new JTable();
-		table.setModel(new DefaultTableModel(new String[][] { { "Nome", "Telefone", "CPF" }, },
-				new String[] { "Nome", "Telefone", "CPF" }) {
+		tableClientes = new JTable();
+		tableClientes.setModel(new DefaultTableModel(new String[][] { { "Nome", "Telefone", "CPF","Email" }, },
+				new String[] { "Nome", "Telefone", "CPF","Email" }) {
 
 		});
 
@@ -129,93 +129,132 @@ public class GerenciadorCliente extends JFrame {
 
 				JOptionPane.showMessageDialog(null, mensagemRetorno);
 				ControladoraCadastroCliente controladoraCadastroCliente = new ControladoraCadastroCliente();
-				seletor.setLimite(10);
-				seletor.setPagina(1);
-				atualizarTabelaCliente(controladoraCadastroCliente.consultaClientesController(seletor));
+
+				int result = (int) Math
+						.ceil((float) controladoraCadastroCliente.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+				pesquisaCliente(textFieldPesquisa.getText().trim(),comboBoxPesquisa.getSelectedItem().toString().trim(), seletor);
 			}
 		});
+		contentPane.setLayout(new MigLayout("", "[110px][6px][56px][35.00px][18.00px][157.00,grow][146px,grow]",
+				"[14px][20px][14px][23px][14px][20px][213px,grow][]"));
+		contentPane.add(lblNome, "cell 0 0,alignx left,aligny top");
+		contentPane.add(lblCpf, "cell 4 0 3 1,alignx left,aligny top");
+		contentPane.add(txttnome, "cell 0 1 3 1,growx,aligny top");
+		contentPane.add(txtcpf, "cell 4 1 2 1,growx,aligny top");
+		contentPane.add(lblTelefone, "cell 0 2,alignx left,aligny top");
+		contentPane.add(txtTelefone, "cell 0 3,growx,aligny center");
+		contentPane.add(btnSalvar, "cell 2 3,growx,aligny top");
+		
+				JButton btnExcluir = new JButton("Excluir");
+				btnExcluir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
 
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+						JOptionPane.showMessageDialog(null, excluirCedula());
+						ProdutoController produtoController = new ProdutoController();
+						int result = (int) Math
+								.ceil((float) produtoController.countLinhasTotalController() / seletor.getLimite());
+						labelTotalPaginas.setText("\\" + result);
+						pesquisaCliente(textFieldPesquisa.getText().trim(), comboBoxPesquisa.getSelectedItem().toString().trim(), seletor);
 
-				JOptionPane.showMessageDialog(null, excluirCedula());
+					}
+
+				});
+				contentPane.add(btnExcluir, "cell 5 3,alignx left,aligny top");
+		contentPane.add(lblPesquisar, "cell 0 4,growx,aligny top");
+		contentPane.add(textFieldPesquisa, "cell 0 5 3 1,growx,aligny top");
+		
+				comboBoxPesquisa = new JComboBox();
+				comboBoxPesquisa.setModel(new DefaultComboBoxModel(new String[] { "Nome", "Telefone", "CPF" }));
+				contentPane.add(comboBoxPesquisa, "cell 5 5,growx,aligny top");
+		contentPane.add(tableClientes, "cell 0 6 7 1,grow");
+		
+		btnAnterior = new JButton("< Anterior");
+		btnAnterior.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ProdutoController produtoController = new ProdutoController();
+				int result = (int) Math
+						.ceil((float) produtoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+				if (paginaAtual > 1) {
+					paginaAtual--;
+					String consultaValor = textFieldPesquisa.getText().trim();
+
+					String comboBoxSelecionado = comboBoxPesquisa.getSelectedItem().toString().trim();
+
+					lblPaginaAtual.setText(paginaAtual + "");
+
+					pesquisaCliente(consultaValor, comboBoxSelecionado, seletor);
+
+				}
+
 			}
-
 		});
+		contentPane.add(btnAnterior, "cell 0 7");
+		
+		btnProximo = new JButton("Proximo >");
+		btnProximo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ProdutoController produtoController = new ProdutoController();
+				int result = (int) Math
+						.ceil((float) produtoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+				if (paginaAtual < result) {
+					paginaAtual++;
+					String consultaValor = textFieldPesquisa.getText().trim();
 
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(5)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-							.addGap(153)
-							.addComponent(lblCpf, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(txttnome, GroupLayout.PREFERRED_SIZE, 172, GroupLayout.PREFERRED_SIZE)
-							.addGap(27)
-							.addComponent(txtcpf, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblTelefone, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(txtTelefone, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblPesquisar, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(textFieldPesquisa, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(comboBoxPesquisa, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE))
-						.addComponent(table, GroupLayout.PREFERRED_SIZE, 373, GroupLayout.PREFERRED_SIZE)))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(6)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNome)
-						.addComponent(lblCpf))
-					.addGap(5)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(txttnome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtcpf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(11)
-					.addComponent(lblTelefone)
-					.addGap(10)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-							.addComponent(btnSalvar)
-							.addComponent(btnExcluir))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(1)
-							.addComponent(txtTelefone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(10)
-					.addComponent(lblPesquisar)
-					.addGap(11)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(textFieldPesquisa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBoxPesquisa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(22)
-					.addComponent(table, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE))
-		);
-		contentPane.setLayout(gl_contentPane);
+					String comboBoxSelecionado = comboBoxPesquisa.getSelectedItem().toString().trim();
+
+					lblPaginaAtual.setText(paginaAtual + "");
+
+					pesquisaCliente(consultaValor, comboBoxSelecionado, seletor);
+
+				}
+
+			}
+		});
+		
+		lblPaginaAtual = new JLabel("1");
+		contentPane.add(lblPaginaAtual, "flowx,cell 2 7,alignx left");
+		contentPane.add(btnProximo, "cell 3 7");
+		
+		labelTotalPaginas = new JLabel("\\");
+		contentPane.add(labelTotalPaginas, "cell 2 7");
+		
+		comboBoxLimitePagina = new JComboBox();
+		comboBoxLimitePagina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ControladoraCadastroCliente controladoraCadastroCliente = new ControladoraCadastroCliente();
+
+				seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
+				seletor.setPagina(paginaAtual);
+
+
+				int result = (int) Math.ceil((float) controladoraCadastroCliente.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+
+				pesquisaCliente(comboBoxPesquisa.getSelectedItem().toString(),comboBoxLimitePagina.getSelectedItem().toString(), seletor);
+			}
+		});
+		comboBoxLimitePagina.setModel(new DefaultComboBoxModel(new String[] {"10", "20", "50", "100", "1000"}));
+		contentPane.add(comboBoxLimitePagina, "cell 5 7,alignx left");
 
 		ControladoraCadastroCliente controladoraCadastroCliente = new ControladoraCadastroCliente();
-		seletor.setLimite(10);
-		seletor.setPagina(1);
+		seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
+		seletor.setPagina(paginaAtual);
 
-		atualizarTabelaCliente(controladoraCadastroCliente.consultaClientesController(seletor));
+		pesquisaCliente(textFieldPesquisa.getText(), comboBoxLimitePagina.getSelectedItem().toString(), seletor);
+
+		int result = (int) Math.ceil((float) controladoraCadastroCliente.countLinhasTotalController() / seletor.getLimite());
+		labelTotalPaginas.setText("\\" + result);
 	}
 
 	protected String excluirCedula() {
 		// TODO Auto-generated method stub
 		ControladoraCadastroCliente controladoraCadastroCliente = new ControladoraCadastroCliente();
 		String retorno = controladoraCadastroCliente
-				.excluirController(table.getValueAt(table.getSelectedRow(), 2).toString());
+				.excluirController(tableClientes.getValueAt(tableClientes.getSelectedRow(), 2).toString());
 		atualizarTabelaCliente(controladoraCadastroCliente.consultaClientesController(seletor));
 
 		return retorno;
@@ -242,17 +281,18 @@ public class GerenciadorCliente extends JFrame {
 	 * 
 	 * Metado para montar as infomacao na tela
 	 */
+	
 	protected void atualizarTabelaCliente(List<ClienteVO> clientesVO) {
 
-		table.setModel(new DefaultTableModel(new String[][] { { "Nome", "Telefone", "cpf" }, },
-				new String[] { "Nome", "Telefone", "cpf" }) {
-			Class[] columnTypes = new Class[] { Object.class, String.class, String.class, Object.class };
+		tableClientes.setModel(new DefaultTableModel(new String[][] { { "Nome", "Telefone", "CPF","Email" }, },
+				new String[] { "Nome", "Telefone", "CPF","Email" }) {
+			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class };
 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 
-			boolean[] columnEditables = new boolean[] { false, true, true, false };
+			boolean[] columnEditables = new boolean[] { false, true, true, true };
 
 			public boolean isCellEditable(int row, int column) {
 
@@ -266,13 +306,13 @@ public class GerenciadorCliente extends JFrame {
 			}
 		});
 
-		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+		DefaultTableModel modelo = (DefaultTableModel) tableClientes.getModel();
 
 		for (ClienteVO clienteVO : clientesVO) {
 			// Crio uma nova linha na tabela
 			// Preencher a linha com os atributos do produto
 			// na ORDEM do cabeÃ§alho da tabela
-			String[] novaLinha = new String[] { clienteVO.getNome(), clienteVO.getTelefone(), clienteVO.getCpf() };
+			String[] novaLinha = new String[] { clienteVO.getNome(), clienteVO.getTelefone(), clienteVO.getCpf(),clienteVO.getEmail() };
 			modelo.addRow(novaLinha);
 
 		}

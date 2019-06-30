@@ -14,39 +14,39 @@ public class TecnicoController {
 		return retorno;
 	}
 
-	public List<TecnicoVO> consultaTecnicosController(String consulta, String comboBoxPesquisa,Seletor seletor) {
+	public List<TecnicoVO> consultaTecnicosController(String consulta, String comboBoxPesquisa, Seletor seletor) {
 		TecnicoBO tecnicoBO = new TecnicoBO();
 
-		List<TecnicoVO> retorno = tecnicoBO.consultarTecnicosBO(consulta, comboBoxPesquisa,seletor);
+		List<TecnicoVO> retorno = tecnicoBO.consultarTecnicosBO(consulta, comboBoxPesquisa, seletor);
 
 		return retorno;
 	}
 
-	public String inserirTecnicoController(String nome, String telefone) {
+	public String inserirTecnicoController(TecnicoVO tecnicoVO) {
 		TecnicoBO tecnicoBO = new TecnicoBO();
-		if (nome.contentEquals("") || nome == null) {
+		if (tecnicoVO.getNome().contentEquals("") || tecnicoVO.getNome() == null) {
 
 			return "Campo nome Nulo ou vazio";
 
-		} else if (telefone.contentEquals("") || telefone == null) {
+		} else if (tecnicoVO.getTelefone().contentEquals("") || tecnicoVO.getTelefone() == null) {
 			return "Campo telefone Nulo ou vazio";
 		}
 
-		return tecnicoBO.inserirTecnicoBO(nome, telefone);
+		return tecnicoBO.inserirTecnicoBO(tecnicoVO);
 	}
 
-	public String excluirController(Object id) {
+	public String excluirController(TecnicoVO tecnicoVO) {
 		TecnicoBO tecnicoBO = new TecnicoBO();
 
-		int idInteiro = Integer.parseInt(id.toString());
 
-		if (idInteiro <= 0) {
+
+		if (tecnicoVO.getIdtecnico() <= 0) {
 
 			return "Valor não selecionado";
 
 		}
 
-		return tecnicoBO.excluirTecnicoBO(idInteiro);
+		return tecnicoBO.excluirTecnicoBO(tecnicoVO);
 	}
 
 	public String updateController(TecnicoVO tecnicoVO) {
@@ -63,5 +63,15 @@ public class TecnicoController {
 
 		return tecnicoBO.updateBO(tecnicoVO);
 	}
+
+	public int countLinhasTotalController() {
+		TecnicoBO tecnicoBO = new TecnicoBO();
+
+		int totalLinhas = tecnicoBO.countLinhasTotalBO();
+
+		return totalLinhas;
+	}
+
+	
 
 }

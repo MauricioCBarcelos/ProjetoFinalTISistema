@@ -24,38 +24,36 @@ public class ProdutoController {
 		return retorno;
 	}
 
-	public String inserirProdutoController(String marca, int quantidade, float valorCusto, float valorVenda,
-			String modelo, String observacao) {
+	public String inserirProdutoController(ProdutoVO produtoVO) {
 		String retorno = "";
 		ProdutoBO produtoBO = new ProdutoBO();
-		if (marca.equals("") || marca == null) {
+		if (produtoVO.getMarca().equals("") || produtoVO.getMarca() == null) {
 			return "Campo Marca vazio ou nulo";
-		} else if (quantidade < 1 || marca == null) {
-			return "Campo Marca vazio ou nulo";
-		} else if (valorCusto < 0.01 || marca == null) {
-			return "Campo Marca vazio ou nulo";
-		} else if (valorVenda < 0.01 || marca == null) {
-			return "Campo Marca vazio ou nulo";
-		} else if (modelo.equals("") || marca == null) {
-			return "Campo Marca vazio ou nulo";
+		} else if (produtoVO.getQuantidade() < 1) {
+			return "Campo quantidade é menor que 1";
+		} else if (produtoVO.getValor_custo() < 00.10) {
+			return "Valor de custo menor que 10 centavos";
+		} else if (produtoVO.getValor_venda() < 0.10) {
+			return "Valor de venda menor que 10 centavos";
+		} else if (produtoVO.getModelo().equals("") || produtoVO.getModelo().trim().length() < 4) {
+			return "Campo Modelo vazio ou com tamanho invalido";
 		} else
-			retorno = produtoBO.inserirprodutoBO(marca, quantidade, valorCusto, valorVenda, modelo, observacao);
+			retorno = produtoBO.inserirprodutoBO(produtoVO);
 
 		return retorno;
 	}
 
-	public String excluirController(Object id) {
+	public String excluirController(ProdutoVO produtoVO) {
 		ProdutoBO produtoBO = new ProdutoBO();
 
-		int idInteiro = Integer.parseInt(id.toString());
 
-		if (idInteiro <= 0) {
+		if (produtoVO.getIdproduto() <= 0) {
 
 			return "Valor não selecionado";
 
 		}
 
-		return produtoBO.excluirprodutoBO(idInteiro);
+		return produtoBO.excluirprodutoBO(produtoVO);
 	}
 
 	public String updateController(ProdutoVO produtoVO) {
@@ -69,6 +67,15 @@ public class ProdutoController {
 		ProdutoBO produtoBO = new ProdutoBO();
 
 		return produtoBO.updateBO(produtoVO);
+	}
+	
+	public int countLinhasTotalController() {
+		ProdutoBO produtoBO = new ProdutoBO();
+
+
+		int totalLinhas = produtoBO.countLinhasTotalBO();
+
+		return totalLinhas;
 	}
 
 }

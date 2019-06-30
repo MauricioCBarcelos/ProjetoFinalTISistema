@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ProdutoController;
+
 import model.seletor.Seletor;
 import model.vo.ProdutoVO;
 import net.miginfocom.swing.MigLayout;
@@ -43,14 +43,13 @@ public class GerenciadorProduto extends JFrame {
 	private JTextField textFieldDescricao;
 	private JButton btnSalvar;
 	private JComboBox comboBoxLimitePagina = new JComboBox();
-	private int totalLinhas = 0;
 	private int paginaAtual = 1;
 	private JLabel lblPaginaAtual = new JLabel("1");
 	private String[] LimitePagina = { "10", "20", "50", "100", "1000" };
 	private Seletor seletor = new Seletor();
 	private JLabel labelTotalPaginas = new JLabel("\\");
-	private JButton btnExcluir;
 	private JButton button;
+	private JButton btnExcluir;
 
 	/**
 	 * Launch the application.
@@ -76,109 +75,170 @@ public class GerenciadorProduto extends JFrame {
 	public GerenciadorProduto() {
 		setTitle("Gerenciador Produto");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 612, 583);
+		setBounds(100, 100, 725, 626);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane
-				.setLayout(new MigLayout("", "[95px][71px][1px][][15.00px][78.00px][13px][25px][12px][43px][239px,grow]", "[14px][29px][14px][42px][42px][14px][29px][226px][23px]"));
+		contentPane.setLayout(new MigLayout("", "[95px][69.00px][71.00][59.00][78.00px][43px][86.00px][grow]",
+				"[14px][29px][14px][][24.00px][55.00][51.00px][14px][29px][226px][][23px]"));
 
 		textFieldMarca = new JTextField();
 		contentPane.add(textFieldMarca, "cell 0 1 2 1,grow");
 		textFieldMarca.setColumns(10);
 
-		textFieldModelo = new JTextField();
-		textFieldModelo.setColumns(10);
-		contentPane.add(textFieldModelo, "cell 10 3,growx,aligny top");
+		JLabel lblValorCusto = new JLabel("Valor Custo:");
+		lblValorCusto.setFont(new Font("Arial", Font.PLAIN, 13));
+		contentPane.add(lblValorCusto, "cell 0 2,growx,aligny center");
 
-		textFieldQuantidade = new JTextField();
-		textFieldQuantidade.setColumns(10);
-		contentPane.add(textFieldQuantidade, "cell 0 3,growx,aligny top");
+		JLabel lblValorVenda = new JLabel("Valor Venda:");
+		lblValorVenda.setFont(new Font("Arial", Font.PLAIN, 13));
+		contentPane.add(lblValorVenda, "cell 2 2,alignx left,aligny center");
+
+		JLabel lblQuantidade = new JLabel("Quantidade:");
+		lblQuantidade.setFont(new Font("Arial", Font.PLAIN, 13));
+		contentPane.add(lblQuantidade, "cell 4 2,alignx left,aligny center");
+
+		JLabel lblModelo = new JLabel("Modelo:");
+		lblModelo.setFont(new Font("Arial", Font.PLAIN, 13));
+		contentPane.add(lblModelo, "cell 6 2,alignx left,aligny center");
 
 		textFieldValorCusto = new JTextField();
 		textFieldValorCusto.setColumns(10);
-		contentPane.add(textFieldValorCusto, "cell 1 3 5 1,growx,aligny top");
-
-		textFieldValorVenda = new JTextField();
-		textFieldValorVenda.setColumns(10);
-		contentPane.add(textFieldValorVenda, "cell 6 3 4 1,growx,aligny top");
+		contentPane.add(textFieldValorCusto, "cell 0 3,growx,aligny top");
 
 		JLabel lblMarca = new JLabel("Marca:");
 		lblMarca.setFont(new Font("Arial", Font.PLAIN, 13));
 		contentPane.add(lblMarca, "cell 0 0,alignx left,aligny center");
 
-		JLabel lblModelo = new JLabel("Modelo");
-		lblModelo.setFont(new Font("Arial", Font.PLAIN, 13));
-		contentPane.add(lblModelo, "cell 10 2,alignx left,aligny center");
+		textFieldValorVenda = new JTextField();
+		textFieldValorVenda.setColumns(10);
+		contentPane.add(textFieldValorVenda, "cell 2 3,growx,aligny top");
 
-		JLabel lblQuantidade = new JLabel("Quantidade");
-		lblQuantidade.setFont(new Font("Arial", Font.PLAIN, 13));
-		contentPane.add(lblQuantidade, "cell 0 2,alignx left,aligny center");
+		textFieldQuantidade = new JTextField();
+		textFieldQuantidade.setColumns(10);
+		contentPane.add(textFieldQuantidade, "cell 4 3,grow");
 
-		JLabel lblValorCusto = new JLabel("Valor Custo");
-		lblValorCusto.setFont(new Font("Arial", Font.PLAIN, 13));
-		contentPane.add(lblValorCusto, "cell 1 2,growx,aligny center");
+		textFieldModelo = new JTextField();
+		textFieldModelo.setColumns(10);
+		contentPane.add(textFieldModelo, "cell 6 3,grow");
 
-		JLabel lblValorVenda = new JLabel("Valor Venda");
-		lblValorVenda.setFont(new Font("Arial", Font.PLAIN, 13));
-		contentPane.add(lblValorVenda, "cell 6 2 4 1,alignx left,aligny center");
+		textFieldDescricao = new JTextField();
+		contentPane.add(textFieldDescricao, "cell 0 5 4 1,grow");
+		textFieldDescricao.setColumns(10);
+		
+				btnSalvar = new JButton("Salvar");
+				btnSalvar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent btnInserir) {
+
+						String retornoInserirTecnico = inserirProduto();
+						ProdutoController produtoController = new ProdutoController();
+						
+						JOptionPane.showMessageDialog(null, retornoInserirTecnico);
+						pesquisaProdutos(textFieldPesquisa.getText().trim(), comboBoxPesquisa.getSelectedItem().toString().trim(), seletor);
+					}
+				});
+				contentPane.add(btnSalvar, "cell 5 5,alignx left,aligny center");
+
+		lblPesquisa = new JLabel("Pesquisa");
+		lblPesquisa.setFont(new Font("Arial", Font.PLAIN, 13));
+		contentPane.add(lblPesquisa, "cell 0 6,alignx left,aligny bottom");
 
 		textFieldPesquisa = new JTextField();
 		textFieldPesquisa.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				String consultaValor = textFieldPesquisa.getText().trim();
+			
 
-				System.out.println(consultaValor);
-				String comboBoxSelecionado = comboBoxPesquisa.getSelectedItem().toString().trim();
-
-				pesquisaProdutos(consultaValor, comboBoxSelecionado, seletor);
+				pesquisaProdutos(textFieldPesquisa.getText().trim(), comboBoxPesquisa.getSelectedItem().toString().trim(), seletor);
 
 			}
 		});
 
-		btnSalvar = new JButton("Salvar");
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent btnInserir) {
-				int quantidade = Integer.parseInt(textFieldQuantidade.getText().trim());
-				float valorCusto = Float.parseFloat(textFieldValorCusto.getText().trim());
-				float valorVenda = Float.parseFloat(textFieldValorVenda.getText().trim());
-				String retornoInserirTecnico = inserirProduto(textFieldMarca.getText(), quantidade, valorCusto,
-						valorVenda, textFieldModelo.getText(), textFieldDescricao.getText());
+		JButton buttonAtualizar = new JButton("");
+		buttonAtualizar.setIcon(new ImageIcon(
+				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\modify.png"));
+		buttonAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				JOptionPane.showMessageDialog(null, updateLinha());
+
+				seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
+				seletor.setPagina(paginaAtual);
 				ProdutoController produtoController = new ProdutoController();
-				atualizarTabelaProduto(produtoController.consultaProdutoController(seletor));
-				JOptionPane.showMessageDialog(null, retornoInserirTecnico);
+
+				int result = (int) Math.ceil((float) produtoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+				
+				pesquisaProdutos(textFieldPesquisa.getText(),comboBoxLimitePagina.getSelectedItem().toString(), seletor);
+				
+				
+
 			}
 		});
-		contentPane.add(btnSalvar, "cell 9 4,alignx left,aligny center");
+		contentPane.add(buttonAtualizar, "cell 5 6,alignx center,aligny center");
 
-		JButton btnExcluir = new JButton();
-		btnExcluir.setForeground(Color.WHITE);
+		btnExcluir = new JButton("");
 		btnExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent excluir) {
-
+			public void actionPerformed(ActionEvent arg0) {
+				ProdutoController produtoController = new ProdutoController();
+				
 				JOptionPane.showMessageDialog(null, excluirCedula());
+				
+				int result = (int) Math.ceil((float) produtoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+				
+				
+				pesquisaProdutos(textFieldPesquisa.getText(),comboBoxLimitePagina.getSelectedItem().toString(), seletor);
 			}
 		});
-		btnExcluir.setToolTipText("Excluir linha selecionada");
-		btnExcluir.setBackground(Color.WHITE);
 		btnExcluir.setIcon(new ImageIcon(
 				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-fechar-janela-48.png"));
-		btnExcluir.setSelectedIcon(new ImageIcon(
-				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-fechar-janela-48.png"));
-		contentPane.add(btnExcluir, "flowx,cell 5 4,alignx left,growy");
-		contentPane.add(btnExcluir, "cell 9 4");
+		contentPane.add(btnExcluir, "cell 6 6");
 		textFieldPesquisa.setColumns(10);
-		contentPane.add(textFieldPesquisa, "cell 0 6 5 1,grow");
+		contentPane.add(textFieldPesquisa, "cell 0 7 2 1,grow");
 
 		comboBoxPesquisa = new JComboBox();
 		comboBoxPesquisa.setModel(new DefaultComboBoxModel(new String[] { "Codigo", "Modelo", "Marca" }));
 		comboBoxPesquisa.setSelectedIndex(0);
-		contentPane.add(comboBoxPesquisa, "cell 5 6 6 1,grow");
+		contentPane.add(comboBoxPesquisa, "cell 3 7,grow");
 
-		lblPesquisa = new JLabel("Pesquisa");
-		lblPesquisa.setFont(new Font("Arial", Font.PLAIN, 13));
-		contentPane.add(lblPesquisa, "cell 0 5,alignx left,aligny center");
+		JLabel lblDescricao = new JLabel("Descricao:");
+		contentPane.add(lblDescricao, "cell 0 4,alignx center,aligny top");
+
+		JButton btnAnterior = new JButton("< Anterior");
+		btnAnterior.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ProdutoController produtoController = new ProdutoController();
+
+				int result = (int) Math.ceil((float) produtoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+				
+				if (paginaAtual > 1) {
+
+					paginaAtual--;
+
+					lblPaginaAtual.setText(paginaAtual + "");
+
+					pesquisaProdutos(textFieldPesquisa.getText(),comboBoxLimitePagina.getSelectedItem().toString(), seletor);
+				}
+			}
+		});
+		JButton btnProximo = new JButton("Proximo >");
+		btnProximo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				ProdutoController produtoController = new ProdutoController();
+
+				int result = (int) Math
+						.ceil((float) produtoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
+				if (paginaAtual < result) {
+					paginaAtual++;
+					lblPaginaAtual.setText(paginaAtual + "");
+					pesquisaProdutos(textFieldPesquisa.getText(), comboBoxLimitePagina.getSelectedItem().toString(),seletor);
+				}
+			}
+		});
 
 		tableProduto = new JTable();
 		tableProduto.setModel(new DefaultTableModel(
@@ -199,93 +259,47 @@ public class GerenciadorProduto extends JFrame {
 				return columnEditables[column];
 			}
 		});
-		ProdutoController produtoController = new ProdutoController();
-		atualizarTabelaProduto(produtoController.consultaProdutoController(seletor));
 
-		contentPane.add(tableProduto, "cell 0 7 11 1,grow");
+		contentPane.add(tableProduto, "cell 0 9 8 2,grow");
+		contentPane.add(btnAnterior, "cell 0 11 2 1,alignx center,aligny top");
 
-		textFieldDescricao = new JTextField();
-		contentPane.add(textFieldDescricao, "cell 0 4 8 1,grow");
-		textFieldDescricao.setColumns(10);
-
-		JLabel lblDescricao = new JLabel("Descricao:");
-		contentPane.add(lblDescricao, "cell 0 3,alignx center,aligny bottom");
-
-		JButton btnProximo = new JButton("Proximo >");
-		btnProximo.addActionListener(new ActionListener() {
+		contentPane.add(lblPaginaAtual, "flowx,cell 2 11,alignx left,aligny center");
+		comboBoxLimitePagina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (paginaAtual <= totalLinhas - 1) {
-					paginaAtual++;
+				ProdutoController produtoController = new ProdutoController();
 
-					String consultaValor = textFieldPesquisa.getText().trim();
+				seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
+				seletor.setPagina(paginaAtual);
+ 
+				int result = (int) Math.ceil((float) produtoController.countLinhasTotalController() / seletor.getLimite());
+				labelTotalPaginas.setText("\\" + result);
 
-					String comboBoxSelecionado = comboBoxPesquisa.getSelectedItem().toString().trim();
-
-					lblPaginaAtual.setText(paginaAtual + "");
-					System.out.println("" + totalLinhas);
-
-					pesquisaProdutos(consultaValor, comboBoxSelecionado, seletor);
-					seletor.setTotalLinhas(
-							totalLinhas % Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
-					labelTotalPaginas.setText("\\" + seletor.getTotalLinhas());
-
-				}
-
+				pesquisaProdutos(textFieldPesquisa.getText(),comboBoxLimitePagina.getSelectedItem().toString(), seletor);
+				
 			}
 		});
-
-		JButton btnAnterior = new JButton("< Anterior");
-		btnAnterior.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (paginaAtual > 1) {
-
-					paginaAtual--;
-					String consultaValor = textFieldPesquisa.getText().trim();
-
-					String comboBoxSelecionado = comboBoxPesquisa.getSelectedItem().toString().trim();
-
-					lblPaginaAtual.setText(paginaAtual + "");
-					labelTotalPaginas.setText(
-							"\\" + totalLinhas % Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
-					seletor.setPagina(paginaAtual);
-
-					pesquisaProdutos(consultaValor, comboBoxSelecionado, seletor);
-
-				}
-
-			}
-		});
-		contentPane.add(btnAnterior, "cell 0 8 2 1,alignx center,aligny top");
-		
-				contentPane.add(lblPaginaAtual, "cell 3 8,alignx left,aligny center");
-		contentPane.add(btnProximo, "cell 9 8,alignx left,aligny top");
 
 		comboBoxLimitePagina.setModel(new DefaultComboBoxModel(LimitePagina));
 
-		contentPane.add(comboBoxLimitePagina, "cell 10 8,aligny baseline");
+		ProdutoController produtoController = new ProdutoController();
 
-		contentPane.add(labelTotalPaginas, "cell 5 8,growx,aligny center");
+		seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
+		seletor.setPagina(paginaAtual);
 
-		JButton buttonAtualizar = new JButton("");
-		buttonAtualizar.setIcon(new ImageIcon(
-				"C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\modify.png"));
-		buttonAtualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		pesquisaProdutos(textFieldPesquisa.getText(), comboBoxLimitePagina.getSelectedItem().toString(), seletor);
+		int result = (int) Math.ceil((float) produtoController.countLinhasTotalController() / seletor.getLimite());
 
-				JOptionPane.showMessageDialog(null, updateLinha());
+		labelTotalPaginas.setText("\\" + result);
 
-				seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
-				seletor.setPagina(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()) * paginaAtual);
-				ProdutoController produtoController = new ProdutoController();
-				atualizarTabelaProduto(produtoController.consultaProdutoController(seletor));
+		contentPane.add(btnProximo, "cell 3 11,alignx left,aligny top");
 
-			}
-		});
-		contentPane.add(buttonAtualizar, "cell 10 4");
+		contentPane.add(labelTotalPaginas, "cell 2 11,growx,aligny center");
+
+		contentPane.add(comboBoxLimitePagina, "cell 4 11,aligny baseline");
 
 	}
 
-	protected Object updateLinha() {
+	protected String updateLinha() {
 		ProdutoController produtoController = new ProdutoController();
 		// tableDadosDoTecnico.getSelectedRow(), 0).toString();
 
@@ -294,18 +308,19 @@ public class GerenciadorProduto extends JFrame {
 		produtoVO.setMarca(tableProduto.getValueAt(tableProduto.getSelectedRow(), 1).toString());
 		produtoVO.setModelo(tableProduto.getValueAt(tableProduto.getSelectedRow(), 2).toString());
 		produtoVO.setQuantidade(Integer.parseInt(tableProduto.getValueAt(tableProduto.getSelectedRow(), 3).toString()));
-		produtoVO.setValor_custo(Float.parseFloat(tableProduto.getValueAt(tableProduto.getSelectedRow(), 4).toString()));
-		produtoVO.setValor_venda(Float.parseFloat(tableProduto.getValueAt(tableProduto.getSelectedRow(), 5).toString()));
+		produtoVO
+				.setValor_custo(Float.parseFloat(tableProduto.getValueAt(tableProduto.getSelectedRow(), 4).toString()));
+		produtoVO
+				.setValor_venda(Float.parseFloat(tableProduto.getValueAt(tableProduto.getSelectedRow(), 5).toString()));
 		produtoVO.setObservacao(tableProduto.getValueAt(tableProduto.getSelectedRow(), 6).toString());
 		return produtoController.updateController(produtoVO);
 	}
 
 	protected void pesquisaProdutos(String consulta, String comboBoxPesquisa, Seletor seletor) {
-
-		// List<Produto> produtos = controlador.listarProdutos(seletor);
-
-		// atualizarTabelaProdutos(produtos);
 		ProdutoController produtoController = new ProdutoController();
+		seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
+		seletor.setPagina(paginaAtual);
+		
 
 		if (consulta.equals("")) {
 			List<ProdutoVO> produtoVO = produtoController.consultaProdutoController(seletor);
@@ -319,20 +334,25 @@ public class GerenciadorProduto extends JFrame {
 
 	}
 
-	protected String inserirProduto(String marca, int quantidade, float valorCusto, float valorVenda, String modelo,
-			String observacao) {
+	protected String inserirProduto() {
 
 		ProdutoController produtoController = new ProdutoController();
-
-		return produtoController.inserirProdutoController(marca, quantidade, valorCusto, valorVenda, modelo,
-				observacao);
+		ProdutoVO produtoVO = new ProdutoVO();
+		produtoVO.setMarca(textFieldMarca.getText());
+		produtoVO.setModelo(textFieldModelo.getText());
+		produtoVO.setObservacao(textFieldDescricao.getText());
+		produtoVO.setQuantidade(Integer.parseInt(textFieldQuantidade.getText()));
+		produtoVO.setValor_custo(Float.parseFloat(textFieldValorCusto.getText()));
+		produtoVO.setValor_venda(Float.parseFloat(textFieldValorVenda.getText()));
+		return produtoController.inserirProdutoController(produtoVO);
 	}
 
 	protected String excluirCedula() {
 		// TODO Auto-generated method stub
 		ProdutoController produtoController = new ProdutoController();
-		String retorno = produtoController
-				.excluirController(tableProduto.getValueAt(tableProduto.getSelectedRow(), 0).toString());
+		ProdutoVO produtoVO = new ProdutoVO();
+		produtoVO.setIdproduto(Integer.parseInt(tableProduto.getValueAt(tableProduto.getSelectedRow(), 0).toString()));
+		String retorno = produtoController.excluirController(produtoVO);
 		seletor.setLimite(Integer.parseInt(comboBoxLimitePagina.getSelectedItem().toString()));
 		atualizarTabelaProduto(produtoController.consultaProdutoController(seletor));
 
@@ -349,10 +369,8 @@ public class GerenciadorProduto extends JFrame {
 						{ "Codigo", "Marca", "Modelo", "QTD", "Valor Custo", "Valor Venda", "Descri\u00E7\u00E3o" }, },
 				new String[] { "Codigo", "Marca", "Modelo", "QTD", "Valor Custo", "Valor Venda",
 						"Descri\u00E7\u00E3o" }) {
-			/**
-							 * 
-							 */
-							private static final long serialVersionUID = 1L;
+		
+			private static final long serialVersionUID = 1L;
 			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, String.class,
 					String.class, String.class };
 
@@ -373,23 +391,17 @@ public class GerenciadorProduto extends JFrame {
 		});
 
 		DefaultTableModel modelo = (DefaultTableModel) tableProduto.getModel();
-		// btnExcluir.setIcon(new
-		// ImageIcon("C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\iconesicons8-ms-excel-48.png"));
 		for (ProdutoVO produto : produtoVO) {
 			// Crio uma nova linha na tabela
 			// Preencher a linha com os atributos do produto
 			// na ORDEM do cabeçalho da tabela
 
-			// Object[] novaLinha = new Object[] { tecnico.getIdtecnico() + "",
-			// tecnico.getNome(), tecnico.getTelefone(),btnExcluir.getIcon()};
 			String[] novaLinha = new String[] { produto.getIdproduto() + "", produto.getMarca(), produto.getModelo(),
 					produto.getQuantidade() + "", produto.getValor_custo() + "", produto.getValor_venda() + "",
 					produto.getObservacao() };
 			modelo.addRow(novaLinha);
 
 		}
-
-		totalLinhas = modelo.getRowCount() + 2;
 
 	}
 }
