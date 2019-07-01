@@ -25,6 +25,8 @@ import java.awt.GridLayout;
 import javax.swing.JMenu;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Font;
 
 public class TelaInicial extends JFrame {
 	private JTable tblChamados;
@@ -138,6 +140,75 @@ public class TelaInicial extends JFrame {
 			}
 		});
 		mnNewMenu.add(mntmListachamado);
+		
+		JMenu menuPessoas = new JMenu("Gerenciamento de pessoas");
+		menuPessoas.setFont(new Font("Segoe UI Black", Font.PLAIN, 10));
+		menuPessoas.setIcon(new ImageIcon("C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-macho-de-configurações-de-admin-64.png"));
+		jMenuBar.add(menuPessoas);
+		
+		JMenuItem mntmGerenciamentoDeTecnico = new JMenuItem("Gerenciamento de tecnicos");
+		mntmGerenciamentoDeTecnico.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		mntmGerenciamentoDeTecnico.setIcon(new ImageIcon("C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-administrador-masculino-64.png"));
+		mntmGerenciamentoDeTecnico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GerenciadordeTecnico gerenciadordeTecnicoFrame = new GerenciadordeTecnico();
+
+				JScrollPane scroll = new JScrollPane(gerenciadordeTecnicoFrame.getContentPane());
+				gerenciadordeTecnicoFrame.setContentPane(scroll);
+
+				gerenciadordeTecnicoFrame.setVisible(true);
+			}
+		});
+		menuPessoas.add(mntmGerenciamentoDeTecnico);
+
+		JMenuItem mntmGerenciamentoDeClientes = new JMenuItem("Gerenciamento de Clientes");
+		mntmGerenciamentoDeClientes.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		mntmGerenciamentoDeClientes.setIcon(new ImageIcon("C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-usuário-64.png"));
+		mntmGerenciamentoDeClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				GerenciadorCliente gerenciadorClienteFrame = new GerenciadorCliente();
+
+				JScrollPane scroll = new JScrollPane(gerenciadorClienteFrame.getContentPane());
+				gerenciadorClienteFrame.setContentPane(scroll);
+
+				gerenciadorClienteFrame.setVisible(true);
+			}
+		});
+		menuPessoas.add(mntmGerenciamentoDeClientes);
+		
+		JMenu mnGerenciamentoDeProdutos = new JMenu("Gerenciamento de Produtos e Serviços");
+		mnGerenciamentoDeProdutos.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+		mnGerenciamentoDeProdutos.setIcon(new ImageIcon("C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-placa-mãe-64.png"));
+		jMenuBar.add(mnGerenciamentoDeProdutos);
+		
+		JMenuItem mntmGerenciamentoDeProdutos = new JMenuItem("Gerenciamento de produtos");
+		mntmGerenciamentoDeProdutos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GerenciadorProduto gerenciadorProdutoFrame = new GerenciadorProduto();
+
+				JScrollPane scroll = new JScrollPane(gerenciadorProdutoFrame.getContentPane());
+				gerenciadorProdutoFrame.setContentPane(scroll);
+				gerenciadorProdutoFrame.setVisible(true);
+			}
+		});
+		mntmGerenciamentoDeProdutos.setIcon(new ImageIcon("C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-monitor-64.png"));
+		mnGerenciamentoDeProdutos.add(mntmGerenciamentoDeProdutos);
+		
+		JMenuItem mntmGerenciamentoDeServios = new JMenuItem("Gerenciamento de serviços");
+		mntmGerenciamentoDeServios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				GerenciadorServico GerenciadorServicoFrame = new GerenciadorServico();
+
+				JScrollPane scroll = new JScrollPane(GerenciadorServicoFrame.getContentPane());
+				GerenciadorServicoFrame.setContentPane(scroll);
+
+				GerenciadorServicoFrame.setVisible(true);
+			}
+		});
+		mntmGerenciamentoDeServios.setIcon(new ImageIcon("C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-ferramentas-administrativas-64.png"));
+		mnGerenciamentoDeProdutos.add(mntmGerenciamentoDeServios);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 542, 310);

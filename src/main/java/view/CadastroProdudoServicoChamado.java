@@ -20,7 +20,7 @@ public class CadastroProdudoServicoChamado extends JFrame {
 	private JTextField textFieldProblemaCostado;
 	private JTextField textFieldObservacao;
 	private JTextField textFieldPesquisaProduto;
-	private ProdutoVO[] produtosVO;
+	
 
 
 	/**
@@ -75,20 +75,32 @@ public class CadastroProdudoServicoChamado extends JFrame {
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Categoria", "Nome", "ID"}));
 		getContentPane().add(comboBox_1, "cell 3 5,grow");
-		
+		ProdutoVO[] produtosVO = null;
 		JComboBox comboBoxProduto = new JComboBox();
 		ProdutoController produtoController = new ProdutoController();
-		for (int i = 0; i < produtoController.consultaProdutoController().size(); i++) {
-			produtosVO[i].setMarca(produtoController.consultaProdutoController().get(i).getMarca());
-			
-		}
 		
-		comboBoxProduto.setModel(new DefaultComboBoxModel());
+			
+				produtosVO[0].setMarca(produtoController.consultaProdutoController().get(0).getMarca());
+				produtosVO[0].setModelo(produtoController.consultaProdutoController().get(0).getModelo());
+				produtosVO[0].setObservacao(produtoController.consultaProdutoController().get(0).getObservacao());
+				produtosVO[0].setValor_custo(produtoController.consultaProdutoController().get(0).getValor_custo());
+				produtosVO[0].setValor_venda(produtoController.consultaProdutoController().get(0).getValor_venda());
+		
+		
+		comboBoxProduto.setModel(new DefaultComboBoxModel(produtosVO));
+		
+		atualizaCombo();
+		//comboBoxProduto.addItem(produtosVO[0]);
 		getContentPane().add(comboBoxProduto, "cell 0 7,gr");
 		
 		JLabel lblProduto = new JLabel("Produto:");
 		getContentPane().add(lblProduto, "cell 0 6,alignx left,aligny top");
 		
+		
+	}
+
+	private void atualizaCombo() {
+		// TODO Auto-generated method stub
 		
 	}
 }
