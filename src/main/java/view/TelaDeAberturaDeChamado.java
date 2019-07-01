@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.ChamadoController;
 import controller.ControladoraCadastroCliente;
 import controller.NovoChamadoController;
 import controller.ProdutoController;
@@ -71,7 +72,7 @@ public class TelaDeAberturaDeChamado extends JFrame {
 	 */
 	public TelaDeAberturaDeChamado() {
 		atualiza();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 586, 307);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -90,6 +91,8 @@ public class TelaDeAberturaDeChamado extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				JOptionPane.showMessageDialog(null, inserir());
+				
+			
 			}
 		});
 		contentPane.add(btnCriarChamado, "cell 2 1");
@@ -152,7 +155,11 @@ public class TelaDeAberturaDeChamado extends JFrame {
 		
 		NovoChamadoController novoChamadoController = new NovoChamadoController();
 		
+		ChamadoController chamadoController = new ChamadoController();
+		TelaInicial telaInicial = new TelaInicial();
+		telaInicial.atualizarTabelaChamados(chamadoController.ConsultaChamados());
 		return novoChamadoController.inserirController(chamadoVO,produtoVO);
+	
 	}
 
 	private void atualiza() {

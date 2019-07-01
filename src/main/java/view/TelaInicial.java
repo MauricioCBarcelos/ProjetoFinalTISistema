@@ -67,28 +67,14 @@ public class TelaInicial extends JFrame {
 		JMenuItem mntmNovoChamado = new JMenuItem("Criar novo chamado");
 		mntmNovoChamado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				GerenciadorCliente gerenciadorClienteFrame = new GerenciadorCliente();
-				gerenciadorClienteFrame.setVisible(true);
+				TelaDeAberturaDeChamado telaDeAberturaDeChamado = new TelaDeAberturaDeChamado();
+				JScrollPane scroll = new JScrollPane(telaDeAberturaDeChamado.getContentPane());
+				telaDeAberturaDeChamado.setContentPane(scroll);
+				telaDeAberturaDeChamado.setVisible(true);
 			}
 		});
 
 		mnNewMenu.add(mntmNovoChamado);
-		
-		JMenuItem mntmListachamado = new JMenuItem("ListaChamado");
-		mntmListachamado.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				ListaChamado listachamadoFrame = new ListaChamado();
-
-				JScrollPane scroll = new JScrollPane(listachamadoFrame.getContentPane());
-				listachamadoFrame.setContentPane(scroll);
-
-				listachamadoFrame.setVisible(true);
-				
-			}
-		});
-		mnNewMenu.add(mntmListachamado);
 		
 		JMenu menuPessoas = new JMenu("Gerenciamento de pessoas");
 		menuPessoas.setFont(new Font("Segoe UI Black", Font.PLAIN, 10));
@@ -160,7 +146,7 @@ public class TelaInicial extends JFrame {
 		mnGerenciamentoDeProdutos.add(mntmGerenciamentoDeServios);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 575, 310);
+		setBounds(100, 100, 644, 310);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
 		tblChamados = new JTable();
