@@ -72,6 +72,12 @@ public class TecnicoController {
 		return totalLinhas;
 	}
 
+	public List<TecnicoVO> consultaProdutoController() {
+		TecnicoBO tecnicoBO = new TecnicoBO();
+		List<TecnicoVO> retorno = tecnicoBO.consultarTecnicosBO();
+		return retorno;
+	}
+
 	
 
 }

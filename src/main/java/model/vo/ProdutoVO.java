@@ -53,6 +53,10 @@ public class ProdutoVO {
 	public void setValor_venda(float valor_venda) {
 		this.valor_venda = valor_venda;
 	}
+	@Override
+	public String toString() {
+		return  marca + "\\" + modelo;
+	}
 	
 	
 	

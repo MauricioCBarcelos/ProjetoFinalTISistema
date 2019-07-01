@@ -110,6 +110,12 @@ public class ControladoraCadastroCliente {
 
 		return totalLinhas;
 	}
+
+	public List<ClienteVO> consultaProdutoController() {
+		ClienteBO clienteBO = new ClienteBO();
+		List<ClienteVO> retorno = clienteBO.consultarClientesBO();
+		return retorno;
+	}
 	
 	
 }

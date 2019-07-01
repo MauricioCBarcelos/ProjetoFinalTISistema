@@ -72,4 +72,10 @@ public class ServicoController {
 		return totalLinhas;
 	}
 
+	public List<ServicoVO> consultaProdutoController() {
+		ServicoBO servicoBO = new ServicoBO();
+		List<ServicoVO> retorno = servicoBO.consultarServicosBO();
+		return retorno;
+	}
+
 }

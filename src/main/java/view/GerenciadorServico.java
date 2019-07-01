@@ -89,7 +89,7 @@ public class GerenciadorServico extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				ServicoController servicoController = new ServicoController();
-				String retornoInserirTecnico = inserirTecnico();
+				String retornoInserirTecnico = inserir();
 				
 
 				atualizarTabela(servicoController.consultaController(seletor));
@@ -300,7 +300,7 @@ public class GerenciadorServico extends JFrame {
 	 * 
 	 * 
 	 */
-	private String inserirTecnico() {
+	private String inserir() {
 
 		ServicoController servicoController = new ServicoController();
 		ServicoVO servicoVO = new ServicoVO();

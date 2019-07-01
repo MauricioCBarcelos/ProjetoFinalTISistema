@@ -3,20 +3,30 @@ package model.vo;
 import java.sql.Date;
 
 public class ChamadoVO {
-	private EquipeManutencaoVO idequipamento_manutencao;
+	
 	private ClienteVO idcliente;
 	private TecnicoVO idtecnico;
 	private int idChamado;
 	private Date dt_orcamento;
 	private String problema_relatado;
 	private String status;
+	private ServicoVO idservico;
+	private String observacao;
 
-	public EquipeManutencaoVO getIdequipamento_manutencao() {
-		return idequipamento_manutencao;
+	public ServicoVO getIdservico() {
+		return idservico;
 	}
 
-	public void setIdequipamento_manutencao(EquipeManutencaoVO idequipamento_manutencao) {
-		this.idequipamento_manutencao = idequipamento_manutencao;
+	public void setIdservico(ServicoVO idservico) {
+		this.idservico = idservico;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
 	}
 
 	public ClienteVO getIdcliente() {

@@ -97,4 +97,11 @@ public class TecnicoBO {
 		return totalLinhas;
 	}
 
+	public List<TecnicoVO> consultarTecnicosBO() {
+		TecnicoDAO tecnicoDAO = new TecnicoDAO();
+		ArrayList<TecnicoVO> retorno = tecnicoDAO.consultarTecnicosDAO();
+
+		return retorno;
+	}
+
 }

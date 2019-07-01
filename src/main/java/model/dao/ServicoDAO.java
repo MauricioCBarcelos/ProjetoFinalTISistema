@@ -174,4 +174,31 @@ public class ServicoDAO {
 		return resultado;
 	}
 
+	public ArrayList<ServicoVO> consultarServicosDAO() {
+		String sql = "select idservico,nome_servico,valor_servico from servico";
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		ArrayList<ServicoVO> servicosVO = new ArrayList<ServicoVO>();
+
+		try {
+			ResultSet result = prepStmt.executeQuery();
+
+			while (result.next()) {
+				ServicoVO servicoVO = new ServicoVO();
+				servicoVO.setIdservico(result.getInt("idservico"));
+				servicoVO.setNome(result.getString("nome_servico"));
+				servicoVO.setValor(result.getFloat("valor_servico"));
+				servicosVO.add(servicoVO);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		} catch (Exception e) {
+			e.printStackTrace();// TODO: handle exception
+		}
+		return servicosVO;
+	}
+
 }

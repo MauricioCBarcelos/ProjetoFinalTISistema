@@ -45,7 +45,7 @@ public class CadastroProdudoServicoChamado extends JFrame {
 	public CadastroProdudoServicoChamado() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 613, 392);
-		getContentPane().setLayout(new MigLayout("", "[316px][33px][109px,grow][25px][79px]", "[14px][56px][14px][52px][14px][22px][14px][27px]"));
+		getContentPane().setLayout(new MigLayout("", "[316px][33px][109px,grow][25px][79px]", "[14px][56px][14px][][52px][14px][22px][14px][27px]"));
 		
 		JLabel lblNewLabelProblemaCostado = new JLabel("Problema costatado:");
 		getContentPane().add(lblNewLabelProblemaCostado, "cell 0 0,alignx left,aligny top");
@@ -62,39 +62,31 @@ public class CadastroProdudoServicoChamado extends JFrame {
 		getContentPane().add(lblObservao, "cell 0 2,alignx left,aligny top");
 		
 		textFieldObservacao = new JTextField();
-		getContentPane().add(textFieldObservacao, "cell 0 3 3 1,grow");
+		getContentPane().add(textFieldObservacao, "cell 0 3,grow");
 		textFieldObservacao.setColumns(10);
 		
 		textFieldPesquisaProduto = new JTextField();
-		getContentPane().add(textFieldPesquisaProduto, "cell 0 5,grow");
+		getContentPane().add(textFieldPesquisaProduto, "cell 0 6,grow");
 		textFieldPesquisaProduto.setColumns(10);
 		
 		JLabel lblPesquisaProduto = new JLabel("Pesquisa produto:");
-		getContentPane().add(lblPesquisaProduto, "cell 0 4,alignx left,aligny top");
+		getContentPane().add(lblPesquisaProduto, "cell 0 5,alignx left,aligny top");
 		
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Categoria", "Nome", "ID"}));
-		getContentPane().add(comboBox_1, "cell 3 5,grow");
+		getContentPane().add(comboBox_1, "cell 3 6,grow");
 		ProdutoVO[] produtosVO = null;
 		JComboBox comboBoxProduto = new JComboBox();
-		ProdutoController produtoController = new ProdutoController();
+
 		
-			
-				produtosVO[0].setMarca(produtoController.consultaProdutoController().get(0).getMarca());
-				produtosVO[0].setModelo(produtoController.consultaProdutoController().get(0).getModelo());
-				produtosVO[0].setObservacao(produtoController.consultaProdutoController().get(0).getObservacao());
-				produtosVO[0].setValor_custo(produtoController.consultaProdutoController().get(0).getValor_custo());
-				produtosVO[0].setValor_venda(produtoController.consultaProdutoController().get(0).getValor_venda());
-		
-		
-		comboBoxProduto.setModel(new DefaultComboBoxModel(produtosVO));
+		//comboBoxProduto.setModel(new DefaultComboBoxModel(produtosVO));
 		
 		atualizaCombo();
 		//comboBoxProduto.addItem(produtosVO[0]);
-		getContentPane().add(comboBoxProduto, "cell 0 7,gr");
+		getContentPane().add(comboBoxProduto, "cell 0 8");
 		
 		JLabel lblProduto = new JLabel("Produto:");
-		getContentPane().add(lblProduto, "cell 0 6,alignx left,aligny top");
+		getContentPane().add(lblProduto, "cell 0 7,alignx left,aligny top");
 		
 		
 	}

@@ -61,6 +61,7 @@ public class TelaInicial extends JFrame {
 		setJMenuBar(jMenuBar);
 
 		JMenu mnNewMenu = new JMenu("Novo");
+		mnNewMenu.setIcon(new ImageIcon("C:\\Users\\MCB_home.000\\git\\ProjetoFinalTISistema\\src\\main\\java\\icones\\icons8-novo-arquivo-48.png"));
 		jMenuBar.add(mnNewMenu);
 
 		JMenuItem mntmNovoChamado = new JMenuItem("Criar novo chamado");
@@ -71,60 +72,8 @@ public class TelaInicial extends JFrame {
 				gerenciadorClienteFrame.setVisible(true);
 			}
 		});
-		JMenuItem mntmNovoTecnico = new JMenuItem("Criar novo Tecnico");
-		mntmNovoTecnico.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				GerenciadordeTecnico gerenciadordeTecnicoFrame = new GerenciadordeTecnico();
-
-				JScrollPane scroll = new JScrollPane(gerenciadordeTecnicoFrame.getContentPane());
-				gerenciadordeTecnicoFrame.setContentPane(scroll);
-
-				gerenciadordeTecnicoFrame.setVisible(true);
-			}
-		});
-		JMenuItem mntmNovoServico = new JMenuItem("Criar novo Servico");
-		mntmNovoServico.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GerenciadorServico GerenciadorServicoFrame = new GerenciadorServico();
-
-				JScrollPane scroll = new JScrollPane(GerenciadorServicoFrame.getContentPane());
-				GerenciadorServicoFrame.setContentPane(scroll);
-
-				GerenciadorServicoFrame.setVisible(true);
-			}
-		});
-
-		JMenuItem mntmNovoProduto = new JMenuItem("Criar novo Produto");
-		mntmNovoProduto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GerenciadorProduto gerenciadorProdutoFrame = new GerenciadorProduto();
-
-				JScrollPane scroll = new JScrollPane(gerenciadorProdutoFrame.getContentPane());
-				gerenciadorProdutoFrame.setContentPane(scroll);
-				gerenciadorProdutoFrame.setVisible(true);
-			}
-		});
-
-		JMenuItem mntmNovoCliente = new JMenuItem("Gerenciamento de clientes");
-		mntmNovoCliente.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-
-				GerenciadorCliente gerenciadorClienteFrame = new GerenciadorCliente();
-
-				JScrollPane scroll = new JScrollPane(gerenciadorClienteFrame.getContentPane());
-				gerenciadorClienteFrame.setContentPane(scroll);
-
-				gerenciadorClienteFrame.setVisible(true);
-			}
-		});
 
 		mnNewMenu.add(mntmNovoChamado);
-		mnNewMenu.add(mntmNovoTecnico);
-		mnNewMenu.add(mntmNovoServico);
-		mnNewMenu.add(mntmNovoProduto);
-		mnNewMenu.add(mntmNovoCliente);
 		
 		JMenuItem mntmListachamado = new JMenuItem("ListaChamado");
 		mntmListachamado.addActionListener(new ActionListener() {
@@ -211,7 +160,7 @@ public class TelaInicial extends JFrame {
 		mnGerenciamentoDeProdutos.add(mntmGerenciamentoDeServios);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 542, 310);
+		setBounds(100, 100, 575, 310);
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
 		tblChamados = new JTable();

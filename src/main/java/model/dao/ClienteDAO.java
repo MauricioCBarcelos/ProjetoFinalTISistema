@@ -233,4 +233,33 @@ public class ClienteDAO {
 		return resultado;
 	}
 
+	public ArrayList<ClienteVO> consultarClienteDAO() {
+		String sql = "select idcliente,nome,telefone,cpf,email from cliente";
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		ArrayList<ClienteVO> clientesVO = new ArrayList<ClienteVO>();
+
+		try {
+			ResultSet result = prepStmt.executeQuery();
+
+			while (result.next()) {
+				ClienteVO clienteVO = new ClienteVO();
+				clienteVO.setIdcliente(result.getInt("idcliente"));
+				clienteVO.setNome(result.getString("nome"));
+				clienteVO.setTelefone(result.getString("telefone"));
+				clienteVO.setCpf(result.getString("cpf"));
+				clienteVO.setEmail(result.getString("email"));
+				clientesVO.add(clienteVO);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		} catch (Exception e) {
+			e.printStackTrace();// TODO: handle exception
+		}
+		return clientesVO;
+	}
+
 }

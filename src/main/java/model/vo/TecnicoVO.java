@@ -47,4 +47,10 @@ public class TecnicoVO {
 				cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
 	}
 
+	@Override
+	public String toString() {
+		return nome + "\\" + toStringCPF();
+	}
+
+	
 }

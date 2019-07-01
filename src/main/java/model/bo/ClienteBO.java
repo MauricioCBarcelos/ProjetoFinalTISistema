@@ -122,6 +122,13 @@ public class ClienteBO {
 
 		return totalLinhas;
 	}
+
+	public List<ClienteVO> consultarClientesBO() {
+		ClienteDAO clienteDAO = new ClienteDAO();
+		ArrayList<ClienteVO> retorno = clienteDAO.consultarClienteDAO();
+
+		return retorno;
+	}
 	
 
 }

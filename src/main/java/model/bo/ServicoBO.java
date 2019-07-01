@@ -97,4 +97,11 @@ public class ServicoBO {
 		return totalLinhas;
 	}
 
+	public List<ServicoVO> consultarServicosBO() {
+		ServicoDAO servicoDAO = new ServicoDAO();
+		ArrayList<ServicoVO> retorno = servicoDAO.consultarServicosDAO();
+
+		return retorno;
+	}
+
 }

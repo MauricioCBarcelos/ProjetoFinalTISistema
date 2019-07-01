@@ -177,4 +177,32 @@ public class TecnicoDAO {
 		return resultado;
 	}
 
+	public ArrayList<TecnicoVO> consultarTecnicosDAO() {
+		String sql = "select idtecnico,nome,telefone,CPF from tecnico";
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		ArrayList<TecnicoVO> tecnicosVO = new ArrayList<TecnicoVO>();
+
+		try {
+			ResultSet result = prepStmt.executeQuery();
+
+			while (result.next()) {
+				TecnicoVO tecnicoVO = new TecnicoVO();
+				tecnicoVO.setIdtecnico(result.getInt("idtecnico"));
+				tecnicoVO.setNome(result.getString("nome"));
+				tecnicoVO.setTelefone(result.getString("telefone"));
+				tecnicoVO.setCpf(result.getString("CPF"));
+				tecnicosVO.add(tecnicoVO);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		} catch (Exception e) {
+			e.printStackTrace();// TODO: handle exception
+		}
+		return tecnicosVO;
+	}
+
 }
