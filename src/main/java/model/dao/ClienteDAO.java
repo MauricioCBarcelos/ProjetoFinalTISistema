@@ -13,7 +13,7 @@ import model.vo.ClienteVO;
 public class ClienteDAO {
 
 	public ArrayList<ClienteVO> consultarClienteDAO(Seletor seletor) {
-		String sql = "select nome,telefone,cpf from cliente";
+		String sql = "select nome,telefone,cpf,email from cliente";
 		sql += " limit " + seletor.getLimite() + " offset " + seletor.getOffset();
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
@@ -27,7 +27,7 @@ public class ClienteDAO {
 				clienteVO.setNome(result.getString("nome"));
 				clienteVO.setTelefone(result.getString("telefone"));
 				clienteVO.setCpf(result.getString("cpf"));
-
+				clienteVO.setEmail(result.getString("email"));
 				clientesVO.add(clienteVO);
 			}
 
@@ -43,24 +43,25 @@ public class ClienteDAO {
 
 	public ArrayList<ClienteVO> listar() {
 		PreparedStatement stmt;
-		ArrayList<ClienteVO> listClientes = new ArrayList<>();
+		ArrayList<ClienteVO> clientesVO = new ArrayList<>();
 		try {
 			Connection conexao = null;
 			stmt = conexao.prepareStatement("SELECT nome,telefone,cpf FROM cliente");
-			ResultSet res = stmt.executeQuery();
-			while (res.next()) {
-				ClienteVO c = new ClienteVO();
-				c.setNome(res.getString("nome"));
-				c.setCpf(res.getString("cpf"));
-				c.setTelefone(res.getString("Telefone"));
-				listClientes.add(c);
+			ResultSet result = stmt.executeQuery();
+			while (result.next()) {
+				ClienteVO clienteVO = new ClienteVO();
+				clienteVO.setNome(result.getString("nome"));
+				clienteVO.setTelefone(result.getString("telefone"));
+				clienteVO.setCpf(result.getString("cpf"));
+				clienteVO.setEmail(result.getString("email"));
+				clientesVO.add(clienteVO);
 			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return listClientes;
+		return clientesVO;
 	}
 
 	public ArrayList<ClienteVO> consultarChamadosDAO(String consulta, String comboBoxPesquisa, Seletor seletor) {
@@ -156,9 +157,10 @@ public class ClienteDAO {
 		return resultado;
 	}
 
-	public boolean updateDAO(String nomeComTrim, String telefoneComTrim, String cpfComTrim) {
+	public boolean updateDAO(ClienteVO clienteVO) {
 		int retorno = 0;
-		String sql = "UPDATE cliente set nome='" + nomeComTrim + "', telefone='" + telefoneComTrim + "','" +  cpfComTrim + "')";
+		String sql = "UPDATE cliente set nome='" + clienteVO.getNome() + "', telefone='" + clienteVO.getTelefone() + "',cpf='" +  clienteVO.getCpf() + "',email='"+clienteVO.getEmail()+"'"
+				+ "where cpf = '"+clienteVO.getCpf()+"'";
 				
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);

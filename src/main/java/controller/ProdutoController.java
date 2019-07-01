@@ -78,4 +78,11 @@ public class ProdutoController {
 		return totalLinhas;
 	}
 
+
+	public List<ProdutoVO> consultaProdutoController() {
+		ProdutoBO produtoBO = new ProdutoBO();
+		List<ProdutoVO> retorno = produtoBO.consultarprodutoBO();
+
+		return retorno;
+	}
 }

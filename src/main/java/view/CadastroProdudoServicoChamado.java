@@ -2,10 +2,14 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.List;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import controller.ProdutoController;
+import model.vo.ProdutoVO;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -16,6 +20,8 @@ public class CadastroProdudoServicoChamado extends JFrame {
 	private JTextField textFieldProblemaCostado;
 	private JTextField textFieldObservacao;
 	private JTextField textFieldPesquisaProduto;
+	private ProdutoVO[] produtosVO;
+
 
 	/**
 	 * Launch the application.
@@ -38,52 +44,51 @@ public class CadastroProdudoServicoChamado extends JFrame {
 	 */
 	public CadastroProdudoServicoChamado() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 613, 655);
-		getContentPane().setLayout(null);
+		setBounds(100, 100, 613, 392);
+		getContentPane().setLayout(new MigLayout("", "[316px][33px][109px,grow][25px][79px]", "[14px][56px][14px][52px][14px][22px][14px][27px]"));
 		
 		JLabel lblNewLabelProblemaCostado = new JLabel("Problema costatado:");
-		lblNewLabelProblemaCostado.setBounds(10, 11, 106, 14);
-		getContentPane().add(lblNewLabelProblemaCostado);
+		getContentPane().add(lblNewLabelProblemaCostado, "cell 0 0,alignx left,aligny top");
 		
 		textFieldProblemaCostado = new JTextField();
-		textFieldProblemaCostado.setBounds(10, 33, 458, 56);
-		getContentPane().add(textFieldProblemaCostado);
+		getContentPane().add(textFieldProblemaCostado, "cell 0 1 3 1,grow");
 		textFieldProblemaCostado.setColumns(10);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Aberto", "Fechado"}));
-		comboBox.setBounds(493, 33, 79, 22);
-		getContentPane().add(comboBox);
+		getContentPane().add(comboBox, "cell 4 1,growx,aligny top");
 		
 		JLabel lblObservao = new JLabel("Observação:");
-		lblObservao.setBounds(10, 119, 62, 14);
-		getContentPane().add(lblObservao);
+		getContentPane().add(lblObservao, "cell 0 2,alignx left,aligny top");
 		
 		textFieldObservacao = new JTextField();
-		textFieldObservacao.setBounds(10, 138, 458, 22);
-		getContentPane().add(textFieldObservacao);
+		getContentPane().add(textFieldObservacao, "cell 0 3 3 1,grow");
 		textFieldObservacao.setColumns(10);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Categoria", "Nome", "ID"}));
-		comboBox_1.setBounds(359, 226, 148, 22);
-		getContentPane().add(comboBox_1);
-		
 		textFieldPesquisaProduto = new JTextField();
-		textFieldPesquisaProduto.setBounds(10, 226, 316, 22);
-		getContentPane().add(textFieldPesquisaProduto);
+		getContentPane().add(textFieldPesquisaProduto, "cell 0 5,grow");
 		textFieldPesquisaProduto.setColumns(10);
 		
 		JLabel lblPesquisaProduto = new JLabel("Pesquisa produto:");
-		lblPesquisaProduto.setBounds(10, 201, 88, 14);
-		getContentPane().add(lblPesquisaProduto);
+		getContentPane().add(lblPesquisaProduto, "cell 0 4,alignx left,aligny top");
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(10, 298, 231, 27);
-		getContentPane().add(comboBox_2);
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Categoria", "Nome", "ID"}));
+		getContentPane().add(comboBox_1, "cell 3 5,grow");
+		
+		JComboBox comboBoxProduto = new JComboBox();
+		ProdutoController produtoController = new ProdutoController();
+		for (int i = 0; i < produtoController.consultaProdutoController().size(); i++) {
+			produtosVO[i].setMarca(produtoController.consultaProdutoController().get(i).getMarca());
+			
+		}
+		
+		comboBoxProduto.setModel(new DefaultComboBoxModel());
+		getContentPane().add(comboBoxProduto, "cell 0 7,gr");
 		
 		JLabel lblProduto = new JLabel("Produto:");
-		lblProduto.setBounds(10, 273, 46, 14);
-		getContentPane().add(lblProduto);
+		getContentPane().add(lblProduto, "cell 0 6,alignx left,aligny top");
+		
+		
 	}
 }

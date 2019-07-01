@@ -9,7 +9,7 @@ import model.seletor.Seletor;
 import model.vo.ClienteVO;
 
 public class ClienteBO {
-	Validador validaCPF = new Validador();
+	Validador valida = new Validador();
 	public List<ClienteVO> consultarClienteBO(Seletor seletor) {
 		ClienteDAO clienteDAO = new ClienteDAO();
 		ArrayList<ClienteVO> retorno = clienteDAO.consultarClienteDAO(seletor);
@@ -38,7 +38,7 @@ public class ClienteBO {
 		} else if (clienteVO.getTelefone().length() > 11|| clienteVO.getTelefone().length() < 8) {
 
 			return "Telefone é maior que 11 caracteres ou menor que 8 caracteres";
-		} else if (validaCPF.isCPF(clienteVO.getCpf().trim()) == false) {
+		} else if (valida.isCPF(clienteVO.getCpf().trim()) == false) {
 			
 			return "CPF invalido";
 		}
@@ -66,24 +66,25 @@ public class ClienteBO {
 	}
 
 	public String updateBO(ClienteVO clienteVO) {
-		String nomeComTrim = clienteVO.getNome().trim();
-		String telefoneComTrim = clienteVO.getTelefone().trim();
-		String cpfComTrim = clienteVO.getCpf().trim();
 		ClienteDAO clienteDAO = new ClienteDAO();
-
-		if (nomeComTrim.length() >= 25) {
+		if (clienteVO.getNome().trim().length() >= 25) {
 
 			return "Nome é maior que 25 caracteres";
 
-		} else if (telefoneComTrim.length() >= 11) {
+		} else if (clienteVO.getTelefone().trim().length() >= 11) {
 
 			return "Telefone é maior que 11 caracteres";
-		} else if (clienteDAO.updateDAO(nomeComTrim, telefoneComTrim, cpfComTrim)) {
+		} else if (valida.isCPF(clienteVO.getCpf()) == false) {
+
+			return "CPF invalido";
+		} else if (valida.isValidEmailAddressRegex(clienteVO.getEmail()) == false) {
+			return "Email invalido";
+		}else if (clienteDAO.updateDAO(clienteVO)) {
 
 			return "Tecnico atualizado com Sucesso";
 		} else
 
-			return "Cliente não atualizado pois já este CPF já existe";
+			return "Cliente não atualizado: Verifique se o CPF ou Email já estão cadastrados no sistema.";
 
 	}
 

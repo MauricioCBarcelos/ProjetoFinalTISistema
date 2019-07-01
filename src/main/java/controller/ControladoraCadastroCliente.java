@@ -8,7 +8,7 @@ import model.seletor.Seletor;
 import model.vo.ClienteVO;
 
 public class ControladoraCadastroCliente {
-
+	
 	public List<ClienteVO> consultaClientesController(Seletor seletor) {
 		ClienteBO clienteBO = new ClienteBO();
 		List<ClienteVO> retorno = clienteBO.consultarClientesBO(seletor);
@@ -45,7 +45,7 @@ public class ControladoraCadastroCliente {
 
 		} else if (clienteVO.getTelefone().contentEquals("") || clienteVO.getTelefone() == null) {
 			return "Campo telefone Nulo ou vazio";
-		}
+		} 
 
 		ClienteBO clienteBO = new ClienteBO();
 

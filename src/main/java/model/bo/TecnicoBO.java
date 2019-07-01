@@ -10,7 +10,7 @@ import model.seletor.Seletor;
 import model.vo.TecnicoVO;
 
 public class TecnicoBO {
-	Validador validaCPF = new Validador();
+	Validador valida = new Validador();
 
 	public List<TecnicoVO> consultarTecnicosBO(Seletor seletor) {
 		TecnicoDAO tecnicoDAO = new TecnicoDAO();
@@ -40,7 +40,7 @@ public class TecnicoBO {
 		} else if (tecnicoVO.getTelefone().trim().length() >= 12 || tecnicoVO.getTelefone().trim().length() <= 8) {
 
 			return "Telefone é invalido";
-		} else if (validaCPF.isCPF(tecnicoVO.getCpf().trim()) == false) {
+		} else if (valida.isCPF(tecnicoVO.getCpf().trim()) == false) {
 			
 			return "CPF invalido";
 		} else  if (tecnicoDAO.inserirTecnicoDAO(tecnicoVO)) {
@@ -76,7 +76,7 @@ public class TecnicoBO {
 		} else if (tecnicoVO.getTelefone().trim().length() >= 12 || tecnicoVO.getTelefone().trim().length() <= 8) {
 
 			return "Telefone é invalido";
-		} else if (validaCPF.isCPF(tecnicoVO.getCpf().trim()) == false) {
+		} else if (valida.isCPF(tecnicoVO.getCpf().trim()) == false) {
 			
 			return "CPF invalido";
 		}  else if (tecnicoDAO.updateDAO(tecnicoVO)) {

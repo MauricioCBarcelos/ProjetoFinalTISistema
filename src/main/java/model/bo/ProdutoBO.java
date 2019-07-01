@@ -99,4 +99,11 @@ public class ProdutoBO {
 		return totalLinhas;
 	}
 
+	public List<ProdutoVO> consultarprodutoBO() {
+		ProdutoDAO produtoDAO = new ProdutoDAO();
+		ArrayList<ProdutoVO> retorno = produtoDAO.consultarProdutosDAO();
+
+		return retorno;
+	}
+
 }

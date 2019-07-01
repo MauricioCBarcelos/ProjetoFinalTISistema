@@ -178,4 +178,32 @@ public class ProdutoDAO {
 		return resultado;
 	}
 
+	public ArrayList<ProdutoVO> consultarProdutosDAO() {
+		String sql = "SELECT idprodutos,marca,modelo,quantidade,valor_custo,valor_venda, descricao FROM produtos";
+		Connection conexao = Banco.getConnection();
+		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql);
+		ArrayList<ProdutoVO> produtosVO = new ArrayList<ProdutoVO>();
+
+		try {
+			ResultSet result = prepStmt.executeQuery();
+
+			while (result.next()) {
+				ProdutoVO produtoVO = new ProdutoVO();
+				produtoVO.setIdproduto(result.getInt("idprodutos"));
+				produtoVO.setMarca(result.getString("marca"));
+				produtoVO.setModelo(result.getString("modelo"));
+				produtoVO.setQuantidade((result.getInt("quantidade")));
+				produtoVO.setValor_custo(result.getFloat("valor_custo"));
+				produtoVO.setValor_venda(result.getFloat("valor_venda"));
+				produtoVO.setObservacao(result.getString("descricao"));
+				produtosVO.add(produtoVO);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return produtosVO;
+	}
+
 }

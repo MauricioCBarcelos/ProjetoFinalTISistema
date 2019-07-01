@@ -33,19 +33,20 @@ import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class GerenciadordeTecnico extends JFrame {
+	private JTextField textFieldCpf;
 	private JPanel contentPane;
 	private JTextField textFieldNomeTecnico;
 	private JTextField textFieldTelefone;
 	private JTable tableDadosDoTecnico;
 	private JTextField textFieldPesquisa;
+	private JComboBox comboBoxPesquisa = new JComboBox();
+	private JComboBox comboBoxLimitePagina = new JComboBox();
 	private int paginaAtual = 1;
 	private JLabel lblPaginaAtual = new JLabel("1");
 	private String[] limitePagina = { "10", "20", "50", "100", "1000" };
-	private JComboBox comboBoxPesquisa = new JComboBox();
-	private JComboBox comboBoxLimitePagina = new JComboBox();
 	private JLabel labelTotalPaginas = new JLabel("\\");
 	private Seletor seletor = new Seletor();
-	private JTextField textFieldCpf;
+	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -276,7 +277,7 @@ public class GerenciadordeTecnico extends JFrame {
 						.ceil((float) tecnicoController.countLinhasTotalController() / seletor.getLimite());
 				labelTotalPaginas.setText("\\" + result);
 
-				pesquisaTecnicos(comboBoxPesquisa.getSelectedItem().toString(),
+				pesquisaTecnicos(textFieldPesquisa.getText(),
 						comboBoxLimitePagina.getSelectedItem().toString(), seletor);
 			}
 		});
